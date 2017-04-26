@@ -44,11 +44,11 @@ class Db{
 		/*
 		 * Robin@Marco
 		 * je suppose que ça doit faire la même chose que
-		 * $req->bindValue(':email_teacher',"$email_teacher");
+		 * $req->bindValue(':email_student',"$email_student");
 		 * $req->bindValue(':name',"$name");
 		 * $req->bindValue(':last_name',"$last_name");
-		 * $req->bindValue(':responsability',"$responsability");
-		 * $req->bindValue(':anime',"$anime");
+		 * $req->bindValue(':number',"$number");
+		 * $req->bindValue(':bloc',"$bloc");
 		 * $req->execute();
 		 */
 		$req = $this->_db->prepare('INSERT INTO students (email_student, name, last_name, number, bloc) VALUES (:email_student, :name, :last_name, :number, :bloc)');
