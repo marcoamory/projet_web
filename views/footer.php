@@ -5,8 +5,8 @@
 	    ================================================== -->
 	    <!-- Placed at the end of the document so the pages load faster -->
 	  
-	  	<script type="text/javascript" src="views/js/jquery.min.js"></script>
-	   <script type="text/javascript" src="views/js/bootstrap.min.js"></script>
+	  	<script type="text/javascript" src="<?php echo PATH_JS; ?>/jquery.min.js"></script>
+	   <script type="text/javascript" src="<?php echo PATH_JS; ?>bootstrap.min.js"></script>
 	   <script type="text/javascript">
 		$(function () {
   		$('[data-toggle="tooltip"]').tooltip()
