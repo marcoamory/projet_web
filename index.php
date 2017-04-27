@@ -37,17 +37,35 @@
 		switch($action) {
 		case 'student':
 			require_once(PATH_CONTROLLER . "StudentController.php");
-			$controller = new StudentController();
+			$controller = new StudentController($db);
 			break;	
 		case 'teacher':
 			require_once(PATH_CONTROLLER . 'TeacherController.php');
-			$controller = new TeacherController();
+			$controller = new TeacherController($db);
 			break;
 		case 'blocManagement':
 			require_once(PATH_CONTROLLER . "BlocManagementController.php");
 			$controller = new BlocManagementController($db);
 			break;
-		default : 
+		case 'adminManagement' :
+			require_once(PATH_CONTROLLER . "AdminManagementController.php");
+			$controller = new AdminManagementController($db);
+			break;
+		case 'logout' :
+			require_once(PATH_CONTROLLER . "LogoutController.php");
+			$controller = new LogoutController();
+			break;
+		default :
+			if(isset($_SESSION['responsability']))
+			{
+				require_once(PATH_CONTROLLER . "TeacherController.php");
+				$controller = new TeacherController($db);
+			}
+			else
+			{
+				require_once(PATH_CONTROLLER . "StudentController.php");
+				$controller = new StudentController($db);
+			}
 			break;
 		}
 

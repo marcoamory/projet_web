@@ -4,13 +4,13 @@ class Teacher{
 	private $_email;	
 	private $_name;
 	private $_last_name;
-	private $_responsability;
+	private $_responsibility;
 
-	public function __construct($email, $name, $last_name, $responsability){
+	public function __construct($email, $name, $last_name, $responsibility){
 		$this->_email = $email;
 		$this->_name = $name;
 		$this->_last_name = $last_name;
-		$this->_responsability = $responsability;
+		$this->_responsibility = $responsibility;
 	}
 
 	public function getEmail(){
@@ -25,14 +25,14 @@ class Teacher{
 		return $this->_last_name;
 	}
 
-	public function getResponsability(){
-		return $this->_responsability;
+	public function getResponsibility(){
+		return $this->_responsibility;
 	}
 
-	public function setResponsability($responsability){
-		if($responsability == "true" OR $responsability == "false" OR $responsability == "bloc1" OR $responsability == "bloc2" OR $responsability == "bloc3" OR $responsability == "blocs" )
+	public function setResponsibility($responsibility){
+		if($responsibility == "true" OR $responsibility == "false" OR $responsibility == "bloc1" OR $responsibility == "bloc2" OR $responsibility == "bloc3" OR $responsibility == "blocs" )
 		{
-			$this->_responsability = $responsability;
+			$this->_responsibility = $responsibility;
 		}
 	}
 }

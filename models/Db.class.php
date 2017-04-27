@@ -99,7 +99,7 @@ class Db{
 
 	public function searchTeacher($email)
 	{
-		$req = $this->_db->prepare("SELECT email_teacher, name, last_name, responsability FROM teachers WHERE email_student = :email_student");
+		$req = $this->_db->prepare("SELECT email_teacher, name, last_name, responsibility FROM teachers WHERE email_teacher = :email_teacher");
 		$req->execute(array("email_teacher" => $email));
 		$result = $req->fetch();
 		$req->closeCursor();

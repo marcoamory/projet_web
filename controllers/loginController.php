@@ -27,6 +27,7 @@ class loginController{
 				$_SESSION['email'] = $student->getEmail();
 				$_SESSION['name'] = $student->getName();
 				$_SESSION['last_name'] = $student->getLastName();
+				$_SESSION['type'] = "student";
 				$_SESSION['authentifie'] = true;
 
 				header("Location:index.php?action=student");
@@ -38,12 +39,13 @@ class loginController{
 				$teacherSearch = $this->_db->searchTeacher($emailLogin);
 
 				if(!empty($teacherSearch)){
-					$teacher = new Teacher($teacherSearch->email_teacher, $teacherSearch->name, $teacherSearch->last_name, $teacherSearch->responsability);
+					$teacher = new Teacher($teacherSearch->email_teacher, $teacherSearch->name, $teacherSearch->last_name, $teacherSearch->responsibility);
 
 					$_SESSION['email'] = $teacher->getEmail();
 					$_SESSION['name'] = $teacher->getName();
 					$_SESSION['last_name'] = $teacher->getLastName();
-					$_SESSION['responsability'] = $teacher->getResponsability();
+					$_SESSION['responsibility'] = $teacher->getResponsibility();
+					$_SESSION['type'] = 'teacher';
 					$_SESSION['authentifie'] = true;
 
 					header("Location:index.php?action=teacher");
