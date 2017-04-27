@@ -45,7 +45,7 @@
 			break;
 		case 'blocManagement':
 			require_once(PATH_CONTROLLER . "BlocManagementController.php");
-			$controller = new blocManagementController($db);
+			$controller = new BlocManagementController($db);
 			break;
 		default : 
 			break;
