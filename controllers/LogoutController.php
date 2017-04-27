@@ -8,7 +8,7 @@ class LogoutController{
 
 	function run(){
 
-		$_SESSION = array(); //Suppression session		
+		$_SESSION = array(); //Delete session		
 		session_destroy();
 
 		header("Location: index.php?action=login");

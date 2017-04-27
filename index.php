@@ -18,13 +18,14 @@
 
 	$db=Db::getInstance();
 
+	//Login page include
 	if(isset($_GET['action']) AND $_GET['action'] == 'login')
 	{
 		require_once(PATH_CONTROLLER . "loginController.php");
 		$controller = new LoginController($db);
 		$controller->run();
 	}
-
+	//Login verification & redirection
 	else if (empty($_SESSION['authentifie'])) {
    		header("Location: index.php?action=login");
 		die();

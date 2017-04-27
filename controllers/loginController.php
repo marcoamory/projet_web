@@ -19,6 +19,8 @@ class loginController{
 		{
 			$emailLogin = htmlspecialchars($_POST['emailLogin']);
 
+
+			//Searching email in students table
 			$studentSearch = $this->_db->searchStudent($emailLogin);
 
 			if(!empty($studentSearch)){
@@ -36,6 +38,7 @@ class loginController{
 
 			else
 			{
+				//Searching email in teachers table
 				$teacherSearch = $this->_db->searchTeacher($emailLogin);
 
 				if(!empty($teacherSearch)){
