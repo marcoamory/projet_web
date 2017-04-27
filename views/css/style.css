@@ -1,0 +1,22 @@
+body
+{
+	
+}
+
+/*LOGIN PAGE */
+#login
+{
+	width: 70%;
+	margin:auto;
+}
+
+#login .jumbotron
+{
+	margin-top: 100px;
+}
+
+#login form
+{
+	width: 70%;
+	margin:auto;
+}

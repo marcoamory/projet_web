@@ -14,7 +14,16 @@ define("PATH_JS", PATH_VIEW . "js/");
 	}
 	spl_autoload_register('loadClass');
 
-if (empty($_SESSION['authentifie'])) {
-   header("Location: index.php?action=login");
-	die();
-}
+	if(isset($_GET['action']) AND $_GET['action'] == 'login')
+	{
+		require_once(PATH_CONTROLLER . "loginController.php");
+		$controller = new LoginController();
+		$controller->run();
+	}
+
+	
+
+require_once(PATH_VIEW . "header.php");
+
+
+require_once(PATH_VIEW . "footer.php");
