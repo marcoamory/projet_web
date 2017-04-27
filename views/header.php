@@ -44,7 +44,9 @@
 	        } 
 	        if(isset($_SESSION['name']) AND isset($_SESSION['last_name'])){
 	        ?>
-	          <p class="navbar-text navbar-right">Signed in as <?php echo $_SESSION['name'] . " " . $_SESSION['last_name'] . " " . $_SESSION['type']; ?></p>
+	         
+	          <a href='index.php?action=logout' type="button" class="btn btn-default navbar-btn navbar-right">Logout</a>
+	          <p class="navbar-text navbar-right">Logged in as <?php echo $_SESSION['name'] . " " . $_SESSION['last_name']; ?></p>
 	          <?php
 	         }
 	         else{ ?>

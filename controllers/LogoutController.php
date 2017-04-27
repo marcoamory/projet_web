@@ -11,7 +11,8 @@ class LogoutController{
 		$_SESSION = array(); //Suppression session		
 		session_destroy();
 
-	require_once(PATH_VIEW . "logout.php");
+		header("Location: index.php?action=login");
+		die();
 
 
 	}

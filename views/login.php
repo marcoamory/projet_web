@@ -10,7 +10,7 @@
       <input type="checkbox"> Remember me
     </label>
   </div>
-  <button type="submit" class="btn btn-default">Sign in</button>
+  <button type="submit" class="btn btn-success">Log in</button>
 </form>
 </div>
 </section>
