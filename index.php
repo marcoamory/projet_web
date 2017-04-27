@@ -21,7 +21,6 @@ define("PATH_JS", PATH_VIEW . "js/");
 		$controller->run();
 	}
 
-	
 
 require_once(PATH_VIEW . "header.php");
 
