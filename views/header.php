@@ -31,7 +31,7 @@
 	            <li class=""><a href="index.php?action=lien2">Link 2</a></li>
 	            <li class=""><a href="index.php?action=lien3">Link 3</a></li>
 	          </ul>
-	          <p class="navbar-text navbar-right">Signed in as <a href="#" class="navbar-link">Robin Louis</a></p>
+	          <p class="navbar-text navbar-right">Signed in as <?php echo $_SESSION['name'] . " " . $_SESSION['last_name']; ?></p>
 	        </div><!--/.nav-collapse -->
 	      </div>
 	    </nav>	

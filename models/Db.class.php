@@ -12,7 +12,7 @@ class Db{
 	
 	private function __construct() {
 		try{
-			$this->_db=new PDO('mysql:host=localhost;dbname=ipl_agenda;charset=utf8','root','');
+			$this->_db=new PDO('mysql:host=localhost:8889;dbname=ipl_agenda;charset=utf8','root','root');
 			$this->_db->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
 			$this->_db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE,PDO::FETCH_OBJ);
 		}
@@ -86,6 +86,24 @@ class Db{
 		$req = $this->_db->prepare('INSERT INTO series (number,bloc) VALUES (:number, :bloc)');
 		$req->execute(array('number' => $number,
 							'bloc' => $bloc));
+	}
+
+	public function searchStudent($email)
+	{
+		$req = $this->_db->prepare("SELECT email_student, name, last_name, number, bloc FROM students WHERE email_student = :email_student");
+		$req->execute(array("email_student" => $email));
+		$result = $req->fetch();
+		$req->closeCursor();
+		return $result;
+	}
+
+	public function searchTeacher($email)
+	{
+		$req = $this->_db->prepare("SELECT email_teacher, name, last_name, responsability FROM teachers WHERE email_student = :email_student");
+		$req->execute(array("email_teacher" => $email));
+		$result = $req->fetch();
+		$req->closeCursor();
+		return $result;
 	}
 }
 ?>

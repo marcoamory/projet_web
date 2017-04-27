@@ -1,9 +1,9 @@
 <section id="login">
 <div class="jumbotron">
-  <form class="form-inline">
+  <form class="form-inline" method="post" action="index.php?action=login">
   <div class="form-group">
     <label class="sr-only" for="exampleInputEmail3">Email address</label>
-    <input type="email" class="form-control" id="exampleInputEmail3" placeholder="Email">
+    <input type="email" class="form-control" id="emailLogin" name="emailLogin" placeholder="Email">
   </div>
   <div class="checkbox">
     <label>

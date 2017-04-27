@@ -14,6 +14,8 @@ define("PATH_JS", PATH_VIEW . "js/");
 	}
 	spl_autoload_register('loadClass');
 
+	require_once(PATH_VIEW . "header.php");
+
 	if(isset($_GET['action']) AND $_GET['action'] == 'login')
 	{
 		require_once(PATH_CONTROLLER . "loginController.php");
@@ -21,8 +23,30 @@ define("PATH_JS", PATH_VIEW . "js/");
 		$controller->run();
 	}
 
+	else if (empty($_SESSION['authentifie'])) {
+   		header("Location: index.php?action=login");
+		die();
+	}
 
-require_once(PATH_VIEW . "header.php");
+	else
+	{
+		$action = (isset($_GET['action'])) ? htmlentities($_GET['action']) : 'default';
+
+		switch($action) {
+		case 'student':
+			require_once(CHEMIN_CONTROLLER . "ListeController.php");
+			$controller = new ListeController();
+			break;	
+		case 'teacher':
+			require_once(CHEMIN_CONTROLLER . 'ForumController.php');
+			$controller = new ForumController();
+			break;
+		default :
+
+	}
+
+
+
 
 
 require_once(PATH_VIEW . "footer.php");
