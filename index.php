@@ -34,15 +34,18 @@ define("PATH_JS", PATH_VIEW . "js/");
 
 		switch($action) {
 		case 'student':
-			require_once(CHEMIN_CONTROLLER . "ListeController.php");
-			$controller = new ListeController();
+			require_once(PATH_CONTROLLER . "StudentController.php");
+			$controller = new StudentController();
 			break;	
 		case 'teacher':
-			require_once(CHEMIN_CONTROLLER . 'ForumController.php');
-			$controller = new ForumController();
+			require_once(PATH_CONTROLLER . 'TeacherController.php');
+			$controller = new TeacherController();
 			break;
 		default :
+			break;
+		}
 
+		$controller->run();
 	}
 
 
