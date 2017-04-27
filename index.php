@@ -21,7 +21,7 @@
 	if(isset($_GET['action']) AND $_GET['action'] == 'login')
 	{
 		require_once(PATH_CONTROLLER . "loginController.php");
-		$controller = new LoginController();
+		$controller = new LoginController($db);
 		$controller->run();
 	}
 
@@ -44,10 +44,10 @@
 			$controller = new TeacherController();
 			break;
 		case 'blocManagement':
-			require_once(PATH_CONTROLLER . "ManagementController.php");
-			$controller = new ManagementController($db);
+			require_once(PATH_CONTROLLER . "BlocManagementController.php");
+			$controller = new blocManagementController($db);
 			break;
-		default :
+		default : 
 			break;
 		}
 

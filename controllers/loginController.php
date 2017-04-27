@@ -2,8 +2,10 @@
 
 class loginController{
 	
-	public function __construct(){
+	private $_db;
 
+	public function __construct($db){
+		$this->_db = $db;
 	}
 
 	public function run(){
@@ -17,7 +19,7 @@ class loginController{
 		{
 			$emailLogin = htmlspecialchars($_POST['emailLogin']);
 
-			$studentSearch = Db::getInstance()->searchStudent($emailLogin);
+			$studentSearch = $this->_db->searchStudent($emailLogin);
 
 			if(!empty($studentSearch)){
 				$student = new Student($studentSearch->email_student, $studentSearch->name, $studentSearch->last_name, $studentSearch->bloc, $studentSearch->number);
@@ -33,7 +35,7 @@ class loginController{
 
 			else
 			{
-				$teacherSearch = Db::getInstance()->searchTeacher($emailLogin);
+				$teacherSearch = $this->_db->searchTeacher($emailLogin);
 
 				if(!empty($teacherSearch)){
 					$teacher = new Teacher($teacherSearch->email_teacher, $teacherSearch->name, $teacherSearch->last_name, $teacherSearch->responsability);

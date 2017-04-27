@@ -1,5 +1,5 @@
 <?php
-class ManagementController{
+class BlocManagementController{
 	private $_db;
 
 	public function __construct($db) {
