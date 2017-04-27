@@ -12,7 +12,7 @@ class Db{
 	
 	private function __construct() {
 		try{
-			$this->_db=new PDO('mysql:host=localhost:8889;dbname=ipl_agenda;charset=utf8','root','root');
+			$this->_db=new PDO('mysql:host=localhost;dbname=ipl_agenda;charset=utf8','root','');
 			$this->_db->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
 			$this->_db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE,PDO::FETCH_OBJ);
 		}
@@ -39,42 +39,27 @@ class Db{
 							'last_name' => $last_name,
 							'responsability' => $responsability));
 	}
-	public function insertStudent($email_student, $name, $last_name, $number, $bloc)
+	/*
+	 * pas de number dans la db, pas dans le csv en tout cas
+	 * first_name plutot que lastname
+	 */
+	public function insert_student($bloc, $last_name, $first_name, $email_student)
 	{
-		/*
-		 * Robin@Marco
-		 * je suppose que ça doit faire la même chose que
-		 * $req->bindValue(':email_student',"$email_student");
-		 * $req->bindValue(':name',"$name");
-		 * $req->bindValue(':last_name',"$last_name");
-		 * $req->bindValue(':number',"$number");
-		 * $req->bindValue(':bloc',"$bloc");
-		 * $req->execute();
-		 */
-		$req = $this->_db->prepare('INSERT INTO students (email_student, name, last_name, number, bloc) VALUES (:email_student, :name, :last_name, :number, :bloc)');
-		$req->execute(array('email_student' => $email_student,
-							'name' => $name,
+
+		$req = $this->_db->prepare('INSERT INTO students (bloc, last_name, first_name, email_student) VALUES (:bloc, :last_name, :first_name, :email_student)');
+		$req->execute(array('bloc' => $email_student,
 							'last_name' => $last_name,
-							'number' => $number,
-							'bloc' => $bloc));
+							'first_name' => $last_name,
+							'email_student' => $bloc));
 	}
 	
-	/*
-	 * Robin@Marco
-	 * il faudrait faire la différence entre UE et AA dans la db, une UE peut avoir plusieurs AA.
-	 * ex : 1)Introduction aux systèmes d'exploitation est une UE et possède 2 AA -> Linux et OS qui ne sont pas des seances types
-	 *      2)Anglais est une UE qui n'a pas d'AA
-	 * le champs type de la table lessons ne permet pas :
-	 * - de savoir pour une AA à quelle UE elle appartient dans l'état actuel
-	 * - de savoir si une UE possède des AA ou pas 
-	 * -> il faudrait une relation 1 à 0:1:n entre UE et AA respectivement
-	 */
-	public function insertLesson($name, $type, $quadri, $credits, $abbreviation)
+	public function insert_lesson($name, $lesson_code, $quadri, $type, $credits, $abbreviation)
 	{
-		$req = $this->_db->prepare('INSERT INTO lessons (name, type, quadri, credits, abbreviation) VALUES (:name, :type, :quadri, :credits, :abbreviation)');
+		$req = $this->_db->prepare('INSERT INTO lessons (name, lesson_code, quadri, type, credits, abbreviation) VALUES (:name, :lesson_code, :quadri, :type, :credits, :abbreviation)');
 		$req->execute(array('name' => $name,
-							'type' => $type,
+							'lesson_code' => $lesson_code,
 							'quadri' => $quadri,
+							'type' => $type,
 							'credits' => $credits,
 							'abbreviation' => $abbreviation));
 	}
