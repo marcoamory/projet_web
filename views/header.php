@@ -42,11 +42,11 @@
 	         	</ul>
 	        	<?php
 	        } 
-	        if(isset($_SESSION['name']) AND isset($_SESSION['last_name'])){
+	        if(isset($_SESSION['first_name']) AND isset($_SESSION['last_name'])){
 	        ?>
 	         
 	          <a href='index.php?action=logout' type="button" class="btn btn-default navbar-btn navbar-right">Logout</a>
-	          <p class="navbar-text navbar-right">Logged in as <?php echo $_SESSION['name'] . " " . $_SESSION['last_name']; ?></p>
+	          <p class="navbar-text navbar-right">Logged in as <?php echo $_SESSION['first_name'] . " " . $_SESSION['last_name']; ?></p>
 	          <?php
 	         }
 	         else{ ?>

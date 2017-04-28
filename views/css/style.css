@@ -1,6 +1,6 @@
 body
 {
-	
+
 }
 
 
@@ -18,16 +18,21 @@ body
 
 }
 
-#login .jumbotron
-{
-	margin-top: 50px;
-}
-
 #login form
 {
 	width: 70%;
 	margin:auto;
 }
+
+/*ADMIN PAGE*/
+
+#adminManagement
+{
+	width: 70%;
+	margin:auto;
+}
+
+
 
 
 

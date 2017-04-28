@@ -8,7 +8,7 @@ class Teacher{
 
 	public function __construct($email, $first_name, $last_name, $responsibility){
 		$this->_email = $email;
-		$this->_fist_name = $first_name;
+		$this->_first_name = $first_name;
 		$this->_last_name = $last_name;
 		$this->_responsibility = $responsibility;
 	}
