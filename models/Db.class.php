@@ -75,7 +75,7 @@ class Db{
 
 	public function search_student($email)
 	{
-		$req = $this->_db->prepare("SELECT email_student, first_name, last_name, number, bloc FROM students WHERE email_student = :email_student");
+		$req = $this->_db->prepare("SELECT email_student, first_name, last_name, number_serie, bloc FROM students WHERE email_student = :email_student");
 		$req->execute(array("email_student" => $email));
 		$result = $req->fetch();
 		$req->closeCursor();

@@ -11,6 +11,11 @@ class AdminManagementController{
 
 	function run(){
 
+		$this->process_file('professor_csv');
+		$this->process_file('agenda_properties');
+		require_once(PATH_VIEW.'adminManagement.php');
+
+	}
 		public function process_file($uploadName){
 			if(isset($_FILES[$uploadName])){
 				$tmp_name=$_FILES[$uploadName]['tmp_name'];
@@ -41,6 +46,4 @@ class AdminManagementController{
 			}
 
 		}
-
-	}
 }
