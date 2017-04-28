@@ -25,10 +25,30 @@
 		$controller = new LoginController($db);
 		$controller->run();
 	}
-	//Login verification & redirection
+	//Login check & redirection
 	else if (empty($_SESSION['authentifie'])) {
-   		header("Location: index.php?action=login");
-		die();
+		//Cookie check
+		if(isset($_COOKIE['email']) AND isset($_COOKIE['name']) AND isset($_COOKIE['last_name']) AND isset($_COOKIE['type'])){
+			$_SESSION['email'] = $_COOKIE['email'];
+			$_SESSION['name'] = $_COOKIE['name'];
+			$_SESSION['last_name'] = $_COOKIE['last_name'];
+			$_SESSION['type'] = $_COOKIE['type'];
+			$_SESSION['authentifie'] = true;
+
+			if(isset($_COOKIE['responsibility'])){
+				$_SESSION['responsibility'] = $_COOKIE['responsibility'];
+				header("Location:index.php?action=teacher");
+				die();
+			}
+			else{
+				header("Location:index.php?action=student");
+				die();
+			}
+		}
+		else{
+			header("Location: index.php?action=login");
+			die();
+		}
 	}
 
 	else

@@ -32,6 +32,13 @@ class LoginController{
 				$_SESSION['type'] = "student";
 				$_SESSION['authentifie'] = true;
 
+				if(isset($_POST['rememberMe'])){
+					setcookie('email', $student->getEmail(), time() + 365*24*3600, null, null, false, true);
+					setcookie('name', $student->getName(), time() + 365*24*3600, null, null, false, true);
+					setcookie('last_name', $student->getLastName(), time() + 365*24*3600, null, null, false, true);
+					setcookie('type', "student", time() + 365*24*3600, null, null, false, true);
+				}
+
 				header("Location:index.php?action=student");
 				die();
 			}
@@ -50,6 +57,14 @@ class LoginController{
 					$_SESSION['responsibility'] = $teacher->getResponsibility();
 					$_SESSION['type'] = 'teacher';
 					$_SESSION['authentifie'] = true;
+
+					if(isset($_POST['rememberMe'])){
+						setcookie('email', $teacher->getEmail(), time() + 365*24*3600, null, null, false, true);
+						setcookie('name', $teacher->getName(), time() + 365*24*3600, null, null, false, true);
+						setcookie('last_name', $teacher->getLastName(), time() + 365*24*3600, null, null, false, true);
+						setcookie('responsibility', $teacher->getResponsibility(), time() + 365*24*3600, null, null, false, true);
+						setcookie('type', "teacher", time() + 365*24*3600, null, null, false, true);
+					}
 
 					header("Location:index.php?action=teacher");
 					die();
