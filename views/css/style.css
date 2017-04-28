@@ -1,8 +1,3 @@
-body
-{
-
-}
-
 
 /*LOGIN PAGE */
 #login
@@ -30,6 +25,10 @@ body
 {
 	width: 70%;
 	margin:auto;
+}
+
+.upload{
+	margin:10px;
 }
 
 

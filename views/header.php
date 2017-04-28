@@ -1,10 +1,10 @@
-<!DOCTYPE html>
+ï»¿<!DOCTYPE html>
 <html>
 	<head>
 		<title>IPL - Agenda</title>
 		<meta charset="utf-8"/>
 		<meta name="authors" content="Robin Louis, Marco Amory"/>
-		<meta name="description" content="Application de prise de présence de l'IPL"/>
+		<meta name="description" content="Application de prise de prÃ©sence de l'IPL"/>
       	<link rel="stylesheet" type="text/css" href="<?php echo PATH_CSS; ?>bootstrap.min.css">
       	<link rel="stylesheet" type="text/css" href="<?php echo PATH_CSS; ?>bootstrap-theme.min.css">
       	<link rel="stylesheet" type="text/css" href="<?php echo PATH_CSS; ?>font-awesome.min.css">
@@ -29,7 +29,7 @@
 	        <?php if(isset($_SESSION['responsibility']) AND $_SESSION['responsibility'] == 'true'){
 	        	?>
 	        	<ul class="nav navbar-nav">
-		            <li><a href="index.php?action=teacher">Prise des présences</a></li>
+		            <li><a href="index.php?action=teacher">Prise des prÃ©sences</a></li>
 		            <li><a href="index.php?action=adminManagement">Gestion Admin</a></li>
 	          </ul>
 	          <?php

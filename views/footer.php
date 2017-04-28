@@ -1,4 +1,4 @@
-		<footer>
+﻿		<footer>
 			
 		</footer>
 		<!-- Bootstrap core JavaScript

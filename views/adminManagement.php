@@ -1,4 +1,4 @@
-<section id='adminManagement'>
+﻿<section id='adminManagement'>
 	<div class="row">
 		<div class="col-md-6">
 			<div class="panel panel-primary">
