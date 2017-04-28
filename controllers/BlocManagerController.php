@@ -21,7 +21,8 @@ class BlocManagerController{
 			$this->file_to_DB($uploadName,$name);
 		}
 	}
-
+	// si c'est un RBs il faut qu'il puisse ajouter le bloc dans lequel il veut l'ajouter et vérifier que cela correspond bien au 2 premieres lettres 
+	// de lesson_code du cours en question.
 	public function file_to_DB($uploadName,$name){
 		if($uploadName=='students_csv')
 			$pattern = "(.*);(.*);(.*);(.*)\n$";
@@ -33,7 +34,6 @@ class BlocManagerController{
 			$line = $arrayFile[$i];	
 			if($uploadName=='students_csv'){
 				if(preg_match("/".$pattern."/", $line, $groups))
-					var_dump($groups);
 					$this->_db->insert_student($groups[1], $groups[2], $groups[3], $groups[4]);
 			}
 			else if ($uploadName=='lessons_csv'){

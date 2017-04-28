@@ -4,7 +4,7 @@
 		<title>IPL - Agenda</title>
 		<meta charset="utf-8"/>
 		<meta name="authors" content="Robin Louis, Marco Amory"/>
-		<meta name="description" content="Application de prise de présence de l'IPL"/>
+		<meta name="description" content="Application de prise de pr�sence de l'IPL"/>
       	<link rel="stylesheet" type="text/css" href="<?php echo PATH_CSS; ?>bootstrap.min.css">
       	<link rel="stylesheet" type="text/css" href="<?php echo PATH_CSS; ?>bootstrap-theme.min.css">
       	<link rel="stylesheet" type="text/css" href="<?php echo PATH_CSS; ?>font-awesome.min.css">
@@ -38,7 +38,7 @@
 	        	?>
 				<ul class="nav navbar-nav">
 		            <li><a href="index.php?action=teacher">Prise des présences</a></li>
-		            <li><a href="index.php?action=blocManagement">Gestion Blocs</a></li>
+		            <li><a href="index.php?action=blocManager">Gestion Blocs</a></li>
 	         	</ul>
 	        	<?php
 	        } 
