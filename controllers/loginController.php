@@ -1,6 +1,6 @@
 <?php
 
-class loginController{
+class LoginController{
 	
 	private $_db;
 
@@ -19,6 +19,8 @@ class loginController{
 		{
 			$emailLogin = htmlspecialchars($_POST['emailLogin']);
 
+
+			//Searching email in students table
 			$studentSearch = $this->_db->searchStudent($emailLogin);
 
 			if(!empty($studentSearch)){
@@ -30,12 +32,20 @@ class loginController{
 				$_SESSION['type'] = "student";
 				$_SESSION['authentifie'] = true;
 
+				if(isset($_POST['rememberMe'])){
+					setcookie('email', $student->getEmail(), time() + 365*24*3600, null, null, false, true);
+					setcookie('name', $student->getName(), time() + 365*24*3600, null, null, false, true);
+					setcookie('last_name', $student->getLastName(), time() + 365*24*3600, null, null, false, true);
+					setcookie('type', "student", time() + 365*24*3600, null, null, false, true);
+				}
+
 				header("Location:index.php?action=student");
 				die();
 			}
 
 			else
 			{
+				//Searching email in teachers table
 				$teacherSearch = $this->_db->searchTeacher($emailLogin);
 
 				if(!empty($teacherSearch)){
@@ -47,6 +57,14 @@ class loginController{
 					$_SESSION['responsibility'] = $teacher->getResponsibility();
 					$_SESSION['type'] = 'teacher';
 					$_SESSION['authentifie'] = true;
+
+					if(isset($_POST['rememberMe'])){
+						setcookie('email', $teacher->getEmail(), time() + 365*24*3600, null, null, false, true);
+						setcookie('name', $teacher->getName(), time() + 365*24*3600, null, null, false, true);
+						setcookie('last_name', $teacher->getLastName(), time() + 365*24*3600, null, null, false, true);
+						setcookie('responsibility', $teacher->getResponsibility(), time() + 365*24*3600, null, null, false, true);
+						setcookie('type', "teacher", time() + 365*24*3600, null, null, false, true);
+					}
 
 					header("Location:index.php?action=teacher");
 					die();

@@ -8,10 +8,16 @@ class LogoutController{
 
 	function run(){
 
-		$_SESSION = array(); //Suppression session		
+		setcookie("email", "");
+		setcookie("name", "");
+		setcookie("last_name", "");
+		setcookie("type", "");
+
+		$_SESSION = array(); //Delete session		
 		session_destroy();
 
-	require_once(PATH_VIEW . "logout.php");
+		header("Location: index.php?action=login");
+		die();
 
 
 	}
