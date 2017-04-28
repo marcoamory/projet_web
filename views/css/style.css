@@ -3,10 +3,6 @@ body
 	
 }
 
-nav
-{
-	margin-bottom: 50px;
-}
 
 /*LOGIN PAGE */
 #login
@@ -15,9 +11,16 @@ nav
 	margin:auto;
 }
 
+#login .alert
+{
+	margin-top : 50px;
+	font-size: 17px;
+
+}
+
 #login .jumbotron
 {
-	margin-top: 100px;
+	margin-top: 50px;
 }
 
 #login form
@@ -25,4 +28,6 @@ nav
 	width: 70%;
 	margin:auto;
 }
+
+
 

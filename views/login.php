@@ -1,4 +1,8 @@
 <section id="login">
+<div class="alert alert-success alert-dismissible" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <p><i class="fa fa-check fa-2x" aria-hidden="true"></i> Vous vous êtes correctement déconnecté ! </p>
+</div>
 <div class="jumbotron">
   <form class="form-inline" method="post" action="index.php?action=login">
   <div class="form-group">
