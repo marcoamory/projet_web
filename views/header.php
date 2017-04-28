@@ -29,7 +29,7 @@
 	        <?php if(isset($_SESSION['responsibility']) AND $_SESSION['responsibility'] == 'true'){
 	        	?>
 	        	<ul class="nav navbar-nav">
-		            <li><a href="index.php?action=teacher">Prise des prÃ©sences</a></li>
+		            <li><a href="index.php?action=teacher">Prise des présences</a></li>
 		            <li><a href="index.php?action=adminManagement">Gestion Admin</a></li>
 	          </ul>
 	          <?php

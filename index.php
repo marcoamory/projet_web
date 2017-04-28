@@ -23,9 +23,9 @@
 	//Login check & redirection
 	else if (empty($_SESSION['authentifie'])) {
 		//Cookie check
-		if(isset($_COOKIE['email']) AND isset($_COOKIE['name']) AND isset($_COOKIE['last_name']) AND isset($_COOKIE['type'])){
+		if(isset($_COOKIE['email']) AND isset($_COOKIE['first_name']) AND isset($_COOKIE['last_name']) AND isset($_COOKIE['type'])){
 			$_SESSION['email'] = $_COOKIE['email'];
-			$_SESSION['name'] = $_COOKIE['name'];
+			$_SESSION['first_name'] = $_COOKIE['first_name'];
 			$_SESSION['last_name'] = $_COOKIE['last_name'];
 			$_SESSION['type'] = $_COOKIE['type'];
 			$_SESSION['authentifie'] = true;

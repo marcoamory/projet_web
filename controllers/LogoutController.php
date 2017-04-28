@@ -9,7 +9,7 @@ class LogoutController{
 	function run(){
 
 		setcookie("email", ""); //Delete cookie
-		setcookie("name", "");
+		setcookie("first_name", "");
 		setcookie("last_name", "");
 		setcookie("type", "");
 

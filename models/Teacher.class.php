@@ -2,13 +2,13 @@
 class Teacher{
 	
 	private $_email;	
-	private $_name;
+	private $_first_name;
 	private $_last_name;
 	private $_responsibility;
 
-	public function __construct($email, $name, $last_name, $responsibility){
+	public function __construct($email, $first_name, $last_name, $responsibility){
 		$this->_email = $email;
-		$this->_name = $name;
+		$this->_fist_name = $first_name;
 		$this->_last_name = $last_name;
 		$this->_responsibility = $responsibility;
 	}
@@ -17,8 +17,8 @@ class Teacher{
 		return $this->_email;
 	}
 
-	public function getName(){
-		return $this->_name;
+	public function getFirstName(){
+		return $this->_first_name;
 	}
 
 	public function getLastName(){
