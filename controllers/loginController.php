@@ -10,7 +10,7 @@ class LoginController{
 
 	public function run(){
 
-		if(!isset($_POST['emailLogin']))
+		if(!isset($_POST['emailLogin']) OR empty($_POST['emailLogin']))
 		{
 			require_once(PATH_VIEW . "login.php");
 		}

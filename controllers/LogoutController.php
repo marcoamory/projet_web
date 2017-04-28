@@ -8,7 +8,7 @@ class LogoutController{
 
 	function run(){
 
-		setcookie("email", "");
+		setcookie("email", ""); //Delete cookie
 		setcookie("name", "");
 		setcookie("last_name", "");
 		setcookie("type", "");
@@ -16,7 +16,7 @@ class LogoutController{
 		$_SESSION = array(); //Delete session		
 		session_destroy();
 
-		header("Location: index.php?action=login");
+		header("Location: index.php?action=login&message=logout");
 		die();
 
 
