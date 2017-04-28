@@ -12,7 +12,7 @@ class Db{
 	
 	private function __construct() {
 		try{
-			$this->_db=new PDO('mysql:host=localhost;dbname=ipl_agenda;charset=utf8','root','');
+			$this->_db=new PDO('mysql:host=localhost:8889;dbname=ipl_agenda;charset=utf8','root','root');
 			$this->_db->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
 			$this->_db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE,PDO::FETCH_OBJ);
 		}
@@ -31,13 +31,13 @@ class Db{
 							'quadri' => $quadri));
 	}
 
-	public function insert_teacher($email_teacher, $name, $last_name, $responsability)
+	public function insert_teacher($email_teacher, $first_name, $last_name, $responsibility)
 	{
-		$req = $this->_db->prepare('INSERT INTO teachers (email_teacher, first_name, last_name, responsability) VALUES (:email_teacher, :first_name, :last_name, :responsability)');
+		$req = $this->_db->prepare('INSERT INTO teachers (email_teacher, first_name, last_name, responsibility) VALUES (:email_teacher, :first_name, :last_name, :responsibility)');
 		$req->execute(array('email_teacher' => $email_teacher,
-							'first_name' => $name,
+							'first_name' => $first_name,
 							'last_name' => $last_name,
-							'responsability' => $responsability));
+							'responsibility' => $responsibility));
 	}
 	/*
 	 * pas de number dans la db, pas dans le csv en tout cas
