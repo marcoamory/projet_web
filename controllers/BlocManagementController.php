@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 class BlocManagementController{
 	private $_db;
 

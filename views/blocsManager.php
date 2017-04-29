@@ -2,28 +2,18 @@
 	<div class="row">
 		<div class="col-md-6">
 			<div class="panel panel-primary">
-		  		<div class="panel-heading">
-		   			 <h3 class="panel-title text-center">Introduire UE/AA</h3>
-		  		</div>
-		  		<div class="panel-body">
-		   			 <form enctype="multipart/form-data" action="index.php?action=blocManager" method="post">
+				<div class="panel-heading">
+					<h3 class="panel-title text-center">Introduire UE/AA</h3>
+				</div>
+				<div class="panel-body">
+					<form enctype="multipart/form-data" action="index.php?action=blocManager" method="post">
+						<?php if(isset($_SESSION['responsibility']) AND ($_SESSION['responsibility'] == 'blocs')){ ?>
+							<h6>Bloc numéro :</h6> 
+							<input type="text" name="blocNumber" placeholder="numéro bloc" />
+						<?php }?>
 						<input type="hidden" name="MAX_FILE_SIZE" value="1000000000000" />
 						<input class="center-block upload" type="file" name="lessons_csv" />
 						<input type="submit" value="Envoyer programmeX.csv" />
-					</form>
-		  		</div>
-			</div>
-		</div>
-		<div class="col-md-6">
-			<div class="panel panel-primary">
-		  			<div class="panel-heading">
-		   				 <h3 class="panel-title text-center">Introduire Etudiants</h3>
-		  			</div>
-		  		<div class="panel-body">
-		   			 <form enctype="multipart/form-data" action="index.php?action=blocManager" method="post">
-						<input type="hidden" name="MAX_FILE_SIZE" value="1000000000000" />
-						<input class="center-block upload" type="file" name="students_csv" />
-						<input type="submit" value="Envoyer Etudiants.csv" />
 					</form>
 		  		</div>
 			</div>

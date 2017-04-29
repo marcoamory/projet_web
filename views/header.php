@@ -34,23 +34,31 @@
 	          </ul>
 	          <?php
 	        }
-	        if(isset($_SESSION['responsibility']) AND ($_SESSION['responsibility'] == 'blocs' OR $_SESSION['responsibility'] == 'bloc1' OR $_SESSION['responsibility'] == "bloc2" OR $_SESSION['responsibility'] == 'bloc3')){
+	        if(isset($_SESSION['responsibility']) AND ($_SESSION['responsibility'] == 'blocs')){
 	        	?>
 				<ul class="nav navbar-nav">
 		            <li><a href="index.php?action=teacher">Prise des présences</a></li>
-		            <li><a href="index.php?action=blocManager">Gestion Blocs</a></li>
+		            <li><a href="index.php?action=blocsManager">Gestion Blocs</a></li>
 	         	</ul>
 	        	<?php
 	        } 
+	      	if(isset($_SESSION['responsibility']) AND ($_SESSION['responsibility'] == 'bloc' OR $_SESSION['responsibility'] == 'bloc1' OR $_SESSION['responsibility'] == "bloc2" OR $_SESSION['responsibility'] == 'bloc3')){
+	        	?>
+	        	<ul class="nav navbar-nav">
+		            <li><a href="index.php?action=teacher">Prise des présences</a></li>
+		            <li><a href="index.php?action=blocsManager">Gestion <?php echo $_SESSION['responsibility'] ?></a></li>
+	         	</ul>
+	         	<?php
+	      	}
 	        if(isset($_SESSION['first_name']) AND isset($_SESSION['last_name'])){
 	        ?>
 	         
-	          <a href='index.php?action=logout' type="button" class="btn btn-default navbar-btn navbar-right">Logout</a>
-	          <p class="navbar-text navbar-right">Logged in as <?php echo $_SESSION['first_name'] . " " . $_SESSION['last_name']; ?></p>
+	          <a href='index.php?action=logout' type="button" class="btn btn-default navbar-btn navbar-right">Déconnection</a>
+	          <p class="navbar-text navbar-right"><?php echo $_SESSION['first_name'] . " " . $_SESSION['last_name']; ?></p>
 	          <?php
 	         }
 	         else{ ?>
-	         	 <p class="navbar-text navbar-right">Logged out</p>
+	         	 <p class="navbar-text navbar-right">Déconnecté</p>
 	         	 <?php
 	         }
 	         ?>

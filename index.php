@@ -62,9 +62,9 @@
 			require_once(PATH_CONTROLLER . "BlocManagerController.php");
 			$controller = new BlocManagerController($db);
 			break;
-		case 'blocManagers':
-			require_once(PATH_CONTROLLER . "BlocManagersController.php");
-			$controller = new BlocManagersController($db);
+		case 'blocsManager':
+			require_once(PATH_CONTROLLER . "BlocsManagerController.php");
+			$controller = new BlocsManagerController($db);
 			break;
 		case 'adminManagement' :
 			require_once(PATH_CONTROLLER . "AdminManagementController.php");

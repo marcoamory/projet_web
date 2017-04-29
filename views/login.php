@@ -9,15 +9,15 @@
 <div class="jumbotron">
   <form class="form-inline" method="post" action="index.php?action=login">
   <div class="form-group">
-    <label class="sr-only" for="exampleInputEmail3">Email address</label>
+    <label class="sr-only" for="exampleInputEmail3">Adresse email</label>
     <input type="email" class="form-control" id="emailLogin" name="emailLogin" placeholder="Email">
   </div>
   <div class="checkbox">
     <label>
-      <input type="checkbox" name="rememberMe"> Remember me
+      <input type="checkbox" name="rememberMe"> Se rappeler de moi
     </label>
   </div>
-  <button type="submit" class="btn btn-success">Log in</button>
+  <button type="submit" class="btn btn-success">Se connecter</button>
 </form>
 </div>
 </section>

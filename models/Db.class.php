@@ -75,8 +75,17 @@ class Db{
 
 	public function search_student($email)
 	{
-		$req = $this->_db->prepare("SELECT email_student, first_name, last_name, number_serie, bloc FROM students WHERE email_student = :email_student");
+		$req = $this->_db->prepare("SELECT * FROM students WHERE email_student =:email_student");
 		$req->execute(array("email_student" => $email));
+		$result = $req->fetch();
+		$req->closeCursor();
+		return $result;
+	}
+	
+	public function search_lesson($lesson_code)
+	{
+		$req = $this->_db->prepare("SELECT * FROM lessons WHERE lesson_code = :lesson_code");
+		$req->execute(array("lesson_code" => $lesson_code));
 		$result = $req->fetch();
 		$req->closeCursor();
 		return $result;

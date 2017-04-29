@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 class Teacher{
 	
 	private $_email;	
