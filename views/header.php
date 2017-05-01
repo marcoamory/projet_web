@@ -53,7 +53,7 @@
 	        if(isset($_SESSION['first_name']) AND isset($_SESSION['last_name'])){
 	        ?>
 	         
-	          <a href='index.php?action=logout' type="button" class="btn btn-default navbar-btn navbar-right">Déconnection</a>
+	          <a href='index.php?action=logout' type="button" id="logout_button" class="btn btn-default navbar-btn navbar-right">Déconnexion</a>
 	          <p class="navbar-text navbar-right"><?php echo $_SESSION['first_name'] . " " . $_SESSION['last_name']; ?></p>
 	          <?php
 	         }

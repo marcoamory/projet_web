@@ -8,10 +8,33 @@
 		  		<div class="panel-body">
 		   			 <form enctype="multipart/form-data" action="index.php?action=adminManagement" method="post">
 						<input type="hidden" name="MAX_FILE_SIZE" value="1000000000000" />
-						<input id="upload" type="file" name="agenda_properties" />
+						<input id="upload" type="file" name="agenda_properties" required />
 						<input type="submit" class='btn  btn-success' value="Upload" />
 					</form>
 		  		</div>
+		  		 <div class="panel-footer">
+		  		 	<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal2">Supprimer l'agenda</button>
+		  		 	<!-- Button trigger modal -->
+					<!-- Modal -->
+					<div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+					  <div class="modal-dialog" role="document">
+					    <div class="modal-content">
+					      <div class="modal-header">
+					        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					        <h4 class="modal-title" id="myModalLabel">Supprimer l'agenda</h4>
+					      </div>
+					      <div class="modal-body">
+					       Cette action entrainera la suppression de l'entiereté de l'agenda. Attention, cette action est irréversible !
+					      </div>
+					      <div class="modal-footer">
+					      	<form action='index.php?action=adminManagement' method="post">
+					        <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+					        <input type="submit" class="btn btn-danger" name="deleteAgenda" value="Supprimer"/>
+					      </div>
+					    </div>
+					  </div>
+					</div>
+		  		 </div>
 			</div>
 		</div>
 		<div class="col-md-6">
@@ -22,7 +45,7 @@
 		  		<div class="panel-body">
 		   			 <form enctype="multipart/form-data" action="index.php?action=adminManagement" method="post">
 						<input type="hidden" name="MAX_FILE_SIZE" value="1000000000000" />
-						<input id="upload" type="file" name="professor_csv" />
+						<input id="upload" type="file" name="professor_csv" required />
 						<input type="submit" class='btn btn-success' value="Upload" />
 					</form>
 		  		</div>

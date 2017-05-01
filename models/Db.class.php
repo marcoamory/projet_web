@@ -145,5 +145,11 @@ class Db{
 		$req->execute(array('responsibility' => 'true'));
 
 	}
+
+	public function delete_agenda()
+	{
+		$req = $this->_db->prepare('DELETE FROM weeks');
+		$req->execute();
+	}
 }
 ?>

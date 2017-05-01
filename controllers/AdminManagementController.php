@@ -19,6 +19,11 @@ class AdminManagementController{
 			$this->_db->delete_teacher();
 		}
 
+		if(isset($_POST['deleteAgenda']))
+		{
+			$this->_db->delete_agenda();
+		}
+
 		require_once(PATH_VIEW.'adminManagement.php');
 
 	}
@@ -34,8 +39,8 @@ class AdminManagementController{
 		public function file_to_DB($uploadName,$name){
 			if($uploadName=='professor_csv')
 				$pattern = "(.*);(.*);(.*);(.*)\n$";
-			else if ($uploadName=='lessons_csv')
-				$pattern = "(.*);(.*);(.*);(.*);(.*);(.*)\n$";
+			else if ($uploadName=='agenda_properties')
+				$pattern = "(.*)_(.*)=(.*)\n$";
 			$arrayFile = file(PATH_CONF . $name);
 			$nb_lines = count($arrayFile);
 			for($i = 1; $i < $nb_lines; $i++){
@@ -44,14 +49,24 @@ class AdminManagementController{
 				if($uploadName=='professor_csv'){
 					if(preg_match("/".$pattern."/", $line, $groups))
 						try{
-							$this->_db->insert_teacher($groups[1], $groups[3], $groups[2], substr($groups[4], 0, 5));
+							$this->_db->insert_teacher($groups[1], $groups[3], $groups[2], trim($groups[4]));
 						}catch(PDOException $e){
 							continue;
 						}
 				}
 				else if ($uploadName=='agenda_properties'){
 					if(preg_match("/".$pattern."/", $line, $groups))
-						$this->_db->insert_week($groups[1], $groups[2], $groups[3], $groups[4], $groups[5], $groups[6]);
+							try{
+								$date_explode = explode('/', trim($groups[3]));
+								$date = date_create(substr($date_explode[2], 0,4) . "-" . $date_explode[1] . "-" . $date_explode[0]);
+			
+								$this->_db->insert_week(intval(substr($groups[2], 7)), $groups[2],trim($groups[3]), $groups[1]);
+							}
+							catch(PDOException $e){
+								continue;
+							}
+							
+						
 				}
 			}
 
