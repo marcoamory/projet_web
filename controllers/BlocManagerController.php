@@ -66,7 +66,7 @@ class BlocManagerController{
 		elseif(isset($_SESSION['modify_serie'])){
 			$nb_serie_modify=count($_POST['new_serie']);
 			for ($i=0;$i<$nb_serie_modify;$i++){
-				
+				;
 			}
 		}
 		else {
