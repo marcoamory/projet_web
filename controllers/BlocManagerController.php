@@ -1,12 +1,11 @@
 ﻿<?php
-/*
- * Apparement le nom du fichier "devrait" être obligatoirement nommé programme_blocX pour pouvoir être uploadé ou du moins avoir ce nom là sur le serveur
- * à demander.
- */
 class BlocManagerController{
 
 	private $_db;
 
+	/*
+	 * This function decides which function is gonna be called depending on $_POST parameters sent from the view
+	 */
 	public function __construct($db){
 		$this->_db = $db;
 	}
@@ -25,10 +24,11 @@ class BlocManagerController{
 	 * $name is a string containing the name of the file the user uploaded
 	 * $uploadName is a string telling the function wether we are uploading a file of student or a file of lessons
 	 * $pattern is a string containing the pattern necessary to the preg_match function depending on $uploadName
-	 * this function checks if the file is a .csv, compatible with our database and our constraints
+	 * This function checks if the name of the file is conform to what it is supposed to be
+	 * and if the data contained are compatible with our database and our constraints.
 	 */
 	public function is_compatible_file($tmp_name,$name ,$uploadName,$pattern){
-		if(!preg_match("/.csv$/",$name))
+		if(!preg_match("/^etudiants\.csv$/",$name)&&!preg_match("/^programme_".$_SESSION['responsibility']."\.csv$/",$name))
 			return false;
 		$arrayFile = file($tmp_name);
 		$nb_lines = count($arrayFile);
@@ -49,7 +49,7 @@ class BlocManagerController{
 	
 	/*
 	 * $uploadName is a string telling the function wether we are uploading a file of student or a file of lessons
-	 * this function returns a pattern for an upcoming preg_match function depending on $uploadName
+	 * This function returns a pattern for an upcoming preg_match function depending on $uploadName
 	 */
 	public function define_pattern($uploadName){
 		if($uploadName=='students_csv')
@@ -59,7 +59,7 @@ class BlocManagerController{
 	
 	/*
 	 * $uploadName is a string telling the function wether we are uploading a file of student or a file of lessons
-	 * this function defines a pattern and then moves the file being uploaded in the conf directory if is_compatible_file returned true
+	 * This function defines a pattern and then moves the file being uploaded in the conf directory if is_compatible_file returned true
 	 * and then calls for a data process on the database
 	 * also defines a notification to inform the user of what happened
 	 */
@@ -85,16 +85,16 @@ class BlocManagerController{
 	/*
 	 * $primaryKey is a string that indicates which pk of which table we are talking about
 	 * $keyValue is a string that contains the value of the pk we are looking for
-	 * this function return true if the data is being duplicated and false if it's not
+	 * This function return true if the data is being duplicated and false if it's not
 	 */
 	public function is_being_duplicated($primaryKey, $keyValue){
 		if($primaryKey=='email_student'){
-			if(!$this->_db->search_student($keyValue)){
+			if(!$this->_db->select_student_pk($keyValue)){
 				return false;
 			}
 		}
 		elseif($primaryKey=='lesson_code'){
-			if(!$this->_db->search_lesson($keyValue)){
+			if(!$this->_db->select_lesson_pk($keyValue)){
 				return false;
 			}
 		}
@@ -105,7 +105,7 @@ class BlocManagerController{
 	 * $uploadName is a string telling the function wether we are uploading a file of student or a file of lessons
 	 * $name is the name of the file that the user uploaded
 	 * $pattern is a string containing the pattern necessary to the preg_match function depending on $uploadName
-	 * this function creates an array with all the lines in the file, checks one line by one line if it matches our pattern and if the data
+	 * This function creates an array with all the lines in the file, checks one line by one line if it matches our pattern and if the data
 	 * is not going to be duplicated on the database.
 	 * insert the data right into the database if it's not being duplicated xor in an array containing all data  the user tries to duplicate
 	 */

@@ -1,6 +1,6 @@
 ﻿<?php
 /*
- * Apparement le nom du fichier "devrait" être obligatoirement nommé programme_blocX pour pouvoir être uploadé ou du moins avoir ce nom l� sur le serveur
+ * Apparement le nom du fichier "devrait" être obligatoirement nommé programme_blocX pour pouvoir être uploadé ou du moins avoir ce nom l� sur le serveur
  * à demander.
  */
 class BlocsManagerController{
@@ -10,15 +10,34 @@ class BlocsManagerController{
 	public function __construct($db){
 		$this->_db = $db;
 	}
-
+	
+	/*
+	 * this function decides which function is gonna be called depending on $_POST parameters sent from the view
+	 */
 	public function run(){
+		var_dump($_POST);
+		var_dump($_FILES);
 		if(isset($_SESSION['notificationError']))
 			$_SESSION['notificationError']='';
-			if(isset($_SESSION['notificationSuccess']))
-				$_SESSION['notificationSuccess']='';
-				$this->process_file('students_csv');
-				$this->process_file('lessons_csv');//making sure that the user can upload both files at the same time
-				require_once(PATH_VIEW.'blocsManager.php');
+		if(isset($_SESSION['notificationSuccess']))
+			$_SESSION['notificationSuccess']='';
+		if(isset($_FILES['lessons_csv'])&&isset($_POST['blocNumber'])){
+			$this->process_file('lessons_csv');
+		}
+		elseif(isset($_FILES['lessons_csv'])&&!isset($_POST['blocNumber'])){
+			$_SESSION['notificationError']="Veuillez mentionner un bloc";
+		}
+		if(!isset($_FILES['lessons_csv'])&&isset($_POST['wipeChoice'])){
+			$this->wipe_data();
+		}
+		require_once(PATH_VIEW.'blocsManager.php');
+				
+	}
+	/*
+	 * necessary to the admin aswell
+	 */
+	public function wipe_data(){
+		$this->_db->drop_all_data();
 	}
 	/*
 	 * $tmp_name is a string containing the absolute path of the temporary location it's being uploaded to on the server
@@ -28,22 +47,22 @@ class BlocsManagerController{
 	 * this function checks if the file is a .csv, compatible with our database and our constraints
 	 */
 	public function is_compatible_file($tmp_name,$name ,$uploadName,$pattern){
-		if(!preg_match("/.csv$/",$name))
+		if(!preg_match("/^etudiants\.csv$/",$name)&&!preg_match("/^programme_bloc[1-3]\.csv$/",$name))
 			return false;
-			$arrayFile = file($tmp_name);
-			$nb_lines = count($arrayFile);
-			for($i = 1; $i < $nb_lines; $i++){
-				$line = $arrayFile[$i];
-				if ($uploadName=='lessons_csv'){
-					if(!preg_match("/".$pattern."/", $line, $groups))
+		$arrayFile = file($tmp_name);
+		$nb_lines = count($arrayFile);
+		for($i = 1; $i < $nb_lines; $i++){
+			$line = $arrayFile[$i];
+			if ($uploadName=='lessons_csv'){
+				if(!preg_match("/".$pattern."/", $line, $groups))
+					return false;
+				if(isset($_POST['blocNumber'])){//seulement pour le responsable blocS
+					if(!preg_match("/^I".$_POST['blocNumber']."/", $groups[2]))
 						return false;
-					if(isset($_POST['blocNumber'])){//seulement pour le responsable blocS
-						if(!preg_match("/^I".$_POST['blocNumber']."/", $groups[2]))
-							return false;
-					}
 				}
 			}
-			return true;
+		}
+		return true;
 	}
 
 	/*
@@ -71,7 +90,7 @@ class BlocsManagerController{
 				if($nbDataDuplicated==0)
 					$_SESSION['notificationSuccess']="Vos données ont bien été traitées";
 					else
-						$_SESSION['notificationSuccess']="Vos données ont bien ét traitées mais ".$nbDataDuplicated." données étaient déjà présentes";
+						$_SESSION['notificationSuccess']="Vos données ont bien été traitées mais ".$nbDataDuplicated." données étaient déjà présentes";
 			}
 			else{
 				$_SESSION['notificationError']="Votre fichier n'est pas compatible";
@@ -86,7 +105,7 @@ class BlocsManagerController{
 	 */
 	public function is_being_duplicated($primaryKey, $keyValue){
 		if($primaryKey=='lesson_code'){
-			if(!$this->_db->search_lesson($keyValue)){
+			if(!$this->_db->select_lesson_pk($keyValue)){
 				return false;
 			}
 		}

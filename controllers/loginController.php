@@ -21,7 +21,7 @@ class LoginController{
 
 
 			//Searching email in students table
-			$studentSearch = $this->_db->search_student($emailLogin);
+			$studentSearch = $this->_db->select_student_pk($emailLogin);
 
 			if(!empty($studentSearch)){
 				$student = new Student($studentSearch->email_student, $studentSearch->first_name, $studentSearch->last_name, $studentSearch->bloc, $studentSearch->number_serie);
@@ -46,7 +46,7 @@ class LoginController{
 			else
 			{
 				//Searching email in teachers table
-				$teacherSearch = $this->_db->search_teacher($emailLogin);
+				$teacherSearch = $this->_db->select_teacher_pk($emailLogin);
 
 				if(!empty($teacherSearch)){
 					$teacher = new Teacher($teacherSearch->email_teacher, $teacherSearch->first_name, $teacherSearch->last_name, $teacherSearch->responsibility);
