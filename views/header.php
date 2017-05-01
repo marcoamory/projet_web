@@ -34,7 +34,7 @@
 	          </ul>
 	          <?php
 	        }
-	        if(isset($_SESSION['responsibility']) AND ($_SESSION['responsibility'] == 'blocs')){
+	        if(isset($_SESSION['responsibility'])  AND ($_SESSION['responsibility'] == 'blocs')){
 	        	?>
 				<ul class="nav navbar-nav">
 		            <li><a href="index.php?action=teacher">Prise des présences</a></li>

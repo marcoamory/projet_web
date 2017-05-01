@@ -13,6 +13,12 @@ class AdminManagementController{
 
 		$this->process_file('professor_csv');
 		$this->process_file('agenda_properties');
+
+		if(isset($_POST['deleteTeacher']))
+		{
+			$this->_db->delete_teacher();
+		}
+
 		require_once(PATH_VIEW.'adminManagement.php');
 
 	}
@@ -33,11 +39,15 @@ class AdminManagementController{
 			$arrayFile = file(PATH_CONF . $name);
 			$nb_lines = count($arrayFile);
 			for($i = 1; $i < $nb_lines; $i++){
-				$line = $arrayFile[$i];	
+				$line = $arrayFile[$i];
+
 				if($uploadName=='professor_csv'){
 					if(preg_match("/".$pattern."/", $line, $groups))
-						var_dump($groups);
-						$this->_db->insert_teacher($groups[1], $groups[2], $groups[3], $groups[4]);
+						try{
+							$this->_db->insert_teacher($groups[1], $groups[3], $groups[2], substr($groups[4], 0, 5));
+						}catch(PDOException $e){
+							continue;
+						}
 				}
 				else if ($uploadName=='agenda_properties'){
 					if(preg_match("/".$pattern."/", $line, $groups))

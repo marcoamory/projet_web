@@ -138,5 +138,12 @@ class Db{
 		$req->closeCursor();
 		return $result;
 	}
+
+	public function delete_teacher()
+	{
+		$req = $this->_db->prepare('DELETE FROM teachers WHERE responsibility != :responsibility');
+		$req->execute(array('responsibility' => 'true'));
+
+	}
 }
 ?>
