@@ -1,23 +1,108 @@
 ﻿<?php
+/*
+ * créer séries en first, après ST
+ */
 class BlocManagerController{
 
 	private $_db;
 
-	/*
-	 * This function decides which function is gonna be called depending on $_POST parameters sent from the view
-	 */
 	public function __construct($db){
 		$this->_db = $db;
 	}
-
+	
+	/*
+	 * This function decides which function is gonna be called depending on $_POST parameters sent from the view
+	 */
 	public function run(){
-		if(isset($_SESSION['notificationError']))
-			$_SESSION['notificationError']='';
-		if(isset($_SESSION['notificationSuccess']))
-			$_SESSION['notificationSuccess']='';
-		$this->process_file('students_csv');
-		$this->process_file('lessons_csv');//making sure that the user can upload both files at the same time
-		require_once(PATH_VIEW.'blocManager.php');
+		if(isset($_SESSION['notification_error']))
+			unset($_SESSION['notification_error']);
+		if(isset($_SESSION['notification_success']))
+			unset($_SESSION['notification_success']);
+		if(isset($_POST['nb_series'])){
+			if(empty($_POST['nb_series']))
+				$_SESSION['notification_error']="Entrez combien de séries vous désirez";
+			else 
+				$this->create_series();
+		}
+		if(isset($_POST['delete_serie'])&&isset($_POST['bloc_serie_delete'])){
+			if(empty($_POST['delete_serie'])||empty($_POST['bloc_serie_delete']))
+				$_SESSION['notification_error']="Entrez une série à supprimer et son bloc correspondant";
+			else
+				$this->delete_series();
+		}
+		if(isset($_FILES['lessons_csv'])){
+			if($_FILES['lessons_csv']['size']==0)
+				$_SESSION['notification_error']="Choisissez un fichier à uploader";
+			else
+				$this->process_file('lessons_csv');
+		}
+		if(isset($_POST['name'])&&isset($_POST['lesson_fk'])&&isset($_POST['serie_fk'])){
+			if(empty($_POST['lesson_fk'])||empty($_POST['serie_fk']))
+				$_SESSION['notification_error']="Entrez une UE/AA et la série pour laquelle vous voulez créer la séance type";
+			else
+				$this->create_session();
+		}
+		elseif(isset($_POST['modify_serie'])&&isset($_POST['bloc_serie_modify'])){
+			if(empty($_POST['modify_serie'])||empty($_POST['bloc_serie_modify']))
+				$_SESSION['notification_error']="Entrez une série à modifier et son bloc correspondant";
+			else
+				$this->modify_serie();
+		}
+		else {
+			unset($_SESSION['modify_serie']);
+			require_once(PATH_VIEW.'blocManager.php');
+		}
+	}
+	
+	public function modify_serie(){
+		/*
+		 * afficher un tableau des étudiants de la série
+		 */
+		$serie=$this->_db->select_serie_pk($_POST['modify_serie'],$_POST['bloc_serie_modify']);
+		$students_array=$this->_db->select_student_serie($serie->get_number());
+		if(empty($serie)){
+			$_SESSION['notification_error']='Cette série n\'existe pas';
+		}
+		elseif(isset($_SESSION['modify_serie'])){
+			$nb_serie_modify=count($_POST['new_serie']);
+			for ($i=0;$i<$nb_serie_modify;$i++){
+				;
+			}
+		}
+		else {
+			$_SESSION['modify_serie']=true;
+			require_once(PATH_VIEW.'blocManager.php');
+		}
+	}
+	
+	public function delete_serie(){
+		
+	}
+	
+	public function create_series(){
+		$nb_series=intval($_POST['nb_series']);
+		$nb_students=sizeof($students_array);
+		$students_array=$this->_db->select_student_star();
+		if(empty($students_array)||$nb_students<$nb_series)
+			$_SESSION['notification_error']="Pas ou pas assez d'étudiants dans la base de donnée";
+		/*
+		 * il faudrait permettre de choisir une série dans la vue et d'afficher les étudiants présents dans cette série et pouvoir modifier
+		 * facilement ces données
+		 */
+		else {
+			for($i = 0; $i < $nb_students ; $i++){
+				for($i = 0; $i < $nb_students/$nb_series ; $i++){
+	
+					/*
+					 * répartir les étudiants dans les séries
+					 */;
+				}
+			}
+		}
+	}
+	
+	public function create_session(){
+		
 	}
 	/*
 	 * $tmp_name is a string containing the absolute path of the temporary location it's being uploaded to on the server
@@ -28,18 +113,13 @@ class BlocManagerController{
 	 * and if the data contained are compatible with our database and our constraints.
 	 */
 	public function is_compatible_file($tmp_name,$name ,$uploadName,$pattern){
-		if(!preg_match("/^etudiants\.csv$/",$name)&&!preg_match("/^programme_".$_SESSION['responsibility']."\.csv$/",$name))
+		if(!preg_match("/^programme_".$_SESSION['responsibility']."\.csv$/",$name))
 			return false;
 		$arrayFile = file($tmp_name);
 		$nb_lines = count($arrayFile);
 		for($i = 1; $i < $nb_lines; $i++){
 			$line = $arrayFile[$i];
-			if($uploadName=='students_csv'){
-				if(!preg_match("/".$pattern."/", $line, $groups))
-					return false;
-
-			}
-			else if ($uploadName=='lessons_csv'){
+			if ($uploadName=='lessons_csv'){
 				if(!preg_match("/".$pattern."/", $line, $groups))
 					return false;
 			}
@@ -52,8 +132,6 @@ class BlocManagerController{
 	 * This function returns a pattern for an upcoming preg_match function depending on $uploadName
 	 */
 	public function define_pattern($uploadName){
-		if($uploadName=='students_csv')
-			return "(Bl.*);(.*);(.*);(.*)\n$";
 		return "(.*);(.*);(.*);(.*);(.*);(.*)\n$";
 	}
 	
@@ -72,12 +150,12 @@ class BlocManagerController{
 				move_uploaded_file($tmp_name, PATH_CONF.$name);
 				$nbDataDuplicated=sizeof($this->file_to_DB($uploadName,$name,$pattern));
 				if($nbDataDuplicated==0)
-					$_SESSION['notificationSuccess']="Vos données ont bien été traitées";
+					$_SESSION['notification_success']="Vos données ont bien été traitées";
 				else 
-					$_SESSION['notificationSuccess']="Vos données ont bien été traitées mais ".$nbDataDuplicated." données étaient déjà présentes";
+					$_SESSION['notification_success']="Vos données ont bien été traitées mais ".$nbDataDuplicated." données étaient déjà présentes";
 			}
 			else{
-				$_SESSION['notificationError']="Votre fichier n'est pas compatible";
+				$_SESSION['notification_error']="Votre fichier n'est pas compatible";
 			}
 		}
 	}
@@ -88,12 +166,7 @@ class BlocManagerController{
 	 * This function return true if the data is being duplicated and false if it's not
 	 */
 	public function is_being_duplicated($primaryKey, $keyValue){
-		if($primaryKey=='email_student'){
-			if(!$this->_db->select_student_pk($keyValue)){
-				return false;
-			}
-		}
-		elseif($primaryKey=='lesson_code'){
+		if($primaryKey=='lesson_code'){
 			if(!$this->_db->select_lesson_pk($keyValue)){
 				return false;
 			}
@@ -115,15 +188,7 @@ class BlocManagerController{
 		$nb_lines = count($arrayFile);
 		for($i = 1; $i < $nb_lines; $i++){
 			$line = $arrayFile[$i];	
-			if($uploadName=='students_csv'){
-				if(preg_match("/".$pattern."/", $line, $groups))
-					if(!$this->is_being_duplicated('email_student',$groups[4]))
-						$this->_db->insert_student($groups[1], $groups[2], $groups[3], $groups[4]);
-					else 
-						$arrayDuplicated[$i]=$groups[4];
-						
-			}
-			else if ($uploadName=='lessons_csv'){
+			if ($uploadName=='lessons_csv'){
 				if(preg_match("/".$pattern."/", $line, $groups))
 					if(!$this->is_being_duplicated('lesson_code',$groups[2]))
 						$this->_db->insert_lesson($groups[1], $groups[2], $groups[3], $groups[4], $groups[5], $groups[6]);
@@ -131,9 +196,7 @@ class BlocManagerController{
 						$arrayDuplicated[$i]=$groups[2];
 			}
 		}
-		var_dump($arrayDuplicated);
 		return $arrayDuplicated;
-
 	}
 
 }

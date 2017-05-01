@@ -75,7 +75,7 @@
 			$controller = new LogoutController();
 			break;
 		default :
-			if(isset($_SESSION['responsibility']))
+			if(isset($_SESSION['responsability']))
 			{
 				require_once(PATH_CONTROLLER . "TeacherController.php");
 				$controller = new TeacherController($db);

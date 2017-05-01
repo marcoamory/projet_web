@@ -1,6 +1,6 @@
 ﻿<section class="container-fluid">
 	<div class="row">
-		<div class="col-md-6">
+		<div class="col-md-4">
 			<div class="panel panel-primary">
 				<div class="panel-heading">
 					<h3 class="panel-title text-center">Introduire UE/AA</h3>
@@ -16,9 +16,21 @@
 		  		</div>
 			</div>
 		</div>
-	</div>
-	<div class="row">
-		<div class="col-md-6">
+		<div class="col-md-4">
+			<div class="panel panel-primary">
+		  		<div class="panel-heading">
+		   			 <h3 class="panel-title text-center">Introduire Etudiants</h3>
+		  		</div>
+		  		<div class="panel-body">
+		   			 <form enctype="multipart/form-data" action="index.php?action=blocsManager" method="post">
+						<input type="hidden" name="MAX_FILE_SIZE" value="1000000000000" />
+						<input class="center-block upload" type="file" name="students_csv" />
+						<input type="submit" value="Envoyer Etudiants.csv" />
+					</form>
+		  		</div>
+			</div>
+		</div>
+		<div class="col-md-4">
 			<div class="panel panel-primary">
 				<div class="panel-heading">
 					<h3 class="panel-title text-center">Nettoyer les données annuelles</h3>

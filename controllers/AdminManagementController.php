@@ -8,7 +8,6 @@ class AdminManagementController{
 
 		$this->_db = $db;
 	}
-
 	function run(){
 
 		$this->process_file('professor_csv');
@@ -24,17 +23,26 @@ class AdminManagementController{
 			$this->_db->delete_agenda();
 		}
 
+
 		require_once(PATH_VIEW.'adminManagement.php');
 
 	}
-		public function process_file($uploadName){
-			if(isset($_FILES[$uploadName])){
-				$tmp_name=$_FILES[$uploadName]['tmp_name'];
-				$name=$_FILES[$uploadName]['name'];
-				move_uploaded_file($tmp_name, PATH_CONF.$name);
-				$this->file_to_DB($uploadName,$name);
-			}
+	
+	public function wipe_data(){
+		$this->_db->drop_all_data();
+	}
+
+	public function process_file($uploadName){
+		if(isset($_FILES[$uploadName])){
+			$tmp_name=$_FILES[$uploadName]['tmp_name'];
+			$name=$_FILES[$uploadName]['name'];
+			move_uploaded_file($tmp_name, PATH_CONF.$name);
+			$this->file_to_DB($uploadName,$name);
 		}
+		if(!isset($_FILES['professor_csv'])&&!isset($_POST['agenda_properties'])&&isset($_POST['wipeChoice'])){
+			$this->wipe_data();
+		}
+	}
 
 		public function file_to_DB($uploadName,$name){
 			if($uploadName=='professor_csv')
@@ -68,7 +76,8 @@ class AdminManagementController{
 							
 						
 				}
-			}
 
+			}
 		}
-}
+
+	}

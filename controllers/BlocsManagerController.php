@@ -15,26 +15,23 @@ class BlocsManagerController{
 	 * this function decides which function is gonna be called depending on $_POST parameters sent from the view
 	 */
 	public function run(){
-		var_dump($_POST);
-		var_dump($_FILES);
 		if(isset($_SESSION['notificationError']))
-			$_SESSION['notificationError']='';
+			unset($_SESSION['notificationError']);
 		if(isset($_SESSION['notificationSuccess']))
-			$_SESSION['notificationSuccess']='';
-		if(isset($_FILES['lessons_csv'])&&isset($_POST['blocNumber'])){
+			unset($_SESSION['notificationSuccess']);
+		if(isset($_FILES['students_csv']))
+			$this->process_file('students_csv');
+		elseif(isset($_FILES['lessons_csv'])&&isset($_POST['blocNumber']))
 			$this->process_file('lessons_csv');
-		}
-		elseif(isset($_FILES['lessons_csv'])&&!isset($_POST['blocNumber'])){
+		elseif(isset($_FILES['lessons_csv'])&&!isset($_POST['blocNumber']))
 			$_SESSION['notificationError']="Veuillez mentionner un bloc";
-		}
-		if(!isset($_FILES['lessons_csv'])&&isset($_POST['wipeChoice'])){
+		elseif(!isset($_FILES['lessons_csv'])&&isset($_POST['wipeChoice']))
 			$this->wipe_data();
-		}
-		require_once(PATH_VIEW.'blocsManager.php');
-				
+		require_once(PATH_VIEW.'blocsManager.php');	
 	}
 	/*
 	 * necessary to the admin aswell
+	 * wipes out all the data in the DB
 	 */
 	public function wipe_data(){
 		$this->_db->drop_all_data();
@@ -70,6 +67,8 @@ class BlocsManagerController{
 	 * this function returns a pattern for an upcoming preg_match function depending on $uploadName
 	 */
 	public function define_pattern($uploadName){
+		if($uploadName=='students_csv')
+			return "(Bl.*);(.*);(.*);(.*)\n$";
 		return "(.*);(.*);(.*);(.*);(.*);(.*)\n$";
 	}
 
@@ -104,7 +103,12 @@ class BlocsManagerController{
 	 * this function return true if the data is being duplicated and false if it's not
 	 */
 	public function is_being_duplicated($primaryKey, $keyValue){
-		if($primaryKey=='lesson_code'){
+		if($primaryKey=='email_student'){
+			if(!$this->_db->select_student_pk($keyValue)){
+				return false;
+			}
+		}
+		elseif($primaryKey=='lesson_code'){
 			if(!$this->_db->select_lesson_pk($keyValue)){
 				return false;
 			}
@@ -126,6 +130,14 @@ class BlocsManagerController{
 		$nb_lines = count($arrayFile);
 		for($i = 1; $i < $nb_lines; $i++){
 			$line = $arrayFile[$i];
+			if($uploadName=='students_csv'){
+				if(preg_match("/".$pattern."/", $line, $groups))
+					if(!$this->is_being_duplicated('email_student',$groups[4]))
+						$this->_db->insert_student($groups[1], $groups[2], $groups[3], $groups[4]);
+						else
+							$arrayDuplicated[$i]=$groups[4];
+			
+			}
 			if ($uploadName=='lessons_csv'){
 				if(preg_match("/".$pattern."/", $line, $groups))
 					if(!$this->is_being_duplicated('lesson_code',$groups[2]))
@@ -134,7 +146,6 @@ class BlocsManagerController{
 							$arrayDuplicated[$i]=$groups[2];
 			}
 		}
-		var_dump($arrayDuplicated);
 		return $arrayDuplicated;
 
 	}

@@ -10,6 +10,6 @@ class TeacherController{
 
 	function run(){
 
-	echo "Page prof ";
+	echo "Page prof";
 	}
 }
