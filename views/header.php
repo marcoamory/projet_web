@@ -42,11 +42,11 @@
 	         	</ul>
 	        	<?php
 	        } 
-	      	if(isset($_SESSION['responsibility']) AND ($_SESSION['responsibility'] == 'bloc' OR $_SESSION['responsibility'] == 'bloc1' OR $_SESSION['responsibility'] == "bloc2" OR $_SESSION['responsibility'] == 'bloc3')){
+	      	if(isset($_SESSION['responsibility']) AND ($_SESSION['responsibility'] == 'bloc1' OR $_SESSION['responsibility'] == "bloc2" OR $_SESSION['responsibility'] == 'bloc3')){
 	        	?>
 	        	<ul class="nav navbar-nav">
 		            <li><a href="index.php?action=teacher">Prise des présences</a></li>
-		            <li><a href="index.php?action=blocsManager">Gestion <?php echo $_SESSION['responsibility'] ?></a></li>
+		            <li><a href="index.php?action=blocManager">Gestion <?php echo $_SESSION['responsibility'] ?></a></li>
 	         	</ul>
 	         	<?php
 	      	}

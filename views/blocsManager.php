@@ -6,7 +6,7 @@
 					<h3 class="panel-title text-center">Introduire UE/AA</h3>
 				</div>
 				<div class="panel-body">
-					<form enctype="multipart/form-data" action="index.php?action=blocManager" method="post">
+					<form enctype="multipart/form-data" action="index.php?action=blocsManager" method="post">
 						<?php if(isset($_SESSION['responsibility']) AND ($_SESSION['responsibility'] == 'blocs')){ ?>
 							<h6>Bloc numéro :</h6> 
 							<input type="text" name="blocNumber" placeholder="numéro bloc" />

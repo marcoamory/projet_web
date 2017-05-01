@@ -1,7 +1,7 @@
-<?php
+ï»¿<?php
 /*
- * Apparement le nom du fichier "devrait" être obligatoirement nommé programme_blocX pour pouvoir être uploadé ou du moins avoir ce nom là sur le serveur
- * à demander.
+ * Apparement le nom du fichier "devrait" Ãªtre obligatoirement nommÃ© programme_blocX pour pouvoir Ãªtre uploadÃ© ou du moins avoir ce nom là sur le serveur
+ * Ã  demander.
  */
 class BlocsManagerController{
 
@@ -69,9 +69,9 @@ class BlocsManagerController{
 				move_uploaded_file($tmp_name, PATH_CONF.$name);
 				$nbDataDuplicated=sizeof($this->file_to_DB($uploadName,$name,$pattern));
 				if($nbDataDuplicated==0)
-					$_SESSION['notificationSuccess']="Vos données ont bien été traitées";
+					$_SESSION['notificationSuccess']="Vos donnÃ©es ont bien Ã©tÃ© traitÃ©es";
 					else
-						$_SESSION['notificationSuccess']="Vos données ont bien été traitées mais ".$nbDataDuplicated." données étaient déjà présentes";
+						$_SESSION['notificationSuccess']="Vos donnÃ©es ont bien Ã©t traitÃ©es mais ".$nbDataDuplicated." donnÃ©es Ã©taient dÃ©jÃ  prÃ©sentes";
 			}
 			else{
 				$_SESSION['notificationError']="Votre fichier n'est pas compatible";
