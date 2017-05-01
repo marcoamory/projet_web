@@ -113,12 +113,17 @@ class Db{
 		return $result;
 	}
 	
-	public function select_star(){
+	public function select_student_star(){
 		$req = $this->_db->prepare("SELECT * FROM students");
 		$req->execute();
-		$result = $req->fetch();
+		$students_array = array();
+		if ($req->rowcount()!=0) {
+			while ($row = $req->fetch()) {
+				$students_array[] = new Student($row->email_student, $row->first_name, $row->last_name, $row->bloc, $row->serie_number);
+			}
+		}
 		$req->closeCursor();
-		return $result;
+		return $students_array;
 	}
 	
 	public function select_lesson_pk($lesson_code)
@@ -129,6 +134,32 @@ class Db{
 		$req->closeCursor();
 		return $result;
 	}
+	
+	public function select_serie_pk($serie_number,$serie_bloc)
+	{
+		$req = $this->_db->prepare("SELECT * FROM series WHERE serie_number = :serie_number AND serie_bloc = :serie_bloc  ");
+		$req->execute(array("serie_number" => $serie_number,
+							"serie_bloc" => $serie_bloc));
+		$result = $req->fetch();
+		$req->closeCursor();
+		$result = new Serie($result->serie_number,$result->serie_bloc);
+		return $result;
+	}
+	
+	public function select_student_serie($serie_number)
+	{
+		$req = $this->_db->prepare("SELECT * FROM students WHERE serie_number = :serie_number");
+		$req->execute(array("serie_number" => $serie_number));
+		$students_array = array();
+		if ($req->rowcount()!=0) {
+			while ($row = $req->fetch()) {
+				$students_array[] = new Student($row->email_student, $row->first_name, $row->last_name, $row->bloc, $row->serie_number);
+			}
+		}
+		$req->closeCursor();
+		return $students_array;
+	}
+	
 
 	public function select_teacher_pk($email)
 	{
