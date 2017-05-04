@@ -42,11 +42,11 @@ class AdminManagementController{
 			$name=$_FILES[$uploadName]['name'];
 			if($this->is_compatible_file($tmp_name,$name,$uploadName,$pattern)){
 				move_uploaded_file($tmp_name, PATH_CONF.$name);
-				$nbDataDuplicated=sizeof($this->file_to_DB($uploadName,$name,$pattern));
-				if($nbDataDuplicated==0)
-					$_SESSION['notification_success']="Vos données ont bien été traitées";
+				$nbData=$this->file_to_DB($uploadName,$name,$pattern);
+				if($nbData["duplicate"]==0)
+					$_SESSION['notification_success']="Vos données ont bien été traitées [" . $nbData['insert'] . " donnée(s) ajoutée(s)]";
 					else
-						$_SESSION['notification_warning']="Vos données ont bien été traitées mais ".$nbDataDuplicated." donnée(s) étai(en)t déjà présente(s)";
+						$_SESSION['notification_warning']="Vos données ont bien été traitées mais ". $nbData['duplicate'] ." donnée(s) étai(en)t déjà présente(s) [" . $nbData['insert'] ." donnée(s) ajoutée(s)]";
 			}
 			else{
 				$_SESSION['notification_error']="Votre fichier n'est pas compatible";
@@ -108,9 +108,8 @@ class AdminManagementController{
 
 		private function file_to_DB($uploadName,$name,$pattern){
 		$arrayFile = file(PATH_CONF . $name);
-		$arrayDuplicated = array();//contains all data the user tries to duplicate
+		$arrayData = array("duplicate" => 0, "insert" => 0);//contains all data the user tries to duplicate
 		$nb_lines = count($arrayFile);
-		echo $nb_lines;
 		for($i = 1; $i < $nb_lines; $i++){
 			$line = $arrayFile[$i];
 			if(!preg_match("/^$/", $line))
@@ -119,9 +118,11 @@ class AdminManagementController{
 					if(preg_match("/".$pattern."/", $line, $groups))
 						if(!$this->is_being_duplicated('email_teacher',$groups[1])){
 							$this->_db->insert_teacher($groups[1], $groups[3], $groups[2], trim($groups[4]));
+							$arrayData['insert']++;
+
 						}
 							else
-								$arrayDuplicated[$i]=$groups[1];
+								$arrayData["duplicate"]++;
 				
 				}
 				if ($uploadName=='agenda_properties'){
@@ -129,14 +130,16 @@ class AdminManagementController{
 						$date_explode = explode('/', trim($groups[3]));
 						$date = date_create(substr($date_explode[2], 0,4) . "-" . $date_explode[1] . "-" . $date_explode[0]);
 						
-						if(!$this->is_being_duplicated('week_number',intval(substr($groups[2], 7))))
+						if(!$this->is_being_duplicated('week_number',intval(substr($groups[2], 7)))){
 							$this->_db->insert_week(intval(substr($groups[2], 7)), $groups[2],$date->date, $groups[1]);
+							$arrayData['insert']++;
+						}
 							else
-								$arrayDuplicated[$i]= intval(substr($groups[2], 7));
+								$arrayData["duplicate"]++;
 				}
 			}
 		}
-		return $arrayDuplicated;
+		return $arrayData;
 
 	}
 
