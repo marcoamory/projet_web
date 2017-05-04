@@ -15,10 +15,12 @@ class BlocsManagerController{
 	 * this function decides which function is gonna be called depending on $_POST parameters sent from the view
 	 */
 	public function run(){
-		if(isset($_SESSION['notificationError']))
-			unset($_SESSION['notificationError']);
-		if(isset($_SESSION['notificationSuccess']))
-			unset($_SESSION['notificationSuccess']);
+		if(isset($_SESSION['notification_error']))
+			unset($_SESSION['notification_error']);
+		if(isset($_SESSION['notification_success']))
+			unset($_SESSION['notification_success']);
+		if(isset($_SESSION['notification_warning']))
+			unset($_SESSION['notification_warning']);
 		if(isset($_FILES['students_csv']))
 			$this->process_file('students_csv');
 		elseif(isset($_FILES['lessons_csv'])&&isset($_POST['blocNumber']))
@@ -87,12 +89,12 @@ class BlocsManagerController{
 				move_uploaded_file($tmp_name, PATH_CONF.$name);
 				$nbDataDuplicated=sizeof($this->file_to_DB($uploadName,$name,$pattern));
 				if($nbDataDuplicated==0)
-					$_SESSION['notificationSuccess']="Vos données ont bien été traitées";
+					$_SESSION['notification_success']="Vos données ont bien été traitées";
 					else
-						$_SESSION['notificationSuccess']="Vos données ont bien été traitées mais ".$nbDataDuplicated." données étaient déjà présentes";
+						$_SESSION['notification_warning']="Vos données ont bien été traitées mais ".$nbDataDuplicated." données étaient déjà présentes";
 			}
 			else{
-				$_SESSION['notificationError']="Votre fichier n'est pas compatible";
+				$_SESSION['notification_error']="Votre fichier n'est pas compatible";
 			}
 		}
 	}
@@ -132,8 +134,8 @@ class BlocsManagerController{
 			$line = $arrayFile[$i];
 			if($uploadName=='students_csv'){
 				if(preg_match("/".$pattern."/", $line, $groups))
-					if(!$this->is_being_duplicated('email_student',$groups[4]))
-						$this->_db->insert_student($groups[1], $groups[2], $groups[3], $groups[4]);
+					if(!$this->is_being_duplicated('email_student',trim($groups[4])))
+						$this->_db->insert_student($groups[1], $groups[2], $groups[3], trim($groups[4]));
 						else
 							$arrayDuplicated[$i]=$groups[4];
 			

@@ -59,23 +59,43 @@
 			$controller = new TeacherController($db);
 			break;
 		case 'blocManager':
+		if($_SESSION['responsibility'] != "bloc1" && $_SESSION['responsibility'] != "bloc2" && $_SESSION['responsibility'] != "bloc3"){
+				header('Location:index.php?action=teacher');
+				die();
+			}
+		else{
 			require_once(PATH_CONTROLLER . "BlocManagerController.php");
 			$controller = new BlocManagerController($db);
+		}
 			break;
 		case 'blocsManager':
+		if($_SESSION['responsibility'] != "blocs"){
+				header('Location:index.php?action=teacher');
+				die();
+			}
+		else{
 			require_once(PATH_CONTROLLER . "BlocsManagerController.php");
 			$controller = new BlocsManagerController($db);
+		}
+			
 			break;
 		case 'adminManagement' :
-			require_once(PATH_CONTROLLER . "AdminManagementController.php");
-			$controller = new AdminManagementController($db);
+			if($_SESSION['responsibility'] != "true"){
+				header('Location:index.php?action=teacher');
+				die();
+			}
+			else{
+				require_once(PATH_CONTROLLER . "AdminManagementController.php");
+				$controller = new AdminManagementController($db);
+			}
+			
 			break;
 		case 'logout' :
 			require_once(PATH_CONTROLLER . "LogoutController.php");
 			$controller = new LogoutController();
 			break;
 		default :
-			if(isset($_SESSION['responsability']))
+			if(isset($_SESSION['responsibility']))
 			{
 				require_once(PATH_CONTROLLER . "TeacherController.php");
 				$controller = new TeacherController($db);

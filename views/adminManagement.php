@@ -11,7 +11,7 @@
 						<input id="upload_agenda" type="file" name="agenda_properties" required />
 					</div>
 					<div class="panel-footer">
-						<input type="submit" class='btn  btn-success' id="button_upload_agenda" value="Upload" />
+						<input type="submit" class='btn  btn-success upload_button' value="Upload" />
 					</div>
 				</form>
 			</div>
@@ -27,7 +27,7 @@
 							<input id="upload_teacher" type="file" name="professor_csv" required />	
 		  				</div>
 		  				<div class="panel-footer">
-		  					<input type="submit" id="button_upload_teacher" class='btn btn-success' value="Upload" />
+		  					<input type="submit" class='btn btn-success upload_button' value="Upload" />
 		  				</div>
 		  			</form>
 			</div>
@@ -55,22 +55,22 @@
 		</div>
 	</div>
 <?php 
-	if(!empty($_SESSION['notificationSuccess'])){?>
+	if(!empty($_SESSION['notification_success'])){?>
 		<div class="alert alert-success alert-dismissible" role="alert">
 			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-	  	 	 <p><i class="fa fa-check fa-2x" aria-hidden="true"></i> <?php echo $_SESSION['notificationSuccess']?> ! </p>
+	  	 	 <p><i class="fa fa-check fa-2x" aria-hidden="true"></i> <?php echo $_SESSION['notification_success']?> ! </p>
 		 </div>
 	<?php }
-	elseif(!empty($_SESSION['notificationError'])){?>
+	elseif(!empty($_SESSION['notification_error'])){?>
     	<div class="alert alert-danger alert-dismissible" role="alert">
 		  	<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-		   	 <p><i class="fa fa-times fa-2x" aria-hidden="true"></i> <?php echo $_SESSION['notificationError']?> ! </p>
+		   	 <p><i class="fa fa-times fa-2x" aria-hidden="true"></i> <?php echo $_SESSION['notification_error']?> ! </p>
     	</div>
 <?php }
-elseif(!empty($_SESSION['notificationWarning'])){?>
+elseif(!empty($_SESSION['notification_warning'])){?>
     	<div class="alert alert-warning alert-dismissible" role="alert">
 		  	<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-		   	 <p><i class="fa fa-exclamation-triangle fa-2x" aria-hidden="true"></i> <?php echo $_SESSION['notificationWarning']?> ! </p>
+		   	 <p><i class="fa fa-exclamation-triangle fa-2x" aria-hidden="true"></i> <?php echo $_SESSION['notification_warning']?> ! </p>
     	</div>
 <?php } ?>
 </section>

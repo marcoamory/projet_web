@@ -14,9 +14,18 @@
   </div>
   <div class="panel-body">
     <form method="post" action="index.php?action=login">
-      <div class="form-group">
-        <input type="email" class="form-control" id="emailLogin" name='emailLogin' placeholder="Email">
+      <?php if(isset($_GET['message']) AND $_GET['message'] == "error"){ ?>
+      <div class="form-group has-error has-feedback">
+    
+        <input type="email" name='email_login' class="form-control" aria-describedby="inputError2Status" placeholder="Email" required>
+        <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+        <span id="inputError2Status" class="sr-only">(error)</span>
       </div>
+      <?php } else{ ?>
+      <div class="form-group">
+        <input type="email" class="form-control" name='email_login' placeholder="Email" required>
+      </div>
+      <?php } ?>
       <div class="checkbox">
         <label>
           <input type="checkbox"> Se souvenir de moi

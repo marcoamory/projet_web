@@ -1,4 +1,4 @@
-﻿<section class="container-fluid">
+﻿<section id="bloc_manager" class="container-fluid">
 	<div class="row">
 		<?php if(!isset($_SESSION['modify_serie'])){?>
 			<div class="col-md-4">
@@ -104,8 +104,7 @@
 			</div>
 		</div>
 	</div>
-</section>
-<?php 
+	<?php 
 	if(!empty($_SESSION['notification_success'])){?>
 		<div class="alert alert-success alert-dismissible" role="alert">
 			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -117,4 +116,11 @@
 		  	<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 		   	 <p><i class="fa fa-check fa-2x" aria-hidden="true"></i> <?php echo $_SESSION['notification_error']?> ! </p>
     	</div>
-<?php }?>
+<?php }
+elseif(!empty($_SESSION['notification_warning'])){?>
+    	<div class="alert alert-warning alert-dismissible" role="alert">
+		  	<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		   	 <p><i class="fa fa-exclamation-triangle fa-2x" aria-hidden="true"></i> <?php echo $_SESSION['notification_warning']?> ! </p>
+    	</div>
+<?php } ?>
+</section>

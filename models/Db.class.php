@@ -106,7 +106,7 @@ class Db{
 
 	public function select_student_pk($email)
 	{
-		$req = $this->_db->prepare("SELECT * FROM students WHERE email_student =:email_student");
+		$req = $this->_db->prepare("SELECT * FROM students WHERE email_student = :email_student");
 		$req->execute(array("email_student" => $email));
 		$result = $req->fetch();
 		$req->closeCursor();

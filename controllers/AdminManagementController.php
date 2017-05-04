@@ -10,12 +10,12 @@ class AdminManagementController{
 	}
 	function run(){
 
-		if(isset($_SESSION['notificationError']))
-			unset($_SESSION['notificationError']);
-		if(isset($_SESSION['notificationSuccess']))
-			unset($_SESSION['notificationSuccess']);
-		if(isset($_SESSION['notificationWarning'])){
-			unset($_SESSION['notificationWarning']);
+		if(isset($_SESSION['notification_error']))
+			unset($_SESSION['notification_error']);
+		if(isset($_SESSION['notification_success']))
+			unset($_SESSION['notification_success']);
+		if(isset($_SESSION['notification_warning'])){
+			unset($_SESSION['notification_warning']);
 		}
 		$this->process_file('professor_csv');
 		$this->process_file('agenda_properties');
@@ -44,12 +44,12 @@ class AdminManagementController{
 				move_uploaded_file($tmp_name, PATH_CONF.$name);
 				$nbDataDuplicated=sizeof($this->file_to_DB($uploadName,$name,$pattern));
 				if($nbDataDuplicated==0)
-					$_SESSION['notificationSuccess']="Vos données ont bien été traitées";
+					$_SESSION['notification_success']="Vos données ont bien été traitées";
 					else
-						$_SESSION['notificationWarning']="Vos données ont bien été traitées mais ".$nbDataDuplicated." donnée(s) étai(en)t déjà présente(s)";
+						$_SESSION['notification_warning']="Vos données ont bien été traitées mais ".$nbDataDuplicated." donnée(s) étai(en)t déjà présente(s)";
 			}
 			else{
-				$_SESSION['notificationError']="Votre fichier n'est pas compatible";
+				$_SESSION['notification_error']="Votre fichier n'est pas compatible";
 			}
 		}
 	}
@@ -74,8 +74,8 @@ class AdminManagementController{
 	 */
 	private function define_pattern($uploadName){
 		if($uploadName=='professor_csv')
-			return "(.*);(.*);(.*);(.*)\n$";
-		return "(.*)_(.*)=(.*)\n$";
+			return "(.*);(.*);(.*);(.*)$";
+		return "(.*)_(.*)=(.*)$";
 	}
 
 	/*
@@ -128,7 +128,7 @@ class AdminManagementController{
 					if(preg_match("/".$pattern."/", $line, $groups))
 						$date_explode = explode('/', trim($groups[3]));
 						$date = date_create(substr($date_explode[2], 0,4) . "-" . $date_explode[1] . "-" . $date_explode[0]);
-						var_dump($groups);
+						
 						if(!$this->is_being_duplicated('week_number',intval(substr($groups[2], 7))))
 							$this->_db->insert_week(intval(substr($groups[2], 7)), $groups[2],$date->date, $groups[1]);
 							else

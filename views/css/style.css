@@ -37,7 +37,7 @@ nav #logout_button
 	margin-bottom: 10px;
 }
 
-#button_upload_teacher, #button_upload_agenda
+.upload_button
 {
 	width: 100%;
 }
@@ -46,6 +46,20 @@ nav #logout_button
 
 .upload{
 	margin:10px;
+}
+
+/*BLOCS PAGE*/
+
+#blocs_manager
+{
+	width: 70%;
+}
+
+/*BLOC PAGE*/
+
+#bloc_manager
+{
+	width: 70%;
 }
 
 

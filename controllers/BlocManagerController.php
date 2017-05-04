@@ -18,6 +18,8 @@ class BlocManagerController{
 			unset($_SESSION['notification_error']);
 		if(isset($_SESSION['notification_success']))
 			unset($_SESSION['notification_success']);
+		if(isset($_SESSION['notification_warning']))
+			unset($_SESSION['notification_warning']);
 		if(isset($_POST['nb_series'])){
 			if(empty($_POST['nb_series']))
 				$_SESSION['notification_error']="Entrez combien de séries vous désirez";
@@ -152,7 +154,7 @@ class BlocManagerController{
 				if($nbDataDuplicated==0)
 					$_SESSION['notification_success']="Vos données ont bien été traitées";
 				else 
-					$_SESSION['notification_success']="Vos données ont bien été traitées mais ".$nbDataDuplicated." données étaient déjà présentes";
+					$_SESSION['notification_warning']="Vos données ont bien été traitées mais ".$nbDataDuplicated." données étaient déjà présentes";
 			}
 			else{
 				$_SESSION['notification_error']="Votre fichier n'est pas compatible";
