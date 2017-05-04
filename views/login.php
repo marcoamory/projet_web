@@ -19,10 +19,10 @@
       </div>
       <div class="checkbox">
         <label>
-          <input type="checkbox"> Rester connecter
+          <input type="checkbox"> Rester connectés
         </label>
       </div>
-      <button type="submit" class="btn btn-success" id='button_connexion'>Se connecter</button>
+      <button type="submit" class="btn btn-success" id='button_connexion'>Se connecter</button> 
     </form>
   </div>
 </div>
