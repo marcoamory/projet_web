@@ -17,6 +17,10 @@ class AdminManagementController{
 		if(isset($_SESSION['notification_warning'])){
 			unset($_SESSION['notification_warning']);
 		}
+
+		if(isset($_POST["wipeChoice"])){
+			$this->wipe_data();
+		}
 		$this->process_file('professor_csv');
 		$this->process_file('agenda_properties');
 
@@ -127,11 +131,11 @@ class AdminManagementController{
 				}
 				if ($uploadName=='agenda_properties'){
 					if(preg_match("/".$pattern."/", $line, $groups))
-						$date_explode = explode('/', trim($groups[3]));
-						$date = date_create(substr($date_explode[2], 0,4) . "-" . $date_explode[1] . "-" . $date_explode[0]);
 						
 						if(!$this->is_being_duplicated('week_number',intval(substr($groups[2], 7)))){
-							$this->_db->insert_week(intval(substr($groups[2], 7)), $groups[2],$date->date, $groups[1]);
+							$date_explode = explode('/', trim($groups[3]));
+							$date_obj = date_create(substr($date_explode[2], 0,4) . "-" . $date_explode[1] . "-" . $date_explode[0]);
+							$this->_db->insert_week(intval(substr($groups[2], 7)), $groups[2], $date_obj->format('Y-m-d'), $groups[1]);
 							$arrayData['insert']++;
 						}
 							else
