@@ -46,10 +46,9 @@ class LoginController{
 			else
 			{
 				//Searching email in teachers table
-				$teacherSearch = $this->_db->select_teacher_pk($emailLogin);
+				$teacher = $this->_db->select_teacher_pk($emailLogin);
 
-				if(!empty($teacherSearch)){
-					$teacher = new Teacher($teacherSearch->email_teacher, $teacherSearch->first_name, $teacherSearch->last_name, $teacherSearch->responsibility);
+				if(!empty($teacher)){
 
 					$_SESSION['email'] = $teacher->getEmail();
 					$_SESSION['first_name'] = $teacher->getFirstName();

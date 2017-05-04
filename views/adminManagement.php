@@ -42,34 +42,6 @@
 				</div>
 				<div class="panel-body">
 					<form action="index.php?action=adminManagement" method="post">
-						<?php 
-						/*
-						<h4 class="text-center">
-							Etudiants
-							<input type="radio" name="wipeChoice" value="students" />
-						</h4>
-						<h4 class="text-center">
-							Présences
-							<input type="radio" name="wipeChoice" value="presences" />
-						</h4>
-						<h4 class="text-center">
-							Séries
-							<input type="radio" name="wipeChoice" value="serie" />
-						</h4>
-						<h4 class="text-center">
-							UE/AA
-							<input type="radio" name="wipeChoice" value="lessons" />
-						</h4>
-						<h4 class="text-center">
-							Professeurs
-							<input type="radio" name="wipeChoice" value="teachers" />
-						</h4>
-						<h4 class="text-center">
-							Agenda
-							<input type="radio" name="wipeChoice" value="agenda" />
-						</h4>
-						*/
-						?>
 						<h4 class="text-center">
 							Carwash
 							<input type="radio" name="wipeChoice" value="total" />
@@ -82,5 +54,23 @@
 			</div>
 		</div>
 	</div>
-
+<?php 
+	if(!empty($_SESSION['notificationSuccess'])){?>
+		<div class="alert alert-success alert-dismissible" role="alert">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	  	 	 <p><i class="fa fa-check fa-2x" aria-hidden="true"></i> <?php echo $_SESSION['notificationSuccess']?> ! </p>
+		 </div>
+	<?php }
+	elseif(!empty($_SESSION['notificationError'])){?>
+    	<div class="alert alert-danger alert-dismissible" role="alert">
+		  	<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		   	 <p><i class="fa fa-times fa-2x" aria-hidden="true"></i> <?php echo $_SESSION['notificationError']?> ! </p>
+    	</div>
+<?php }
+elseif(!empty($_SESSION['notificationWarning'])){?>
+    	<div class="alert alert-warning alert-dismissible" role="alert">
+		  	<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		   	 <p><i class="fa fa-exclamation-triangle fa-2x" aria-hidden="true"></i> <?php echo $_SESSION['notificationWarning']?> ! </p>
+    	</div>
+<?php } ?>
 </section>

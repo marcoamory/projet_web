@@ -35,7 +35,7 @@ class Db{
 									DELETE FROM sessions;
 									DELETE FROM series;
 									DELETE FROM students;
-									DELETE FROM teachers;
+									DELETE FROM teachers WHERE responsibility != "true";
 									DELETE FROM weeks;
 									DELETE FROM lessons;');
 		$req->execute();
@@ -165,6 +165,18 @@ class Db{
 	{
 		$req = $this->_db->prepare("SELECT email_teacher, first_name, last_name, responsibility FROM teachers WHERE email_teacher = :email_teacher");
 		$req->execute(array("email_teacher" => $email));
+		$result = $req->fetch();
+		$req->closeCursor();
+		if(!empty($result)){
+			$result = new Teacher($result->email_teacher,$result->first_name, $result->last_name, $result->responsibility);
+		}
+		return $result;
+	}
+
+	public function select_week_pk($week_number)
+	{
+		$req = $this->_db->prepare("SELECT * FROM weeks WHERE week_number = :week_number");
+		$req->execute(array("week_number" => $week_number));
 		$result = $req->fetch();
 		$req->closeCursor();
 		return $result;

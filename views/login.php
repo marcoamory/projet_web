@@ -19,7 +19,7 @@
       </div>
       <div class="checkbox">
         <label>
-          <input type="checkbox"> Rester connectés
+          <input type="checkbox"> Se souvenir de moi
         </label>
       </div>
       <button type="submit" class="btn btn-success" id='button_connexion'>Se connecter</button> 
