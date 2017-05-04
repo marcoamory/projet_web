@@ -41,6 +41,12 @@ class Db{
 		$req->execute();
 	}
 	
+	public function drop_serie_pk($serie_number,$serie_bloc)
+	{
+		$req = $this->_db->prepare('DELETE FROM series where serie_number=:serie_number and serie_bloc=:serie_bloc');
+		$req->execute(array('serie_bloc' => $serie_bloc,
+							'serie_number' => $serie_number));
+	}
 	public function insert_week($week_number, $name, $monday_date, $quadri)
 	{
 		$req = $this->_db->prepare('INSERT INTO weeks (week_number, name, monday_date, quadri) VALUES (:week_number, :name, :monday_date, :quadri)');
@@ -83,14 +89,27 @@ class Db{
 							'abbreviation' => $abbreviation));
 	}
 	
-	public function insert_serie($number_serie,$bloc)
+	public function insert_serie($serie_number,$bloc)
 	{
 		/*here the primary key cannot be automaticaly incremented since the primary key is number and bloc binded together 
 		 *ie:serie1,bloc1 / serie1,bloc2
 		 */
-		$req = $this->_db->prepare('INSERT INTO series (number_serie,bloc) VALUES (:number_serie, :bloc)');
-		$req->execute(array('number_serie' => $number_serie,
-							'bloc' => $bloc));
+		$req = $this->_db->prepare('INSERT INTO series (serie_number,serie_bloc) VALUES (:serie_number, :serie_bloc)');
+		$req->execute(array('serie_number' => $serie_number,
+							'serie_bloc' => $bloc));
+	}
+	
+	public function count_serie($serie_bloc){
+		$req = $this->_db->prepare("SELECT count(*) as total from series where serie_bloc =:serie_bloc");
+		$req->execute(array('serie_bloc' => $serie_bloc));
+		$result=$req->fetch();
+		$req->closeCursor();
+		return intval(substr($result->total,0,strlen($result->total)));
+	}
+	
+	public function update_serie_student($serie_number){
+		$req = $this->_db->prepare("UPDATE students SET serie_number=null WHERE serie_number=:serie_number");
+		$req->execute(array('serie_number' => $serie_number));
 	}
 	
 	/*

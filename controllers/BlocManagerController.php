@@ -30,7 +30,7 @@ class BlocManagerController{
 			if(empty($_POST['delete_serie'])||empty($_POST['bloc_serie_delete']))
 				$_SESSION['notification_error']="Entrez une série à supprimer et son bloc correspondant";
 			else
-				$this->delete_series();
+				$this->delete_serie();
 		}
 		if(isset($_FILES['lessons_csv'])){
 			if($_FILES['lessons_csv']['size']==0)
@@ -78,26 +78,27 @@ class BlocManagerController{
 	}
 	
 	public function delete_serie(){
-		
+		if(!$this->_db->select_serie_pk($_POST['delete_serie'],$_POST['bloc_serie_delete']))
+			$_SESSION['notification_error']="Cette série n'existe pas";
+		else {
+			$_SESSION['notification_success']="la série a bien été supprimée, ses éventuels élèves sont désormais orphelins";
+			$this->_db->update_serie_pk($_POST['delete_serie']);
+			$this->_db->drop_serie_pk($_POST['delete_serie'],$_POST['bloc_serie_delete']);
+		}
 	}
 	
 	public function create_series(){
 		$nb_series=intval($_POST['nb_series']);
-		$nb_students=sizeof($students_array);
 		$students_array=$this->_db->select_student_star();
+		$nb_students=sizeof($students_array);
 		if(empty($students_array)||$nb_students<$nb_series)
 			$_SESSION['notification_error']="Pas ou pas assez d'étudiants dans la base de donnée";
-		/*
-		 * il faudrait permettre de choisir une série dans la vue et d'afficher les étudiants présents dans cette série et pouvoir modifier
-		 * facilement ces données
-		 */
 		else {
-			for($i = 0; $i < $nb_students ; $i++){
-				for($i = 0; $i < $nb_students/$nb_series ; $i++){
-	
-					/*
-					 * répartir les étudiants dans les séries
-					 */;
+			if($this->_db->count_serie(intval(substr($_SESSION['responsibility'],4,1)))>0)
+				$_SESSION['notification_warning']="Les séries du ". $_SESSION['responsibility']. " ont déjà été introduites";
+			else{
+				for($i = 1; $i <= $nb_series ; $i++){
+					$this->_db->insert_serie($i,intval(substr($_SESSION['responsibility'],4,1)));
 				}
 			}
 		}
