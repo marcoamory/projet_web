@@ -40,17 +40,17 @@
 				<div class="panel-heading">
 					<h3 class="panel-title text-center">Nettoyer les données annuelles</h3>
 				</div>
-				<div class="panel-body">
-					<form action="index.php?action=adminManagement" method="post">
+				<form action="index.php?action=adminManagement" method="post">
+					<div class="panel-body">
 						<h4 class="text-center">
 							Carwash
 							<input type="radio" name="wipeChoice" value="total" />
 						</h4>
-						<div class="text-center">
-							<input type="submit" class="btn btn-danger" value="Nettoyer la sélection" />
-						</div>
-					</form>
-		  		</div>
+					</div>
+					<div class="panel-footer text-center">
+						<input type="submit" class="btn btn-danger" value="Nettoyer la sélection" />
+					</div>
+				</form>
 			</div>
 		</div>
 	</div>
