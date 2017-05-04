@@ -13,16 +13,6 @@ class AdminManagementController{
 		$this->process_file('professor_csv');
 		$this->process_file('agenda_properties');
 
-		if(isset($_POST['delete_teacher']))
-		{
-			$this->_db->delete_teacher();
-		}
-
-		if(isset($_POST['delete_agenda']))
-		{
-			$this->_db->delete_agenda();
-		}
-
 
 		require_once(PATH_VIEW.'adminManagement.php');
 

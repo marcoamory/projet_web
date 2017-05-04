@@ -5,36 +5,15 @@
 		  		<div class="panel-heading">
 		   			 <h3 class="panel-title text-center">Agenda de l'année</h3>
 		  		</div>
-		  		<div class="panel-body">
-		   			 <form enctype="multipart/form-data" action="index.php?action=adminManagement" method="post">
+		  		<form enctype="multipart/form-data" action="index.php?action=adminManagement" method="post">
+		  			<div class="panel-body">
 						<input type="hidden" name="MAX_FILE_SIZE" value="1000000000000" />
 						<input id="upload_agenda" type="file" name="agenda_properties" required />
-						<input type="submit" class='btn  btn-success' id="button_upload_agenda" value="Upload" />
-					</form>
-		  		</div>
-		  		 <div class="panel-footer">
-		  		 	<button type="button" class="btn btn-danger" id='delete_agenda' data-toggle="modal" data-target="#myModal2">Supprimer l'agenda</button>
-		  		 	<!-- Button trigger modal -->
-					<!-- Modal -->
-					<div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-					  <div class="modal-dialog" role="document">
-					    <div class="modal-content">
-					      <div class="modal-header">
-					        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-					        <h4 class="modal-title" id="myModalLabel">Supprimer l'agenda</h4>
-					      </div>
-					      <div class="modal-body">
-					       Cette action entrainera la suppression de l'entiereté de l'agenda. Attention, cette action est irréversible !
-					      </div>
-					      <div class="modal-footer">
-					      	<form action='index.php?action=adminManagement' method="post">
-					        <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
-					        <input type="submit" class="btn btn-danger" name="delete_agenda" value="Supprimer"/>
-					      </div>
-					    </div>
-					  </div>
 					</div>
-		  		 </div>
+					<div class="panel-footer">
+						<input type="submit" class='btn  btn-success' id="button_upload_agenda" value="Upload" />
+					</div>
+				</form>
 			</div>
 		</div>
 		<div class="col-md-6">
@@ -42,36 +21,15 @@
 		  			<div class="panel-heading">
 		   				 <h3 class="panel-title text-center">Professeurs</h3>
 		  			</div>
-		  		<div class="panel-body">
-		   			 <form enctype="multipart/form-data" action="index.php?action=adminManagement" method="post">
-						<input type="hidden" name="MAX_FILE_SIZE" value="1000000000000" />
-						<input id="upload_teacher" type="file" name="professor_csv" required />
-						<input type="submit" id="button_upload_teacher" class='btn btn-success' value="Upload" />
-					</form>
-		  		</div>
-		  		<div class="panel-footer">
-		  		 	<button type="button" class="btn btn-danger" id="delete_teacher" data-toggle="modal" data-target="#myModal">Supprimer les professeurs</button>
-		  		 	<!-- Button trigger modal -->
-					<!-- Modal -->
-					<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-					  <div class="modal-dialog" role="document">
-					    <div class="modal-content">
-					      <div class="modal-header">
-					        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-					        <h4 class="modal-title" id="myModalLabel">Supprimer les professeurs</h4>
-					      </div>
-					      <div class="modal-body">
-					       Cette action entrainera la suppression de l'entiereté des professeurs de l'année à l'exception des administrateurs. Attention, cette action est irréversible !
-					      </div>
-					      <div class="modal-footer">
-					      	<form action='index.php?action=adminManagement' method="post">
-					        <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
-					        <input type="submit" class="btn btn-danger" name="delete_teacher" value="Supprimer"/>
-					      </div>
-					    </div>
-					  </div>
-					</div>
-		  		 </div>
+		  			 <form enctype="multipart/form-data" action="index.php?action=adminManagement" method="post">
+		  				<div class="panel-body">
+							<input type="hidden" name="MAX_FILE_SIZE" value="1000000000000" />
+							<input id="upload_teacher" type="file" name="professor_csv" required />	
+		  				</div>
+		  				<div class="panel-footer">
+		  					<input type="submit" id="button_upload_teacher" class='btn btn-success' value="Upload" />
+		  				</div>
+		  			</form>
 			</div>
 		</div>
 	</div>

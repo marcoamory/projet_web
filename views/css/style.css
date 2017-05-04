@@ -8,7 +8,7 @@ nav #logout_button
 /*LOGIN PAGE */
 #login
 {
-	width: 70%;
+	width: 50%;
 	margin:auto;
 }
 
@@ -20,7 +20,7 @@ nav #logout_button
 
 #login form
 {
-	width: 70%;
+	width: 90%;
 	margin:auto;
 }
 
@@ -37,7 +37,7 @@ nav #logout_button
 	margin-bottom: 10px;
 }
 
-#button_upload_teacher
+#button_upload_teacher, #button_upload_agenda
 {
 	width: 100%;
 }

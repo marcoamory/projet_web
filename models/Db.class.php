@@ -170,18 +170,5 @@ class Db{
 		return $result;
 	}
 
-
-	public function delete_teacher()
-	{
-		$req = $this->_db->prepare('DELETE FROM teachers WHERE responsibility != :responsibility');
-		$req->execute(array('responsibility' => 'true'));
-
-	}
-
-	public function delete_agenda()
-	{
-		$req = $this->_db->prepare('DELETE FROM weeks');
-		$req->execute();
-	}
 }
 ?>
