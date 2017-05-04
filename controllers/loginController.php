@@ -24,7 +24,7 @@ class LoginController{
 			$studentSearch = $this->_db->select_student_pk($email_login);
 			
 			if(!empty($studentSearch)){
-				$student = new Student($result->email_student, $result->first_name, $result->last_name, $result->bloc, $result->serie_number);
+				$student = new Student($studentSearch->email_student, $studentSearch->first_name, $studentSearch->last_name, $studentSearch->bloc, $studentSearch->serie_number);
 				$_SESSION['email'] = $student->getEmail();
 				$_SESSION['first_name'] = $student->getFirstName();
 				$_SESSION['last_name'] = $student->getLastName();
