@@ -49,6 +49,29 @@
 						<input type="submit" class='btn btn-success' value="Upload" />
 					</form>
 		  		</div>
+		  		<div class="panel-footer">
+		  		 	<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal">Supprimer les professeurs</button>
+		  		 	<!-- Button trigger modal -->
+					<!-- Modal -->
+					<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+					  <div class="modal-dialog" role="document">
+					    <div class="modal-content">
+					      <div class="modal-header">
+					        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					        <h4 class="modal-title" id="myModalLabel">Supprimer les professeurs</h4>
+					      </div>
+					      <div class="modal-body">
+					       Cette action entrainera la suppression de l'entiereté des professeurs de l'année à l'exception des administrateurs. Attention, cette action est irréversible !
+					      </div>
+					      <div class="modal-footer">
+					      	<form action='index.php?action=adminManagement' method="post">
+					        <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+					        <input type="submit" class="btn btn-danger" name="deleteTeacher" value="Supprimer"/>
+					      </div>
+					    </div>
+					  </div>
+					</div>
+		  		 </div>
 			</div>
 		</div>
 	</div>
@@ -94,7 +117,7 @@
 							<input type="radio" name="wipeChoice" value="total" />
 						</h4>
 						<div class="text-center">
-							<input type="submit" value="Nettoyer la sélection" />
+							<input type="submit" class="btn btn-danger" value="Nettoyer la sélection" />
 						</div>
 					</form>
 		  		</div>
