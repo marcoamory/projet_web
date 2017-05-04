@@ -8,12 +8,12 @@
 		  		<div class="panel-body">
 		   			 <form enctype="multipart/form-data" action="index.php?action=adminManagement" method="post">
 						<input type="hidden" name="MAX_FILE_SIZE" value="1000000000000" />
-						<input id="upload" type="file" name="agenda_properties" required />
-						<input type="submit" class='btn  btn-success' value="Upload" />
+						<input id="upload_agenda" type="file" name="agenda_properties" required />
+						<input type="submit" class='btn  btn-success' id="button_upload_agenda" value="Upload" />
 					</form>
 		  		</div>
 		  		 <div class="panel-footer">
-		  		 	<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal2">Supprimer l'agenda</button>
+		  		 	<button type="button" class="btn btn-danger" id='delete_agenda' data-toggle="modal" data-target="#myModal2">Supprimer l'agenda</button>
 		  		 	<!-- Button trigger modal -->
 					<!-- Modal -->
 					<div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -29,7 +29,7 @@
 					      <div class="modal-footer">
 					      	<form action='index.php?action=adminManagement' method="post">
 					        <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
-					        <input type="submit" class="btn btn-danger" name="deleteAgenda" value="Supprimer"/>
+					        <input type="submit" class="btn btn-danger" name="delete_agenda" value="Supprimer"/>
 					      </div>
 					    </div>
 					  </div>
@@ -45,12 +45,12 @@
 		  		<div class="panel-body">
 		   			 <form enctype="multipart/form-data" action="index.php?action=adminManagement" method="post">
 						<input type="hidden" name="MAX_FILE_SIZE" value="1000000000000" />
-						<input id="upload" type="file" name="professor_csv" required />
-						<input type="submit" class='btn btn-success' value="Upload" />
+						<input id="upload_teacher" type="file" name="professor_csv" required />
+						<input type="submit" id="button_upload_teacher" class='btn btn-success' value="Upload" />
 					</form>
 		  		</div>
 		  		<div class="panel-footer">
-		  		 	<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal">Supprimer les professeurs</button>
+		  		 	<button type="button" class="btn btn-danger" id="delete_teacher" data-toggle="modal" data-target="#myModal">Supprimer les professeurs</button>
 		  		 	<!-- Button trigger modal -->
 					<!-- Modal -->
 					<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -66,7 +66,7 @@
 					      <div class="modal-footer">
 					      	<form action='index.php?action=adminManagement' method="post">
 					        <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
-					        <input type="submit" class="btn btn-danger" name="deleteTeacher" value="Supprimer"/>
+					        <input type="submit" class="btn btn-danger" name="delete_teacher" value="Supprimer"/>
 					      </div>
 					    </div>
 					  </div>

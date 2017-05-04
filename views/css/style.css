@@ -32,9 +32,22 @@ nav #logout_button
 	margin:auto;
 }
 
+#upload_teacher, #upload_agenda
+{
+	margin-bottom: 10px;
+}
+
+#button_upload_teacher
+{
+	width: 100%;
+}
+
+
+
 .upload{
 	margin:10px;
 }
+
 
 
 
