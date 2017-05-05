@@ -20,6 +20,7 @@ class AdminManagementController{
 
 		if(isset($_POST["wipeChoice"])){
 			$this->wipe_data();
+			$_SESSION['notification_success'] = "Toutes les données ont été réinitialisées";
 		}
 		$this->process_file('professor_csv');
 		$this->process_file('agenda_properties');
