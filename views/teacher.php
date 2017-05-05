@@ -1,7 +1,13 @@
 <section id='teacher_view' class="container-fluid">
+<span id=#top></span>
 <div class="row">
-	<div class="panel panel-default">
-	  <div class="panel-body">
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<div class="panel-title text-center">
+				<h4>Présences au cours <?php if(isset($lesson) AND !empty($lesson)) echo '"' . $lesson .'"';?> du <?php echo date("d/m/Y"); ?></h4>
+			</div>
+		</div>
+	 	<div class="panel-body">
 	    	<form method="post" action="index.php?action=teacher">
 	    		<div class="col-md-6 col-md-offset-2">
 	    			<select name='bloc' class="form-control">
@@ -20,7 +26,7 @@
 </div>
 <?php if((isset($series) AND !empty($series)) OR (isset($serie))){ ?>
 <div class="row">
-	<div class="panel panel-default">
+	<div class="panel panel-primary">
 	  <div class="panel-body">
 	    	<form method="post" action="index.php?action=teacher">
 	    		<div class="col-md-3 col-md-offset-2">
@@ -56,6 +62,7 @@
 	  			<th>Bloc</th>
 	  			<th>Serie</th>
 	  			<th>Présences</th>
+	  			<th>Notes</th>
 	  		</tr>
 	  		<?php for($i = 0; $i<count($students); $i++) { ?>
 	  		<tr>
@@ -64,40 +71,48 @@
 	  			<td><?php echo $students[$i]->getFirstName(); ?> </td>
 	  			<td><?php echo $students[$i]->getBloc(); ?> </td>
 	  			<td><?php echo $students[$i]->getSerie(); ?> </td>
-	  			<td><div class="btn-group" data-toggle="buttons" id="inputBlocSelect">
+	  			<td><div class="btn-group" data-toggle="buttons">
 						<label class="btn btn-default btn-sm">
-							<input type="radio" name="presence" value="present">Present(e)
+							<input type="radio" name="presence<?php echo $i;?>" value="present">Present(e)
 						</label>
 						<label class="btn btn-default btn-sm">
-							<input type="radio" name="presence" value="absent">Absent(e)
+							<input type="radio" name="presence<?php echo $i;?>" value="absent">Absent(e)
 						</label>
 						<label class="btn btn-default btn-sm">
-							<input type="radio" name="presence" value="passif">Passif
+							<input type="radio" name="presence<?php echo $i;?>" value="passif">Passif
 						</label>
 				</div>
-				<div class="btn-group" data-toggle="buttons" id="inputNoteSelect">
+				</td>
+				<td>
+				<div class="btn-group" data-toggle="buttons">
 						<label class="btn btn-primary btn-sm">
-							<input type="radio" name="note" value="0">0
+							<input type="radio" name="note<?php echo $i;?>" value="0">0
 						</label>
 						<label class="btn btn-primary btn-sm">
-							<input type="radio" name="note" value="1">1
+							<input type="radio" name="note<?php echo $i;?>" value="1">1
 						</label>
 						<label class="btn btn-primary btn-sm">
-							<input type="radio" name="note" value="2">2
+							<input type="radio" name="note<?php echo $i;?>" value="2">2
 						</label>
 						<label class="btn btn-primary btn-sm">
-							<input type="radio" name="note" value="3">3
+							<input type="radio" name="note<?php echo $i;?>" value="3">3
 						</label>
 						<label class="btn btn-primary btn-sm">
-							<input type="radio" name="note" value="4">4
+							<input type="radio" name="note<?php echo $i;?>" value="4">4
 						</label>
 						<label class="btn btn-primary btn-sm">
-							<input type="radio" name="note" value="5">5
+							<input type="radio" name="note<?php echo $i;?>" value="5">5
 						</label>
 				</div></td>
 	  		</tr>
 	  		<?php } ?>
 		</table>
+		<div class="col-md-2 col-md-offset-7 text-right">
+			<a class="btn btn-primary" href="#top">Remonter <i class="fa fa-arrow-up" aria-hidden="true"></i> </a>
+		</div>
+		<div class="col-md-1">
+			<button type="submit" class="btn btn-success">Enregistrer <i class='fa fa-floppy-o' aria-hidden='true'></i></button> 
+		</div>
 	</form>
 </div>
 <?php } ?> 
