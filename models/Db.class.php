@@ -107,9 +107,16 @@ class Db{
 		return intval(substr($result->total,0,strlen($result->total)));
 	}
 	
-	public function update_serie_student($serie_number){
+	public function update_student_serie_null($serie_number){
 		$req = $this->_db->prepare("UPDATE students SET serie_number=null WHERE serie_number=:serie_number");
 		$req->execute(array('serie_number' => $serie_number));
+	}
+	
+	public function update_serie_student($serie_number,$email_student){
+		var_dump("on update la série de $email_student à $serie_number");
+		$req = $this->_db->prepare("UPDATE students SET serie_number=:serie_number WHERE email_student=:email_student");
+		$req->execute(array('serie_number' => $serie_number,
+							'email_student' => $email_student));
 	}
 	
 	/*
@@ -130,6 +137,19 @@ class Db{
 		$result = $req->fetch();
 		$req->closeCursor();
 		return $result;
+	}
+	
+	public function select_student_bloc($bloc){
+		$req = $this->_db->prepare("SELECT * FROM students where lower(bloc)=:bloc");
+		$req->execute(array('bloc' => $bloc));
+		$students_array = array();
+		if ($req->rowcount()!=0) {
+			while ($row = $req->fetch()) {
+				$students_array[] = new Student($row->email_student, $row->first_name, $row->last_name, $row->bloc, $row->serie_number);
+			}
+		}
+		$req->closeCursor();
+		return $students_array;
 	}
 	
 	public function select_student_star(){
