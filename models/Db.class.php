@@ -28,7 +28,6 @@ class Db{
 	 */
 	public function drop_all_data()
 	{
-	
 		$req = $this->_db->prepare('DELETE FROM presence_sheets;
 									DELETE FROM presences;
 									DELETE FROM sessions_series;
@@ -87,6 +86,7 @@ class Db{
 							'type' => $type,
 							'credits' => $credits,
 							'abbreviation' => $abbreviation));
+		var_dump($credits);
 	}
 	
 	public function insert_serie($serie_number,$bloc)
@@ -99,9 +99,17 @@ class Db{
 							'serie_bloc' => $bloc));
 	}
 	
-	public function count_serie($serie_bloc){
+	public function count_serie_by_serie_bloc($serie_bloc){
 		$req = $this->_db->prepare("SELECT count(*) as total from series where serie_bloc =:serie_bloc");
 		$req->execute(array('serie_bloc' => $serie_bloc));
+		$result=$req->fetch();
+		$req->closeCursor();
+		return intval(substr($result->total,0,strlen($result->total)));
+	}
+	
+	public function count_serie_by_serie_number($serie_number){
+		$req = $this->_db->prepare("SELECT count(*) as total from series where serie_number =:serie_number");
+		$req->execute(array('serie_number' => $serie_number));
 		$result=$req->fetch();
 		$req->closeCursor();
 		return intval(substr($result->total,0,strlen($result->total)));
@@ -198,10 +206,11 @@ class Db{
 		return $result;
 	}
 	
-	public function select_student_serie($serie_number)
+	public function select_student_serie($serie_number,$serie_bloc)
 	{
-		$req = $this->_db->prepare("SELECT * FROM students WHERE serie_number = :serie_number");
-		$req->execute(array("serie_number" => $serie_number));
+		$req = $this->_db->prepare("SELECT * FROM students WHERE serie_number = :serie_number and bloc = :bloc");
+		$req->execute(array("serie_number" => $serie_number,
+							"bloc" => $serie_bloc));
 		$students_array = array();
 		if ($req->rowcount()!=0) {
 			while ($row = $req->fetch()) {

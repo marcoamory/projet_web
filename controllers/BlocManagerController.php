@@ -20,58 +20,58 @@ class BlocManagerController{
 			unset($_SESSION['notification_success']);
 		if(isset($_SESSION['notification_warning']))
 			unset($_SESSION['notification_warning']);
-		if(isset($_POST['nb_series'])){
+		var_dump($_POST);
+		if(isset($_POST['new_serie']))
+			$this->modify_serie();
+		if((isset($_POST['modify_serie'])&&isset($_POST['bloc_serie_modify']))){
+			var_dump($_POST);
+			if((empty($_POST['modify_serie'])||empty($_POST['bloc_serie_modify']))){
+				$_SESSION['notification_error']="Entrez une série à modifier et son bloc correspondant";
+				require_once(PATH_VIEW.'blocManager.php');
+			}
+			else{
+				$serie=$this->_db->select_serie_pk($_POST['modify_serie'],'bloc'.$_POST['bloc_serie_modify']);
+				$students_array=$this->_db->select_student_serie($serie->get_number(),$_SESSION['responsibility']);
+				require_once(PATH_VIEW.'modifySerie.php');
+			}
+		}
+		elseif(isset($_POST['nb_series'])){
 			if(empty($_POST['nb_series']))
 				$_SESSION['notification_error']="Entrez combien de séries vous désirez";
 			else 
 				$this->create_series();
+			require_once(PATH_VIEW.'blocManager.php');
 		}
-		if(isset($_POST['delete_serie'])&&isset($_POST['bloc_serie_delete'])){
+		elseif(isset($_POST['delete_serie'])&&isset($_POST['bloc_serie_delete'])){
 			if(empty($_POST['delete_serie'])||empty($_POST['bloc_serie_delete']))
 				$_SESSION['notification_error']="Entrez une série à supprimer et son bloc correspondant";
 			else
 				$this->delete_serie();
+			require_once(PATH_VIEW.'blocManager.php');
 		}
-		if(isset($_FILES['lessons_csv'])){
+		elseif(isset($_FILES['lessons_csv'])){
 			if($_FILES['lessons_csv']['size']==0)
 				$_SESSION['notification_error']="Choisissez un fichier à uploader";
 			else
 				$this->process_file('lessons_csv');
+			require_once(PATH_VIEW.'blocManager.php');
 		}
-		if(isset($_POST['name'])&&isset($_POST['lesson_fk'])&&isset($_POST['serie_fk'])){
+		elseif(isset($_POST['name'])&&isset($_POST['lesson_fk'])&&isset($_POST['serie_fk'])){
 			if(empty($_POST['lesson_fk'])||empty($_POST['serie_fk']))
 				$_SESSION['notification_error']="Entrez une UE/AA et la série pour laquelle vous voulez créer la séance type";
 			else
 				$this->create_session();
-		}
-		elseif(isset($_POST['modify_serie'])&&isset($_POST['bloc_serie_modify'])){
-			if(empty($_POST['modify_serie'])||empty($_POST['bloc_serie_modify']))
-				$_SESSION['notification_error']="Entrez une série à modifier et son bloc correspondant";
-			else
-				$this->modify_serie();
-		}
-		else {
-			unset($_SESSION['modify_serie']);
 			require_once(PATH_VIEW.'blocManager.php');
 		}
+		else 
+			require_once(PATH_VIEW.'blocManager.php');
 	}
 	
 	public function modify_serie(){
-		$serie=$this->_db->select_serie_pk($_POST['modify_serie'],$_POST['bloc_serie_modify']);
-		//$students_array=$this->_db->select_student_serie($serie->get_number());
-		if(empty($serie)){
-			$_SESSION['notification_error']='Cette série n\'existe pas';
-		}
-		elseif(isset($_SESSION['modify_serie'])){
-			var_dump("voici les données passées par \$_POST $_POST");
-			$nb_serie_modify=count($_POST['new_serie']);
-			for ($i=0;$i<$nb_serie_modify;$i++){
-				;
-			}
-		}
-		else {
-			$_SESSION['modify_serie']=true;
-			require_once(PATH_VIEW.'blocManager.php');
+		$nb_students_modified=0;
+		for($i = 0; $i < count($_POST['new_serie']) ; $i++){
+			if($_POST['new_serie'][$i]!="")
+				$this->_db->update_serie_student($_POST['new_serie'][$i],$_POST['students_modified'][$i]);
 		}
 	}
 	
@@ -93,15 +93,13 @@ class BlocManagerController{
 		if(empty($students_array)||$nb_students<$nb_series)
 			$_SESSION['notification_error']="Pas ou pas assez d'étudiants dans la base de donnée";
 		else {
-			if($this->_db->count_serie($_SESSION['responsibility'])>0)
+			if($this->_db->count_serie_by_serie_bloc($_SESSION['responsibility'])>0)
 				$_SESSION['notification_warning']="Les séries du ". $_SESSION['responsibility']. " ont déjà été introduites";
 			else{
 				$current_student=0;
 				for($i = 1; $i <= $nb_series ; $i++){
 					$this->_db->insert_serie($i,$_SESSION['responsibility']);
-					var_dump("série $i");
 					for($j = 0; $j < $nb_student_serie ; $j++){
-						var_dump("étudiant $current_student");
 						$this->_db->update_serie_student($i,$students_array[$current_student]->getEmail());
 						$current_student++;
 					}
@@ -205,8 +203,9 @@ class BlocManagerController{
 			$line = $arrayFile[$i];	
 			if ($uploadName=='lessons_csv'){
 				if(preg_match("/".$pattern."/", $line, $groups))
-					if(!$this->is_being_duplicated('lesson_code',$groups[2]))
+					if(!$this->is_being_duplicated('lesson_code',$groups[2])){
 						$this->_db->insert_lesson($groups[1], $groups[2], $groups[3], $groups[4], $groups[5], $groups[6]);
+					}
 					else
 						$arrayDuplicated[$i]=$groups[2];
 			}
