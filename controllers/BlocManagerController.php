@@ -110,7 +110,7 @@ class BlocManagerController{
 					}
 					if($i==$nb_series){//ici ça marche pas
 						for($j = 0; $j < $nb_students%$nb_series; $j++){
-							$this->_db->update_serie_student($nb_series,$students_array[$current_student]->getEmail());
+							$this->_db->update_serie_student($j,$students_array[$current_student]->getEmail());
 							$current_student++;
 						}
 					}
