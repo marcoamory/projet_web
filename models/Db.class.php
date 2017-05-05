@@ -113,7 +113,6 @@ class Db{
 	}
 	
 	public function update_serie_student($serie_number,$email_student){
-		var_dump("on update la série de $email_student à $serie_number");
 		$req = $this->_db->prepare("UPDATE students SET serie_number=:serie_number WHERE email_student=:email_student");
 		$req->execute(array('serie_number' => $serie_number,
 							'email_student' => $email_student));
@@ -163,6 +162,20 @@ class Db{
 		}
 		$req->closeCursor();
 		return $students_array;
+	}
+
+	public function select_serie_bloc($bloc)
+	{
+		$req = $this->_db->prepare("SELECT serie_number FROM series WHERE serie_bloc = :serie_bloc");
+		$req->execute(array("serie_bloc" => $bloc));
+		$serie_array = array();
+		if ($req->rowcount()!=0) {
+			while ($row = $req->fetch()) {
+				$serie_array[] = $row->serie_number;
+			}
+		}
+		$req->closeCursor();
+		return $series_array;
 	}
 	
 	public function select_lesson_pk($lesson_code)
