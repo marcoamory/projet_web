@@ -12,7 +12,7 @@ class Db{
 	
 	private function __construct() {
 		try{
-			$this->_db=new PDO('mysql:host=localhost:8889;dbname=ipl_agenda;charset=utf8','root','root');
+			$this->_db=new PDO('mysql:host=localhost;dbname=ipl_agenda;charset=utf8','root','');
 			$this->_db->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
 			$this->_db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE,PDO::FETCH_OBJ);
 		}
@@ -28,7 +28,6 @@ class Db{
 	 */
 	public function drop_all_data()
 	{
-	
 		$req = $this->_db->prepare('DELETE FROM presence_sheets;
 									DELETE FROM presences;
 									DELETE FROM sessions_series;
@@ -87,6 +86,7 @@ class Db{
 							'type' => utf8_encode($type),
 							'credits' => utf8_encode($credits),
 							'abbreviation' => utf8_encode($abbreviation)));
+
 	}
 	
 	public function insert_serie($serie_number,$bloc)
@@ -99,9 +99,17 @@ class Db{
 							'serie_bloc' => $bloc));
 	}
 	
-	public function count_serie($serie_bloc){
+	public function count_serie_by_serie_bloc($serie_bloc){
 		$req = $this->_db->prepare("SELECT count(*) as total from series where serie_bloc =:serie_bloc");
 		$req->execute(array('serie_bloc' => $serie_bloc));
+		$result=$req->fetch();
+		$req->closeCursor();
+		return intval(substr($result->total,0,strlen($result->total)));
+	}
+	
+	public function count_serie_by_serie_number($serie_number){
+		$req = $this->_db->prepare("SELECT count(*) as total from series where serie_number =:serie_number");
+		$req->execute(array('serie_number' => $serie_number));
 		$result=$req->fetch();
 		$req->closeCursor();
 		return intval(substr($result->total,0,strlen($result->total)));
@@ -214,6 +222,7 @@ class Db{
 		return $result;
 	}
 	
+
 	public function select_student_serie($serie_number, $bloc)
 	{
 		$req = $this->_db->prepare("SELECT * FROM students WHERE serie_number = :serie_number AND bloc = :bloc ORDER BY last_name");
