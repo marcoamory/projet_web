@@ -62,7 +62,10 @@
 										<th> <?php echo $students_array[$i]->getEmail()?></th>
 										<th> <?php echo $students_array[$i]->getSerie()?></th>
 										<th> <?php echo $students_array[$i]->getBloc()?></th>
-										<th> <input type="text" name="new_serie[]" size="30" placeholder="nouvelle série"/></th>
+										<th> 
+											<input type="text" name="new_serie[]" size="30" placeholder="nouvelle série"/>
+											<input type="hidden" name="students_modified[]" size="30" value="<?php $students_array[$i]->getEmail()?>"/>
+										</th>
 									</tr>
 								<?php } ?>
 								</tbody>

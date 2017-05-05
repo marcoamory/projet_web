@@ -57,15 +57,13 @@ class BlocManagerController{
 	}
 	
 	public function modify_serie(){
-		/*
-		 * afficher un tableau des étudiants de la série
-		 */
 		$serie=$this->_db->select_serie_pk($_POST['modify_serie'],$_POST['bloc_serie_modify']);
-		$students_array=$this->_db->select_student_serie($serie->get_number());
+		//$students_array=$this->_db->select_student_serie($serie->get_number());
 		if(empty($serie)){
 			$_SESSION['notification_error']='Cette série n\'existe pas';
 		}
 		elseif(isset($_SESSION['modify_serie'])){
+			var_dump("voici les données passées par \$_POST $_POST");
 			$nb_serie_modify=count($_POST['new_serie']);
 			for ($i=0;$i<$nb_serie_modify;$i++){
 				;
@@ -92,16 +90,15 @@ class BlocManagerController{
 		$students_array=$this->_db->select_student_bloc($_SESSION['responsibility']);
 		$nb_students=sizeof($students_array);
 		$nb_student_serie=floor($nb_students/$nb_series);
-		var_dump("nb étudiants/serie $nb_student_serie");
 		if(empty($students_array)||$nb_students<$nb_series)
 			$_SESSION['notification_error']="Pas ou pas assez d'étudiants dans la base de donnée";
 		else {
-			if($this->_db->count_serie(intval(substr($_SESSION['responsibility'],4,1)))>0)
+			if($this->_db->count_serie($_SESSION['responsibility'])>0)
 				$_SESSION['notification_warning']="Les séries du ". $_SESSION['responsibility']. " ont déjà été introduites";
 			else{
 				$current_student=0;
 				for($i = 1; $i <= $nb_series ; $i++){
-					$this->_db->insert_serie($i,intval(substr($_SESSION['responsibility'],4,1)));
+					$this->_db->insert_serie($i,$_SESSION['responsibility']);
 					var_dump("série $i");
 					for($j = 0; $j < $nb_student_serie ; $j++){
 						var_dump("étudiant $current_student");
@@ -109,7 +106,7 @@ class BlocManagerController{
 						$current_student++;
 					}
 					if($i==$nb_series){//ici ça marche pas
-						for($j = 0; $j < $nb_students%$nb_series; $j++){
+						for($j = 1; $j <= $nb_students%$nb_series; $j++){
 							$this->_db->update_serie_student($j,$students_array[$current_student]->getEmail());
 							$current_student++;
 						}
