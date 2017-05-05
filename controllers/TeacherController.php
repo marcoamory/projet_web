@@ -10,6 +10,7 @@ class TeacherController{
 
 	function run(){
 
-	echo "Page prof";
+	
+	require_once(PATH_VIEW . 'teacher.php');
 	}
 }
