@@ -12,7 +12,7 @@ class Db{
 	
 	private function __construct() {
 		try{
-			$this->_db=new PDO('mysql:host=localhost;dbname=ipl_agenda;charset=utf8','root','');
+			$this->_db=new PDO('mysql:host=localhost:8889;dbname=ipl_agenda;charset=utf8','root','root');
 			$this->_db->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
 			$this->_db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE,PDO::FETCH_OBJ);
 		}
@@ -81,12 +81,12 @@ class Db{
 	public function insert_lesson($name, $lesson_code, $quadri, $type, $credits, $abbreviation)
 	{
 		$req = $this->_db->prepare('INSERT INTO lessons (name, lesson_code, quadri, type, credits, abbreviation) VALUES (:name, :lesson_code, :quadri, :type, :credits, :abbreviation)');
-		$req->execute(array('name' => $name,
-							'lesson_code' => $lesson_code,
-							'quadri' => $quadri,
-							'type' => $type,
-							'credits' => $credits,
-							'abbreviation' => $abbreviation));
+		$req->execute(array('name' => utf8_encode($name),
+							'lesson_code' => utf8_encode($lesson_code),
+							'quadri' => utf8_encode($quadri),
+							'type' => utf8_encode($type),
+							'credits' => utf8_encode($credits),
+							'abbreviation' => utf8_encode($abbreviation)));
 	}
 	
 	public function insert_serie($serie_number,$bloc)
@@ -175,7 +175,23 @@ class Db{
 			}
 		}
 		$req->closeCursor();
-		return $series_array;
+		return $serie_array;
+	}
+
+
+
+	public function select_lesson_bloc($bloc){
+		$req = $this->_db->prepare("SELECT name FROM lessons WHERE SUBSTRING(lesson_code,2,1) = :bloc");
+		$req->execute(array("bloc" => $bloc));
+		$lesson_array = array();
+		if ($req->rowcount()!=0) {
+			while ($row = $req->fetch()) {
+				$lesson_array[] = $row->name;
+			}
+		}
+		$req->closeCursor();
+		
+		return $lesson_array;
 	}
 	
 	public function select_lesson_pk($lesson_code)
@@ -198,10 +214,11 @@ class Db{
 		return $result;
 	}
 	
-	public function select_student_serie($serie_number)
+	public function select_student_serie($serie_number, $bloc)
 	{
-		$req = $this->_db->prepare("SELECT * FROM students WHERE serie_number = :serie_number");
-		$req->execute(array("serie_number" => $serie_number));
+		$req = $this->_db->prepare("SELECT * FROM students WHERE serie_number = :serie_number AND bloc = :bloc ORDER BY last_name");
+		$req->execute(array("serie_number" => $serie_number,
+							"bloc" => $bloc));
 		$students_array = array();
 		if ($req->rowcount()!=0) {
 			while ($row = $req->fetch()) {
