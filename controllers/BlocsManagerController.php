@@ -26,9 +26,11 @@ class BlocsManagerController{
 		elseif(isset($_FILES['lessons_csv'])&&isset($_POST['blocNumber']))
 			$this->process_file('lessons_csv');
 		elseif(isset($_FILES['lessons_csv'])&&!isset($_POST['blocNumber']))
-			$_SESSION['notificationError']="Veuillez mentionner un bloc";
-		elseif(!isset($_FILES['lessons_csv'])&&isset($_POST['wipeChoice']))
+			$_SESSION['notification_error']="Veuillez mentionner un bloc";
+		elseif(!isset($_FILES['lessons_csv'])&&isset($_POST['wipe_data'])){
 			$this->wipe_data();
+			$_SESSION['notification_success'] = "Les données annuelles ont bien été effacées";
+		}
 		require_once(PATH_VIEW.'blocsManager.php');	
 	}
 	/*

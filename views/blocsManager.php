@@ -7,13 +7,12 @@
 				</div>
 				<form enctype="multipart/form-data" action="index.php?action=blocsManager" method="post">
 					<div class="panel-body">			
-							<h6>Bloc numéro :</h6> 
-							<input type="text" name="blocNumber" placeholder="numéro bloc" />
+							<input type="text" name="blocNumber" placeholder="Numéro du bloc" class="form-control" />
 							<input type="hidden" name="MAX_FILE_SIZE" value="1000000000000" />
 							<input class="center-block upload" type="file" name="lessons_csv" />	
 					</div>
 					<div class="panel-footer">
-						<input type="submit" value="Upload" class="btn btn-success upload_button"/>
+						<button type="submit" class="btn btn-success btn-block">Upload <i class="fa fa-upload" aria-hidden="true"></i></button>
 					</div>
 				</form>
 			</div>
@@ -29,7 +28,7 @@
 						<input class="center-block upload" type="file" name="students_csv" />
 		  			</div>
 		  			<div class="panel-footer">
-		  				<input type="submit" value="Upload" class="btn btn-success upload_button" />
+		  				<button type="submit" class="btn btn-success btn-block">Upload <i class="fa fa-upload" aria-hidden="true"></i></button>
 		  			</div>
 		  		</form>
 			</div>
@@ -39,17 +38,33 @@
 				<div class="panel-heading">
 					<h3 class="panel-title text-center">Nettoyer les données annuelles</h3>
 				</div>
-				<div class="panel-body">
-					<form action="index.php?action=blocsManager" method="post">
-						<h4 class="text-center">
-							Carwash
-							<input type="radio" name="wipeChoice" value="total" />
-						</h4>
-						<div class="text-center">
-							<input type="submit" value="Nettoyer la sélection" class="btn btn-danger" />
+				<form action="index.php?action=blocsManager" method="post">
+					<div class="panel-body">
+						<!-- Button trigger modal -->
+						<button type="button" class="btn btn-danger btn-block" data-toggle="modal" data-target="#myModal2">
+						 Nettoyer les données annuelles <i class="fa fa-trash-o" aria-hidden="true"></i>
+						</button>
+
+						<!-- Modal -->
+						<div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+						  <div class="modal-dialog" role="document">
+						    <div class="modal-content">
+						      <div class="modal-header">
+						        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						        <h4 class="modal-title" id="myModalLabel">Nettoyage des données annuelles</h4>
+						      </div>
+						      <div class="modal-body">
+						        Attention, cette action entrainera la suppression de toutes vos données à l'exception de celles concernant les administrateurs. Cette action est irréversible, êtes vous sûrs de vouloir continuer? 
+						      </div>
+						      <div class="modal-footer">
+						        <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+						        <input type="submit" class="btn btn-danger" name="wipe_data" value="Nettoyer la sélection" />
+						      </div>
+						    </div>
+						  </div>
 						</div>
-					</form>
-		  		</div>
+					</div>	
+				</form>
 			</div>
 		</div>
 	</div>

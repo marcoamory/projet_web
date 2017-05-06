@@ -18,7 +18,7 @@ class AdminManagementController{
 			unset($_SESSION['notification_warning']);
 		}
 
-		if(isset($_POST["wipeChoice"])){
+		if(isset($_POST["wipe_data"])){
 			$this->wipe_data();
 			$_SESSION['notification_success'] = "Toutes les données ont été réinitialisées";
 		}

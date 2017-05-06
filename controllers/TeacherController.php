@@ -32,12 +32,12 @@ class TeacherController{
 		return $this->_db->select_serie_bloc($bloc);
 	}
 	
-	//Select lessons name present for that bloc
+	//Select lessons name present for that $bloc
 	private function select_session_for_bloc($bloc){
 		$bloc_number = substr($bloc, -1, 1);
 		return $this->_db->select_lesson_bloc($bloc_number);
 	}
-
+	//Select all students present in this $serie and $bloc
 	private function select_student_serie($serie, $bloc){
 		return $this->_db->select_student_serie($serie, $bloc);
 	}

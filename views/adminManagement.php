@@ -11,7 +11,7 @@
 						<input id="upload_agenda" type="file" name="agenda_properties" required />
 					</div>
 					<div class="panel-footer">
-						<input type="submit" class='btn  btn-success upload_button' value="Upload" />
+						<button type="submit" class='btn btn-success upload_button'>Upload <i class="fa fa-upload" aria-hidden="true"></i></button>
 					</div>
 				</form>
 			</div>
@@ -27,7 +27,7 @@
 							<input id="upload_teacher" type="file" name="professor_csv" required />	
 		  				</div>
 		  				<div class="panel-footer">
-		  					<input type="submit" class='btn btn-success upload_button' value="Upload" />
+		  					<button type="submit" class='btn btn-success upload_button'>Upload <i class="fa fa-upload" aria-hidden="true"></i></button> 
 		  				</div>
 		  			</form>
 			</div>
@@ -42,14 +42,30 @@
 				</div>
 				<form action="index.php?action=adminManagement" method="post">
 					<div class="panel-body">
-						<h4 class="text-center">
-							Carwash
-							<input type="radio" name="wipeChoice" value="total" />
-						</h4>
-					</div>
-					<div class="panel-footer text-center">
-						<input type="submit" class="btn btn-danger" value="Nettoyer la sélection" />
-					</div>
+						<!-- Button trigger modal -->
+						<button type="button" class="btn btn-danger btn-block" data-toggle="modal" data-target="#myModal">
+						 Nettoyer les données annuelles <i class="fa fa-trash-o" aria-hidden="true"></i>
+						</button>
+
+						<!-- Modal -->
+						<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+						  <div class="modal-dialog" role="document">
+						    <div class="modal-content">
+						      <div class="modal-header">
+						        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						        <h4 class="modal-title" id="myModalLabel">Nettoyage des données annuelles</h4>
+						      </div>
+						      <div class="modal-body">
+						        Attention, cette action entrainera la suppression de toutes vos données à l'exception de celles concernant les administrateurs. Cette action est irréversible, êtes vous sûrs de vouloir continuer? 
+						      </div>
+						      <div class="modal-footer">
+						        <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+						        <input type="submit" class="btn btn-danger" name="wipe_data" value="Nettoyer la sélection" />
+						      </div>
+						    </div>
+						  </div>
+						</div>
+					</div>	
 				</form>
 			</div>
 		</div>
