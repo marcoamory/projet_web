@@ -260,5 +260,11 @@ class Db{
 		return $result;
 	}
 
+	public function select_current_week(){
+		$req = $this->_db->query("SELECT * FROM weeks WHERE monday_date <= CURDATE() AND CURDATE() < DATE_ADD(monday_date, INTERVAL 7 DAY)");
+		$result = $req->fetch();
+		return $result;
+	}
+
 }
 ?>

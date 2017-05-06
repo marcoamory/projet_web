@@ -21,6 +21,9 @@ class TeacherController{
 		$serie = htmlspecialchars($_POST['serie']);
 		$lesson = htmlspecialchars($_POST['lesson']);
 		$students = $this->select_student_serie($serie, $bloc);
+		$current_week = $this->select_current_week();
+		$current_week_name = $current_week->name;
+		$current_week_number = $current_week->week_number;
 	}
 	
 	require_once(PATH_VIEW . 'teacher.php');
@@ -40,6 +43,11 @@ class TeacherController{
 	//Select all students present in this $serie and $bloc
 	private function select_student_serie($serie, $bloc){
 		return $this->_db->select_student_serie($serie, $bloc);
+	}
+
+	private function select_current_week(){
+		return $this->_db->select_current_week();
+		
 	}
 
 

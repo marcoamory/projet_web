@@ -4,7 +4,7 @@
 	<div class="panel panel-primary">
 		<div class="panel-heading">
 			<div class="panel-title text-center">
-				<h4>Présences au cours <?php if(isset($lesson) AND !empty($lesson)) echo '"' . $lesson .'"';?> du <?php echo date("d/m/Y"); ?></h4>
+				<h4>Présences au cours <?php if(isset($lesson) AND !empty($lesson)) echo '"' . $lesson .'"';?> du <?php echo date("d/m/Y"); ?> <?php if(isset($current_week_name) AND !empty($current_week_name)) echo "[" . $current_week_name . "]"; ?></h4>
 			</div>
 		</div>
 	 	<div class="panel-body">
@@ -52,6 +52,28 @@
 	</div>
 </div>
 <?php if(isset($serie) AND !empty($serie) AND isset($lesson) AND !empty($lesson)){ ?>
+<div class="row">
+	<div class="panel panel-primary">
+		<div class="panel-body">
+			<form method="post" action="index.php?action=teacher">
+				<div class="col-md-6 col-md-offset-2">
+					<select class="form-control">
+						<?php for($i=1; $i < $current_week_number; $i++){ ?>
+							<option value="<?php echo $i; ?>">Semaine <?php echo $i; ?></option>
+						<?php } ?>
+							<option value="<?php echo $current_week_number; ?>" selected>Semaine courante</option>
+					</select>
+				</div>
+				<div class="col-md-1">
+					<input type="hidden" name="bloc" value="<?php echo $bloc; ?>"/>
+					<input type="hidden" name="lesson" value="<?php echo $lesson ?>"/>
+					<input type="hidden" name="serie" value="<?php echo $serie; ?>"/>
+					<input type="submit" value="Rechercher" class="btn btn-success"/>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
 <div class="row">
 	<form action="index.php?action=teacher" method="post">
 		<table class="table table-striped table-hover">
