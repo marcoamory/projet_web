@@ -188,9 +188,9 @@ class Db{
 
 
 
-	public function select_lesson_bloc($bloc){
-		$req = $this->_db->prepare("SELECT name FROM lessons WHERE SUBSTRING(lesson_code,2,1) = :bloc");
-		$req->execute(array("bloc" => $bloc));
+	public function select_lesson_bloc($bloc, $quadri){
+		$req = $this->_db->prepare("SELECT name FROM lessons WHERE SUBSTRING(lesson_code,2,1) = :bloc AND quadri = :quadri");
+		$req->execute(array("bloc" => $bloc, "quadri" => strtoupper($quadri)));
 		$lesson_array = array();
 		if ($req->rowcount()!=0) {
 			while ($row = $req->fetch()) {
@@ -264,6 +264,23 @@ class Db{
 		$req = $this->_db->query("SELECT * FROM weeks WHERE monday_date <= CURDATE() AND CURDATE() < DATE_ADD(monday_date, INTERVAL 7 DAY)");
 		$result = $req->fetch();
 		return $result;
+	}
+
+	public function select_session_serie($bloc, $serie, $quadri){
+		$req = $this->_db->prepare("SELECT s.name name, ss.time_slot time_slot
+									FROM sessions s, sessions_series ss, lessons l
+									WHERE s.id_session = ss.id_session AND l.lesson_code = s.lesson_code
+									AND (l.quadri = :quadri OR l.quadri = 'Q12') AND ss.number = :serie AND ss.bloc = :bloc");
+		$req->execute(array("quadri" => strtoupper($quadri), "serie" => $serie, "bloc" => $bloc));
+		$session_array = array();
+		if ($req->rowcount()!=0) {
+			while ($row = $req->fetch()) {
+				$session_array[] = $row;
+			}
+		}
+		$req->closeCursor();
+		
+		return $session_array; 
 	}
 
 }

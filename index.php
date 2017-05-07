@@ -57,6 +57,7 @@
 		case 'teacher':
 			require_once(PATH_CONTROLLER . 'TeacherController.php');
 			$controller = new TeacherController($db);
+			
 			break;
 		case 'blocManager':
 		if($_SESSION['responsibility'] != "bloc1" && $_SESSION['responsibility'] != "bloc2" && $_SESSION['responsibility'] != "bloc3"){
@@ -66,6 +67,7 @@
 		else{
 			require_once(PATH_CONTROLLER . "BlocManagerController.php");
 			$controller = new BlocManagerController($db);
+			
 		}
 			break;
 		case 'blocsManager':
@@ -76,6 +78,7 @@
 		else{
 			require_once(PATH_CONTROLLER . "BlocsManagerController.php");
 			$controller = new BlocsManagerController($db);
+			
 		}
 			
 			break;
@@ -87,8 +90,20 @@
 			else{
 				require_once(PATH_CONTROLLER . "AdminManagementController.php");
 				$controller = new AdminManagementController($db);
+				
 			}
 			
+			break;
+		case "presenceSheet" :
+			if(isset($_SESSION['responsibility'])){
+				require_once(PATH_CONTROLLER . "PresenceSheetController.php");
+				$controller = new PresenceSheetController($db);
+				
+			}
+			else{
+				header("Location:index.php?action=student");
+				die();
+			}
 			break;
 		case 'logout' :
 			require_once(PATH_CONTROLLER . "LogoutController.php");
@@ -99,6 +114,7 @@
 			{
 				require_once(PATH_CONTROLLER . "TeacherController.php");
 				$controller = new TeacherController($db);
+				
 			}
 			else
 			{

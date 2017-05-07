@@ -1,16 +1,17 @@
-﻿<?php
+<?php
 
-class TeacherController{
+class PresenceSheetController{
 	
 	private $_db;
 
 	function __construct($db){
+
 		$this->_db = $db;
 	}
 
 	function run(){
 
-	if(isset($_POST['bloc'])){
+		if(isset($_POST['bloc'])){
 		$bloc = htmlspecialchars($_POST['bloc']);
 		$current_week = $this->select_current_week();
 		$current_week_name = $current_week->name;
@@ -18,19 +19,17 @@ class TeacherController{
 		$current_quadri = $current_week->quadri;
 		$series = $this->select_serie_for_bloc($bloc);
 		$lessons = $this->select_session_for_bloc($bloc, $current_quadri);
-
 		
-	}
+		}
 
-	if(isset($_POST['serie']) AND isset($_POST["lesson"])){
-		$serie = htmlspecialchars($_POST['serie']);
-		$lesson = htmlspecialchars($_POST['lesson']);
-		$students = $this->select_student_serie($serie, $bloc);
-		$sessions = $this->select_session_serie($bloc, $serie, $current_quadri);
-
-	}
+		if(isset($_POST['serie'])){
+			$serie = htmlspecialchars($_POST['serie']);
+			$students = $this->select_student_serie($serie, $bloc);
+			$sessions = $this->select_session_serie($bloc, $serie, $current_quadri);
+			
+		}
 	
-	require_once(PATH_VIEW . 'teacher.php');
+	require_once(PATH_VIEW . 'presenceSheet.php');
 
 	}
 
@@ -53,10 +52,7 @@ class TeacherController{
 		return $this->_db->select_current_week();
 		
 	}
-
 	private function select_session_serie($bloc, $serie, $quadri){
 		return $this->_db->select_session_serie($bloc, $serie, $quadri);
 	}
-
-
 }
