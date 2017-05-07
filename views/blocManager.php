@@ -46,11 +46,9 @@
 		  		</div>
 		  		<form action="index.php?action=blocManager" method="post">
 			  		<div class="panel-body">
-			   			 
 							<input type="text" name="name" size="30" placeholder="Intitulé de la séance(non obligatoire)" class="form-control" />
 							<input type="text" name="lesson_fk" size="30" placeholder="UE/AA concernée" class="form-control" />
-							<input type="number" name="serie_fk" size="30" placeholder="Série concernée" class="form-control" />
-							
+							<input type="number" name="serie_fk" size="30" placeholder="Série concernée" class="form-control" />	
 					</div>
 					<div class="panel-footer">
 						<button type="submit" class="btn btn-success btn-block">Créer <i class="fa fa-plus" aria-hidden="true"></i></button>

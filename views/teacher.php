@@ -56,8 +56,11 @@
 	<div class="panel panel-primary">
 		<div class="panel-body">
 			<form method="post" action="index.php?action=teacher">
-				<div class="col-md-6 col-md-offset-2">
-					<select class="form-control">
+			<div class="col-md-1 col-md-offset-1 text-right">
+				<label for="week_select"><?php echo strtoupper($current_quadri); ?>:</label>
+			</div>
+				<div class="col-md-6">
+					<select id="week_select" class="form-control">
 						<?php for($i=1; $i < $current_week_number; $i++){ ?>
 							<option value="<?php echo $i; ?>">Semaine <?php echo $i; ?></option>
 						<?php } ?>

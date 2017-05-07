@@ -24,6 +24,7 @@ class TeacherController{
 		$current_week = $this->select_current_week();
 		$current_week_name = $current_week->name;
 		$current_week_number = $current_week->week_number;
+		$current_quadri = $current_week->quadri;
 	}
 	
 	require_once(PATH_VIEW . 'teacher.php');
