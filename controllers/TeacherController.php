@@ -17,17 +17,22 @@ class TeacherController{
 		$current_week_number = $current_week->week_number;
 		$current_quadri = $current_week->quadri;
 		$series = $this->select_serie_for_bloc($bloc);
-		$lessons = $this->select_session_for_bloc($bloc, $current_quadri);
 
 		
 	}
 
-	if(isset($_POST['serie']) AND isset($_POST["lesson"])){
+	if(isset($_POST['serie'])){
 		$serie = htmlspecialchars($_POST['serie']);
-		$lesson = htmlspecialchars($_POST['lesson']);
 		$students = $this->select_student_serie($serie, $bloc);
 		$sessions = $this->select_session_serie($bloc, $serie, $current_quadri);
 
+	}
+
+	if(isset($_POST['session'])){
+		$session = htmlspecialchars($_POST['session']);
+	}
+	else{
+		
 	}
 	
 	require_once(PATH_VIEW . 'teacher.php');
@@ -39,11 +44,6 @@ class TeacherController{
 		return $this->_db->select_serie_bloc($bloc);
 	}
 	
-	//Select lessons name present for that $bloc
-	private function select_session_for_bloc($bloc, $quadri){
-		$bloc_number = substr($bloc, -1, 1);
-		return $this->_db->select_lesson_bloc($bloc_number, $quadri);
-	}
 	//Select all students present in this $serie and $bloc
 	private function select_student_serie($serie, $bloc){
 		return $this->_db->select_student_serie($serie, $bloc);

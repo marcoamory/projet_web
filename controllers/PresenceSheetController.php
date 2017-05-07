@@ -18,7 +18,6 @@ class PresenceSheetController{
 		$current_week_number = $current_week->week_number;
 		$current_quadri = $current_week->quadri;
 		$series = $this->select_serie_for_bloc($bloc);
-		$lessons = $this->select_session_for_bloc($bloc, $current_quadri);
 		
 		}
 
@@ -38,11 +37,6 @@ class PresenceSheetController{
 		return $this->_db->select_serie_bloc($bloc);
 	}
 	
-	//Select lessons name present for that $bloc
-	private function select_session_for_bloc($bloc, $quadri){
-		$bloc_number = substr($bloc, -1, 1);
-		return $this->_db->select_lesson_bloc($bloc_number, $quadri);
-	}
 	//Select all students present in this $serie and $bloc
 	private function select_student_serie($serie, $bloc){
 		return $this->_db->select_student_serie($serie, $bloc);
