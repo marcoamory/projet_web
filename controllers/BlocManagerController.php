@@ -20,7 +20,6 @@ class BlocManagerController{
 			unset($_SESSION['notification_success']);
 		if(isset($_SESSION['notification_warning']))
 			unset($_SESSION['notification_warning']);
-		var_dump($_POST);
 		if(isset($_POST['new_serie']))
 			$this->modify_serie();
 		if((isset($_POST['modify_serie'])&&isset($_POST['bloc_serie_modify']))){
@@ -115,7 +114,18 @@ class BlocManagerController{
 	}
 	
 	public function create_session(){
-		
+		if(!$this->_db->select_serie_pk($_POST['serie_fk'],$_SESSION['responsibility']))
+			$_SESSION['notification_error']="Cette série n'existe pas.";
+		elseif(!$this->_db->select_lesson_pk($_POST['lesson_fk']))
+			$_SESSION['notification_error']="Cette UE/AA n'existe pas";
+		elseif(!preg_match("/^I1.*/", $_POST['lesson_fk']))
+			$_SESSION['notification_error']="Cette UE n'est pas de votre bloc";
+		else{
+			$this->_db->insert_session($_POST['name'],$_POST['lesson_fk']);
+			$session=$this->_db->select_session_pk($_POST['name'],$_POST['lesson_fk']);
+			$this->_db->insert_session_serie($session->id_session,$_POST['serie_fk'],$_SESSION['responsibility']);
+			$_SESSION['notification_success']="Votre séance type a bien été créée";
+		}
 	}
 	/*
 	 * $tmp_name is a string containing the absolute path of the temporary location it's being uploaded to on the server

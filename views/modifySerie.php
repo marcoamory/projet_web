@@ -25,7 +25,7 @@
 								<td> <?php echo $students_array[$i]->getSerie()?></th>
 								<td> <?php echo $students_array[$i]->getBloc()?></th>
 								<td> 
-									<input type="text" name="new_serie[]" size="30" placeholder="nouvelle série"/>
+									<input type="text" name="new_serie[]" size="15" placeholder="nouvelle série"/>
 									<input type="hidden" name="students_modified[]" value="<?php echo $students_array[$i]->getEmail()?>"/>
 								</td>
 							</tr>

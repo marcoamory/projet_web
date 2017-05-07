@@ -202,6 +202,30 @@ class Db{
 		return $lesson_array;
 	}
 	
+	public function insert_session($name,$lesson_code){
+		$req = $this->_db->prepare('INSERT INTO sessions (name, lesson_code) VALUES (:name, :lesson_code)');
+		$req->execute(array('name' => $name,
+							'lesson_code' => $lesson_code));
+	}
+	
+	
+	public function insert_session_serie($session_code,$serie_number,$bloc_number){
+		$req = $this->_db->prepare('INSERT INTO sessions_series (number, bloc, id_session) VALUES (:number, :bloc, :id_session)');
+		$req->execute(array('number' => $serie_number,
+							'bloc' => $bloc_number,
+							'id_session' => $session_code));
+	}
+	
+	public function select_session_pk($name, $lesson_code)
+	{
+		$req = $this->_db->prepare("SELECT * FROM sessions WHERE name = :name and lesson_code = :lesson_code");
+		$req->execute(array("name" => $name,
+							"lesson_code" => $lesson_code));
+		$result = $req->fetch();
+		$req->closeCursor();
+		return $result;
+	}
+	
 	public function select_lesson_pk($lesson_code)
 	{
 		$req = $this->_db->prepare("SELECT * FROM lessons WHERE lesson_code = :lesson_code");
@@ -213,7 +237,7 @@ class Db{
 	
 	public function select_serie_pk($serie_number,$serie_bloc)
 	{
-		$req = $this->_db->prepare("SELECT * FROM series WHERE serie_number = :serie_number AND serie_bloc = :serie_bloc  ");
+		$req = $this->_db->prepare("SELECT * FROM series WHERE serie_number = :serie_number AND lower(serie_bloc) = :serie_bloc  ");
 		$req->execute(array("serie_number" => $serie_number,
 							"serie_bloc" => $serie_bloc));
 		$result = $req->fetch();
