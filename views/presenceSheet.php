@@ -79,9 +79,16 @@
 		<tr>
 			<td><?php echo $presence_array[0][$j]->last_name . " " . $presence_array[0][$j]->first_name; ?>
 			<?php for($i=0; $i<count($sheet); $i++) {
-				if($sheet[$i]){ ?>
-			<td><?php echo $presence_array[$i][$j]->state; ?></td>
-			<?php } } ?>
+				if($sheet[$i]){ 
+					if($presence_array[$i][$j]->state == 'active'){ ?>
+						<td><span class="label label-success">Présent(e)</span></td>
+					<?php } elseif ($presence_array[$i][$j]->state == 'passive') { ?>
+						<td><span class="label label-warning">Passif</span></td>
+					<?php } else{ ?>
+						<td><span class="label label-danger">Absent(e)</span></td>
+					 
+			
+			<?php } } } ?>
 		</tr>
 		<?php } ?>
 	</table>
