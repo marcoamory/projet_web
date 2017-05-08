@@ -53,17 +53,17 @@
 				<label for="week_select"><?php echo strtoupper($current_quadri); ?>:</label>
 			</div>
 				<div class="col-md-3">
-					<select id="week_select" class="form-control">
+					<select id="week_select" class="form-control" name='week'>
 						<?php for($i=1; $i < $current_week_number; $i++){ ?>
-							<option value="<?php echo $i; ?>">Semaine <?php echo $i; ?></option>
+							<option value="<?php echo $i; ?>" <?php if(isset($week_number) AND $week_number = $i) echo 'selected';?>>Semaine <?php echo $i; ?></option>
 						<?php } ?>
-							<option value="<?php echo $current_week_number; ?>" selected>Semaine courante</option>
+							<option value="<?php echo $current_week_number; ?>"<?php if(!isset($week_number) OR (isset($week_number) AND $week_number = $current_week_number)) echo 'selected'; ?>>Semaine courante</option>
 					</select>
 				</div>
 				<div class="col-md-3">
 	    			<select name="session" class="form-control">
 	    				<?php foreach ($sessions as $element){ ?>
-	    				<option value="<?php echo $element->name; ?>" <?php if(isset($session) AND $session == $element->name) echo 'selected'; ?>><?php echo $element->name . " " . $element->time_slot; ?></option>
+	    				<option value="<?php echo $element->id_session; ?>" <?php if(isset($session) AND $session == $element->id_session) echo 'selected'; ?>><?php echo $element->name . " " . $element->time_slot; ?></option>
 	    			<?php } ?>
 	    			</select>
 	    		</div>
@@ -76,15 +76,16 @@
 		</div>
 	</div>
 </div>
+<?php if(isset($session) AND !empty($session)){ ?>
 <div class="row">
 	<form action="index.php?action=teacher" method="post">
 		<table class="table table-striped table-hover">
 	  		<tr>
 	  			<th>#</th>
-	  			<th>Last Name</th>
-	  			<th>First Name</th>
+	  			<th>Nom</th>
+	  			<th>Prénom</th>
 	  			<th>Bloc</th>
-	  			<th>Serie</th>
+	  			<th>Série</th>
 	  			<th>Présences</th>
 	  			<th>Notes</th>
 	  		</tr>
@@ -97,13 +98,13 @@
 	  			<td><?php echo $students[$i]->getSerie(); ?> </td>
 	  			<td><div class="btn-group" data-toggle="buttons">
 						<label class="btn btn-default btn-sm">
-							<input type="radio" name="presence<?php echo $i;?>" value="present">Present(e)
+							<input type="radio" name="presence<?php echo $i;?>" value="active" required>Present(e)
 						</label>
 						<label class="btn btn-default btn-sm">
-							<input type="radio" name="presence<?php echo $i;?>" value="absent">Absent(e)
+							<input type="radio" name="presence<?php echo $i;?>" value="absent" required>Absent(e)
 						</label>
 						<label class="btn btn-default btn-sm">
-							<input type="radio" name="presence<?php echo $i;?>" value="passif">Passif
+							<input type="radio" name="presence<?php echo $i;?>" value="passive" required>Passif
 						</label>
 				</div>
 				</td>
@@ -135,11 +136,17 @@
 			<a class="btn btn-primary" href="#top">Remonter <i class="fa fa-arrow-up" aria-hidden="true"></i> </a>
 		</div>
 		<div class="col-md-1">
+			<input type="hidden" name="bloc" value="<?php echo $bloc; ?>"/>
+			<input type="hidden" name="serie" value="<?php echo $serie; ?>"/>
+			<input type='hidden' name='presence_send' value="presence_send"/>
+			<input type="hidden" name='week' value="<?php if(isset($week_number)) echo $week_number; else echo $current_week_number; ?>">
+			<input type="hidden" name="session" value="<?php echo $session; ?>"/>
 			<button type="submit" class="btn btn-success">Enregistrer <i class='fa fa-floppy-o' aria-hidden='true'></i></button> 
 		</div>
 	</form>
 </div>
-<?php } ?> 
-<?php } ?> 
+<?php } ?> <!--Close third condition -->
+<?php } ?> <!--Close second condition -->
+<?php } ?> <!--Close first condition-->
 </section>
 
