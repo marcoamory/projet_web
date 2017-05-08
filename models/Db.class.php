@@ -316,14 +316,13 @@ class Db{
 	}
 
 	public function select_presence_sheet($email_teacher, $id_session, $week_number){
-		$req = $this->_db->prepare("SELECT id_sheet FROM presence_sheets WHERE email_teacher = :email_teacher AND id_session = :id_session AND week_number = :week_number");
+		$req = $this->_db->prepare("SELECT * FROM presence_sheets WHERE email_teacher = :email_teacher AND id_session = :id_session AND week_number = :week_number");
 		$req->execute(array("email_teacher" => $email_teacher,
 							"id_session" => $id_session,
 							"week_number" => $week_number));
 		$result = $req->fetch();
 		$req->closeCursor();
-		var_dump($result);
-		return $result;
+		return $result->id_sheet;
 	}
 
 }
