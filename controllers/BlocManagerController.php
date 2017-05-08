@@ -14,6 +14,8 @@ class BlocManagerController{
 	 * This function decides which function is gonna be called depending on $_POST parameters sent from the view
 	 */
 	public function run(){
+		$serie_array=$this->_db->select_serie_star_bloc($_SESSION['responsibility']);
+		$lesson_array=$this->_db->select_lesson_name_and_lesson_code("I".substr($_SESSION['responsibility'],4,5));
 		if(isset($_SESSION['notification_error']))
 			unset($_SESSION['notification_error']);
 		if(isset($_SESSION['notification_success']))
@@ -22,14 +24,13 @@ class BlocManagerController{
 			unset($_SESSION['notification_warning']);
 		if(isset($_POST['new_serie']))
 			$this->modify_serie();
-		if((isset($_POST['modify_serie'])&&isset($_POST['bloc_serie_modify']))){
-			var_dump($_POST);
-			if((empty($_POST['modify_serie'])||empty($_POST['bloc_serie_modify']))){
-				$_SESSION['notification_error']="Entrez une série à modifier et son bloc correspondant";
+		if((isset($_POST['modify_serie']))){
+			if((empty($_POST['modify_serie']))){
+				$_SESSION['notification_error']="Entrez une série à modifier.";
 				require_once(PATH_VIEW.'blocManager.php');
 			}
 			else{
-				$serie=$this->_db->select_serie_pk($_POST['modify_serie'],'bloc'.$_POST['bloc_serie_modify']);
+				$serie=$this->_db->select_serie_pk($_POST['modify_serie'],$_SESSION['responsibility']);
 				$students_array=$this->_db->select_student_serie($serie->get_number(),$_SESSION['responsibility']);
 				require_once(PATH_VIEW.'modifySerie.php');
 			}
@@ -39,13 +40,15 @@ class BlocManagerController{
 				$_SESSION['notification_error']="Entrez combien de séries vous désirez";
 			else 
 				$this->create_series();
+			$serie_array=$this->_db->select_serie_star_bloc($_SESSION['responsibility']);
 			require_once(PATH_VIEW.'blocManager.php');
 		}
-		elseif(isset($_POST['delete_serie'])&&isset($_POST['bloc_serie_delete'])){
-			if(empty($_POST['delete_serie'])||empty($_POST['bloc_serie_delete']))
-				$_SESSION['notification_error']="Entrez une série à supprimer et son bloc correspondant";
+		elseif(isset($_POST['delete_serie'])){
+			if(empty($_POST['delete_serie']))
+				$_SESSION['notification_error']="Entrez une série à supprimer.";
 			else
 				$this->delete_serie();
+			$serie_array=$this->_db->select_serie_star_bloc($_SESSION['responsibility']);
 			require_once(PATH_VIEW.'blocManager.php');
 		}
 		elseif(isset($_FILES['lessons_csv'])){
@@ -66,7 +69,7 @@ class BlocManagerController{
 			require_once(PATH_VIEW.'blocManager.php');
 	}
 	
-	public function modify_serie(){
+	private function modify_serie(){
 		$nb_students_modified=0;
 		for($i = 0; $i < count($_POST['new_serie']) ; $i++){
 			if($_POST['new_serie'][$i]!="")
@@ -74,17 +77,17 @@ class BlocManagerController{
 		}
 	}
 	
-	public function delete_serie(){
-		if(!$this->_db->select_serie_pk($_POST['delete_serie'],$_POST['bloc_serie_delete']))
+	private function delete_serie(){
+		if(!$this->_db->select_serie_pk($_POST['delete_serie'],$_SESSION['responsibility']))
 			$_SESSION['notification_error']="Cette série n'existe pas";
 		else {
 			$_SESSION['notification_success']="la série a bien été supprimée, ses éventuels élèves sont désormais orphelins";
 			$this->_db->update_student_serie_null($_POST['delete_serie']);
-			$this->_db->drop_serie_pk($_POST['delete_serie'],$_POST['bloc_serie_delete']);
+			$this->_db->drop_serie_pk($_POST['delete_serie'],$_SESSION['responsibility']);
 		}
 	}
 	
-	public function create_series(){
+	private function create_series(){
 		$nb_series=intval($_POST['nb_series']);
 		$students_array=$this->_db->select_student_bloc($_SESSION['responsibility']);
 		$nb_students=sizeof($students_array);
@@ -113,7 +116,7 @@ class BlocManagerController{
 		}
 	}
 	
-	public function create_session(){
+	private function create_session(){
 		if(!$this->_db->select_serie_pk($_POST['serie_fk'],$_SESSION['responsibility']))
 			$_SESSION['notification_error']="Cette série n'existe pas.";
 		elseif(!$this->_db->select_lesson_pk($_POST['lesson_fk']))
@@ -121,9 +124,8 @@ class BlocManagerController{
 		elseif(!preg_match("/^I1.*/", $_POST['lesson_fk']))
 			$_SESSION['notification_error']="Cette UE n'est pas de votre bloc";
 		else{
-			$this->_db->insert_session($_POST['name'],$_POST['lesson_fk']);
-			$session=$this->_db->select_session_pk($_POST['name'],$_POST['lesson_fk']);
-			$this->_db->insert_session_serie($session->id_session,$_POST['serie_fk'],$_SESSION['responsibility']);
+			$this->_db->insert_session(htmlspecialchars($_POST['name']),$_POST['lesson_fk']);
+			$this->_db->insert_session_serie($this->_db->select_session_pk()->id_session,$_POST['serie_fk'],$_SESSION['responsibility']);
 			$_SESSION['notification_success']="Votre séance type a bien été créée";
 		}
 	}
@@ -135,7 +137,7 @@ class BlocManagerController{
 	 * This function checks if the name of the file is conform to what it is supposed to be
 	 * and if the data contained are compatible with our database and our constraints.
 	 */
-	public function is_compatible_file($tmp_name,$name ,$uploadName,$pattern){
+	private function is_compatible_file($tmp_name,$name ,$uploadName,$pattern){
 		if(!preg_match("/^programme_".$_SESSION['responsibility']."\.csv$/",$name))
 			return false;
 		$arrayFile = file($tmp_name);
@@ -154,7 +156,7 @@ class BlocManagerController{
 	 * $uploadName is a string telling the function wether we are uploading a file of student or a file of lessons
 	 * This function returns a pattern for an upcoming preg_match function depending on $uploadName
 	 */
-	public function define_pattern($uploadName){
+	private function define_pattern($uploadName){
 		return "(.*);(.*);(.*);(.*);(.*);(.*)\n$";
 	}
 	
@@ -164,7 +166,7 @@ class BlocManagerController{
 	 * and then calls for a data process on the database
 	 * also defines a notification to inform the user of what happened
 	 */
-	public function process_file($uploadName){
+	private function process_file($uploadName){
 		$pattern=$this->define_pattern($uploadName);
 		if(isset($_FILES[$uploadName])){
 			$tmp_name=$_FILES[$uploadName]['tmp_name'];
@@ -188,7 +190,7 @@ class BlocManagerController{
 	 * $keyValue is a string that contains the value of the pk we are looking for
 	 * This function return true if the data is being duplicated and false if it's not
 	 */
-	public function is_being_duplicated($primaryKey, $keyValue){
+	private function is_being_duplicated($primaryKey, $keyValue){
 		if($primaryKey=='lesson_code'){
 			if(!$this->_db->select_lesson_pk($keyValue)){
 				return false;
@@ -205,7 +207,7 @@ class BlocManagerController{
 	 * is not going to be duplicated on the database.
 	 * insert the data right into the database if it's not being duplicated xor in an array containing all data  the user tries to duplicate
 	 */
-	public function file_to_DB($uploadName,$name,$pattern){
+	private function file_to_DB($uploadName,$name,$pattern){
 		$arrayFile = file(PATH_CONF . $name);
 		$arrayDuplicated = array();//contains all data the user tries to duplicate
 		$nb_lines = count($arrayFile);

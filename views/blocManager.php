@@ -18,8 +18,11 @@
 		  		</div>
 		  		<form action="index.php?action=blocManager" method="post">
 			  		<div class="panel-body"> 
-							<input type="number" name="modify_serie" size="30" placeholder="série à modifier" class="form-control" />
-							<input type="text" name="bloc_serie_modify" size="30" placeholder="bloc de la série à supprimer" class="form-control" />
+			  			<select name='modify_serie' class="form-control">
+			  				<?php for($i = 0; $i < count($serie_array) ; $i++){?>
+			  					<option value="<?php echo $serie_array[$i]->get_number()?>"><?php echo "Série".$serie_array[$i]->get_number()?></option>
+			  				<?php }?>
+			  			</select>
 					</div>
 					<div class="panel-footer">
 							<button type="submit" class="btn btn-warning btn-block">Modifier <i class="fa fa-refresh" aria-hidden="true"></i></button>
@@ -30,8 +33,11 @@
 		  		</div>
 		  		<form action="index.php?action=blocManager" method="post">
 			  		<div class="panel-body"> 
-							<input type="number" name="delete_serie" size="30" placeholder="série à supprimer" class="form-control" />
-							<input type="text" name="bloc_serie_delete" size="30" placeholder="bloc de la série à supprimer" class="form-control" />		
+			  			<select name='delete_serie' class="form-control">
+			  				<?php for($i = 0; $i < count($serie_array) ; $i++){?>
+			  					<option value="<?php echo $serie_array[$i]->get_number()?>"><?php echo "Série".$serie_array[$i]->get_number()?></option>
+			  				<?php }?>
+			  			</select>
 					</div>
 					<div class="panel-footer">
 						<button type="submit" class="btn btn-danger btn-block">Supprimer <i class="fa fa-trash-o" aria-hidden="true"></i></button>
@@ -47,8 +53,16 @@
 		  		<form action="index.php?action=blocManager" method="post">
 			  		<div class="panel-body">
 							<input type="text" name="name" size="30" placeholder="Intitulé de la séance(non obligatoire)" class="form-control" />
-							<input type="text" name="lesson_fk" size="30" placeholder="UE/AA concernée" class="form-control" />
-							<input type="number" name="serie_fk" size="30" placeholder="Série concernée" class="form-control" />	
+							<select name='lesson_fk' class="form-control">
+				  				<?php for($i = 0; $i < count($lesson_array) ; $i++){?>
+				  					<option value="<?php echo $lesson_array[$i]->lesson_code?>"><?php echo $lesson_array[$i]->name?></option>
+				  				<?php }?>
+			  				</select>
+							<select name='serie_fk' class="form-control">
+				  				<?php for($i = 0; $i < count($serie_array) ; $i++){?>
+				  					<option value="<?php echo $serie_array[$i]->get_number()?>"><?php echo "Série".$serie_array[$i]->get_number()?></option>
+				  				<?php }?>
+			  				</select>
 					</div>
 					<div class="panel-footer">
 						<button type="submit" class="btn btn-success btn-block">Créer <i class="fa fa-plus" aria-hidden="true"></i></button>

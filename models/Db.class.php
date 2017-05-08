@@ -12,7 +12,7 @@ class Db{
 	
 	private function __construct() {
 		try{
-			$this->_db=new PDO('mysql:host=localhost:8889;dbname=ipl_agenda;charset=utf8','root','root');
+			$this->_db=new PDO('mysql:host=localhost;dbname=ipl_agenda;charset=utf8','root','');
 			$this->_db->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
 			$this->_db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE,PDO::FETCH_OBJ);
 		}
@@ -42,7 +42,7 @@ class Db{
 	
 	public function drop_serie_pk($serie_number,$serie_bloc)
 	{
-		$req = $this->_db->prepare('DELETE FROM series where serie_number=:serie_number and serie_bloc=:serie_bloc');
+		$req = $this->_db->prepare('DELETE FROM series where serie_number=:serie_number and lower(serie_bloc)=:serie_bloc');
 		$req->execute(array('serie_bloc' => $serie_bloc,
 							'serie_number' => $serie_number));
 	}
@@ -216,13 +216,12 @@ class Db{
 							'id_session' => $session_code));
 	}
 	
-	public function select_session_pk($name, $lesson_code)
-	{
-		$req = $this->_db->prepare("SELECT * FROM sessions WHERE name = :name and lesson_code = :lesson_code");
-		$req->execute(array("name" => $name,
-							"lesson_code" => $lesson_code));
+	public function select_session_pk(){
+		$req = $this->_db->prepare("SELECT id_session FROM sessions ORDER BY id_session DESC");
+		$req->execute(array());
 		$result = $req->fetch();
 		$req->closeCursor();
+		var_dump($result);
 		return $result;
 	}
 	
@@ -231,6 +230,45 @@ class Db{
 		$req = $this->_db->prepare("SELECT * FROM lessons WHERE lesson_code = :lesson_code");
 		$req->execute(array("lesson_code" => $lesson_code));
 		$result = $req->fetch();
+		$req->closeCursor();
+		return $result;
+	}
+	
+	public function select_serie_star_bloc($serie_bloc){
+		$req = $this->_db->prepare("SELECT * FROM series where serie_bloc=:serie_bloc");
+		$req->execute(array("serie_bloc" => $serie_bloc));
+		$series_array = array();
+		if ($req->rowcount()!=0) {
+			while ($row = $req->fetch()) {
+				$series_array[] = new Serie($row->serie_number, $row->serie_bloc);
+			}
+		}
+		$req->closeCursor();
+		return $series_array;
+	}
+	
+	public function select_star_week(){
+		$req = $this->_db->prepare("SELECT * FROM weeks");
+		$req->execute();
+		$result = array();
+		if ($req->rowcount()!=0) {
+			while ($row = $req->fetch()) {
+				$result[] = $row;
+			}
+		}
+		$req->closeCursor();
+		return $result;
+	}
+	
+	public function select_lesson_name_and_lesson_code($lesson_code){
+		$req = $this->_db->prepare("SELECT name, lesson_code FROM lessons where lesson_code like :lesson_code");
+		$req->execute(array("lesson_code" => $lesson_code."%"));
+		$result = array();
+		if ($req->rowcount()!=0) {
+			while ($row = $req->fetch()) {
+				$result[] = $row;
+			}
+		}
 		$req->closeCursor();
 		return $result;
 	}

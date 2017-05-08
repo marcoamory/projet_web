@@ -9,7 +9,7 @@ class StudentController{
 	}
 
 	function run(){
-	
-		echo "Page Student";
+		$week_array=$this->_db->select_star_week();
+		require_once(PATH_VIEW.'student.php');
 	}
 }

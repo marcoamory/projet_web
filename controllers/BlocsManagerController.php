@@ -37,7 +37,7 @@ class BlocsManagerController{
 	 * necessary to the admin aswell
 	 * wipes out all the data in the DB
 	 */
-	public function wipe_data(){
+	private function wipe_data(){
 		$this->_db->drop_all_data();
 	}
 	/*
@@ -47,7 +47,7 @@ class BlocsManagerController{
 	 * $pattern is a string containing the pattern necessary to the preg_match function depending on $uploadName
 	 * this function checks if the file is a .csv, compatible with our database and our constraints
 	 */
-	public function is_compatible_file($tmp_name,$name ,$uploadName,$pattern){
+	private function is_compatible_file($tmp_name,$name ,$uploadName,$pattern){
 		if(!preg_match("/^etudiants\.csv$/",$name)&&!preg_match("/^programme_bloc[1-3]\.csv$/",$name))
 			return false;
 		$arrayFile = file($tmp_name);
@@ -70,7 +70,7 @@ class BlocsManagerController{
 	 * $uploadName is a string telling the function wether we are uploading a file of student or a file of lessons
 	 * this function returns a pattern for an upcoming preg_match function depending on $uploadName
 	 */
-	public function define_pattern($uploadName){
+	private function define_pattern($uploadName){
 		if($uploadName=='students_csv')
 			return "(Bl.*);(.*);(.*);(.*)\n$";
 		return "(.*);(.*);(.*);(.*);(.*);(.*)\n$";
@@ -82,7 +82,7 @@ class BlocsManagerController{
 	 * and then calls for a data process on the database
 	 * also defines a notification to inform the user of what happened
 	 */
-	public function process_file($uploadName){
+	private function process_file($uploadName){
 		$pattern=$this->define_pattern($uploadName);
 		if(isset($_FILES[$uploadName])){
 			$tmp_name=$_FILES[$uploadName]['tmp_name'];
@@ -106,7 +106,7 @@ class BlocsManagerController{
 	 * $keyValue is a string that contains the value of the pk we are looking for
 	 * this function return true if the data is being duplicated and false if it's not
 	 */
-	public function is_being_duplicated($primaryKey, $keyValue){
+	private function is_being_duplicated($primaryKey, $keyValue){
 		if($primaryKey=='email_student'){
 			if(!$this->_db->select_student_pk($keyValue)){
 				return false;
@@ -128,7 +128,7 @@ class BlocsManagerController{
 	 * is not going to be duplicated on the database.
 	 * insert the data right into the database if it's not being duplicated xor in an array containing all data  the user tries to duplicate
 	 */
-	public function file_to_DB($uploadName,$name,$pattern){
+	private function file_to_DB($uploadName,$name,$pattern){
 		$arrayFile = file(PATH_CONF . $name);
 		$arrayDuplicated = array();//contains all data the user tries to duplicate
 		$nb_lines = count($arrayFile);
