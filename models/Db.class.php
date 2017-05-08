@@ -268,6 +268,19 @@ class Db{
 		return $result;
 	}
 	
+	public function select_star_session_lesson($lesson_code){
+		$req = $this->_db->prepare("SELECT * FROM sessions where lesson_code=:lesson_code");
+		$req->execute(array("lesson_code" => $lesson_code));
+		$result = array();
+		if ($req->rowcount()!=0) {
+			while ($row = $req->fetch()) {
+				$result[] = $row;
+			}
+		}
+		$req->closeCursor();
+		return $result;
+	}
+	
 	public function select_lesson_name_and_lesson_code($lesson_code){
 		$req = $this->_db->prepare("SELECT name, lesson_code FROM lessons where lesson_code like :lesson_code");
 		$req->execute(array("lesson_code" => $lesson_code."%"));
@@ -281,9 +294,13 @@ class Db{
 		return $result;
 	}
 	
-	public function select_star_presence_student($email_student){
-		$req = $this->_db->prepare("SELECT * FROM presences WHERE email_student=:email_student");
-		$req->execute(array("email_student" => $email_student));
+	public function select_presences_student_session($email_student,$id_session){
+		$req = $this->_db->prepare("SELECT * FROM presences p, presence_sheets ps
+									WHERE p.id_sheet=ps.id_sheet
+									AND id_session=:id_session
+									AND email_student=:email_student");
+		$req->execute(array("email_student" => $email_student,
+							"id_session" => $id_session));
 		$result = array();
 		if ($req->rowcount()!=0) {
 			while ($row = $req->fetch()) {

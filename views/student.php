@@ -19,7 +19,7 @@
 	    		</div>
 	    	</form>
 	  </div>
-		<?php if(isset($_SESSION['lesson_chosen'])){?>
+		<?php if(isset($_SESSION['lesson_chosen'])&&isset($session_array)){?>
 		<div class="panel-body">
 			<table class="table">
 				<thead>
@@ -31,10 +31,14 @@
 					</tr>
 				</thead>
 				<tbody>
+					<?php for($i = 0; $i < count($session_array) ; $i++){?>
 					<tr>
-						<td>Présences</td>
-						<td>ok</td>
+						<td><?php echo $session_array[$i]->name?></td>
+						<?php for($j = 0; $j < count($presence_array[$i]) ; $j++){?>
+							<td><?php echo $presence_array[$i][$j]->state?></td>
+						<?php }?>
 					</tr>
+					<?php }?>
 				</tbody>
 			</table>
 		</div>
