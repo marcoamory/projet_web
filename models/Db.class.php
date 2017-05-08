@@ -125,14 +125,22 @@ class Db{
 		$req->execute(array('serie_number' => $serie_number,
 							'email_student' => $email_student));
 	}
+
+	public function insert_presence_sheet($email_teacher, $id_session, $week_number){
+		$req = $this->_db->prepare("INSERT INTO presence_sheets (email_teacher, id_session, week_number) VALUES (:email_teacher, :id_session, :week_number)");
+		$req->execute(array("email_teacher" => $email_teacher,
+							"id_session" => $id_session,
+							"week_number" => $week_number));
+	}
 	
 	/*
 	 * careful, the student's email must exist before using this query
 	 */
-	public function insert_presence($email_student,$state,$grade)
+	public function insert_presence($id_sheet, $email_student,$state,$grade)
 	{
-		$req = $this->_db->prepare('INSERT INTO presences (email_student, state, grade) VALUES (:email_student, :state, :grade)');
-		$req->execute(array('email_student' => $email_student,
+		$req = $this->_db->prepare('INSERT INTO presences (id_sheet, email_student, state, grade) VALUES (:id_sheet, :email_student, :state, :grade)');
+		$req->execute(array('id_sheet' => $id_sheet,
+		 					'email_student' => $email_student,
 							'state' => $state,
 							'grade' => $grade));
 	}
@@ -291,7 +299,7 @@ class Db{
 	}
 
 	public function select_session_serie($bloc, $serie, $quadri){
-		$req = $this->_db->prepare("SELECT s.name name, ss.time_slot time_slot
+		$req = $this->_db->prepare("SELECT s.name name, ss.time_slot time_slot, s.id_session id_session
 									FROM sessions s, sessions_series ss, lessons l
 									WHERE s.id_session = ss.id_session AND l.lesson_code = s.lesson_code
 									AND (l.quadri = :quadri OR l.quadri = 'Q12') AND ss.number = :serie AND ss.bloc = :bloc");
@@ -305,6 +313,17 @@ class Db{
 		$req->closeCursor();
 		
 		return $session_array; 
+	}
+
+	public function select_presence_sheet($email_teacher, $id_session, $week_number){
+		$req = $this->_db->prepare("SELECT id_sheet FROM presence_sheets WHERE email_teacher = :email_teacher AND id_session = :id_session AND week_number = :week_number");
+		$req->execute(array("email_teacher" => $email_teacher,
+							"id_session" => $id_session,
+							"week_number" => $week_number));
+		$result = $req->fetch();
+		$req->closeCursor();
+		var_dump($result);
+		return $result;
 	}
 
 }

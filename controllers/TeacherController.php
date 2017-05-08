@@ -31,8 +31,35 @@ class TeacherController{
 	if(isset($_POST['session'])){
 		$session = htmlspecialchars($_POST['session']);
 	}
-	else{
-		
+
+	if(isset($_POST['week']) AND !empty($_POST['week'])){
+		$week = htmlspecialchars($_POST['week']);
+		$week = $this->select_week_pk($week);
+		$week_name = $week->name;
+		$week_number = $week->week_number;
+		$quadri = $week->quadri;
+	}
+	
+	if(isset($_POST['presence_send'])){
+		echo $_SESSION['email'];
+		echo $session;
+		echo $week_number;
+		$presence_sheet = $this->select_presence_sheet($_SESSION['email'], $session, $week_number);
+		var_dump($presence_sheet);
+		if(empty($presence_sheet)){
+			$this->create_presence_sheet($_SESSION['email'], $session, $current_week_number);
+			$presence_sheet = $this->select_presence_sheet($_SESSION['email'], $session, $week_number);
+		}
+		var_dump($presence_sheet);
+		for($i = 0; $i < count($students); $i++){
+			if(isset($_POST['note' . $i])){
+				$this->insert_presence($presence_sheet, $students[$i]->getEmail(), htmlspecialchars($_POST['presence' . $i]), htmlspecialchars($_POST['note' . $i]));
+			}
+			else{
+				$this->insert_presence($presence_sheet, $students[$i]->getEmail(), htmlspecialchars($_POST['presence' . $i]), NULL);
+			}
+		}
+
 	}
 	
 	require_once(PATH_VIEW . 'teacher.php');
@@ -54,8 +81,24 @@ class TeacherController{
 		
 	}
 
+	private function select_week_pk($week_number){
+		return $this->_db->select_week_pk($week_number);
+	}
+
 	private function select_session_serie($bloc, $serie, $quadri){
 		return $this->_db->select_session_serie($bloc, $serie, $quadri);
+	}
+
+	private function create_presence_sheet($email_theacher, $id_session, $week_number){
+		$this->_db->insert_presence_sheet($email_theacher, $id_session, $week_number);
+	}
+
+	private function select_presence_sheet($email_theacher, $id_session, $week_number){
+		$this->_db->select_presence_sheet($email_theacher, $id_session, $week_number);
+	}
+
+	private function insert_presence($id_sheet, $email_student, $state, $grade){
+		$this->_db->insert_presence($id_sheet, $email_student, $state, $grade);
 	}
 
 
