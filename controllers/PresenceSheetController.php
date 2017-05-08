@@ -37,11 +37,9 @@ class PresenceSheetController{
 
 			}
 			$presence_array = array();
-			for($i=0; $i<count($sheet); $i++){
-				if($sheet[$i]){
-					$presence_array[$i] = $this->select_presence_presence_sheet($sheet[$i]->id_sheet);
-					var_dump($presence_array[$i]);
-					echo count($presence_array[$i]); 
+			foreach($sheet as $element){
+				if($element){
+					$presence_array[] = $this->select_presence_presence_sheet($element->id_sheet);
 				}
 			}	
 		}

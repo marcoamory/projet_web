@@ -75,19 +75,15 @@
 
 			<?php } } ?>
 		</tr>
-		<?php for($i=0; $i<count($sheet); $i++) { 
-			if($sheet[$i]) {?>
-		
-			<?php for($j=0;$j < count($presence_array[$i]); $j++) { ?>
-			<tr>
-				<td><?php echo $presence_array[$i][$j]->last_name . " " . $presence_array[$i][$j]->first_name; ?></td>
-				<td><?php echo $presence_array[$i][$j]->state; ?></td>
-			</tr>
-			<?php } ?>
-			
-			
-		<?php } } ?>
-
+		<?php for($j=0; $j<count($presence_array[0]); $j++) { ?>
+		<tr>
+			<td><?php echo $presence_array[0][$j]->last_name . " " . $presence_array[0][$j]->first_name; ?>
+			<?php for($i=0; $i<count($sheet); $i++) {
+				if($sheet[$i]){ ?>
+			<td><?php echo $presence_array[$i][$j]->state; ?></td>
+			<?php } } ?>
+		</tr>
+		<?php } ?>
 	</table>
 </div>
 <?php } ?> <!--Close third condition -->
