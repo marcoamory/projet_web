@@ -28,6 +28,7 @@ class LoginController{
 				$_SESSION['email'] = $student->getEmail();
 				$_SESSION['first_name'] = $student->getFirstName();
 				$_SESSION['last_name'] = $student->getLastName();
+				$_SESSION['bloc'] = $student->getBloc();
 				$_SESSION['authentifie'] = true;
 
 

@@ -281,6 +281,19 @@ class Db{
 		return $result;
 	}
 	
+	public function select_star_presence_student($email_student){
+		$req = $this->_db->prepare("SELECT * FROM presences WHERE email_student=:email_student");
+		$req->execute(array("email_student" => $email_student));
+		$result = array();
+		if ($req->rowcount()!=0) {
+			while ($row = $req->fetch()) {
+				$result[] = $row;
+			}
+		}
+		$req->closeCursor();
+		return $result;
+	}
+	
 	public function select_serie_pk($serie_number,$serie_bloc)
 	{
 		$req = $this->_db->prepare("SELECT * FROM series WHERE serie_number = :serie_number AND lower(serie_bloc) = :serie_bloc  ");
