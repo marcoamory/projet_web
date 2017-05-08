@@ -43,15 +43,15 @@ class TeacherController{
 	if(isset($_POST['presence_send'])){
 		$presence_sheet = $this->select_presence_sheet($_SESSION['email'], $session, $week_number);
 		if(empty($presence_sheet)){
-			$this->create_presence_sheet($_SESSION['email'], $session, $current_week_number);
+			$this->create_presence_sheet($_SESSION['email'], $session, $week_number);
 			$presence_sheet = $this->select_presence_sheet($_SESSION['email'], $session, $week_number);
 		}
 		for($i = 0; $i < count($students); $i++){
 			if(isset($_POST['note' . $i])){
-				$this->insert_presence($presence_sheet, $students[$i]->getEmail(), htmlspecialchars($_POST['presence' . $i]), htmlspecialchars($_POST['note' . $i]));
+				$this->insert_presence($presence_sheet->id_sheet, $students[$i]->getEmail(), htmlspecialchars($_POST['presence' . $i]), htmlspecialchars($_POST['note' . $i]));
 			}
 			else{
-				$this->insert_presence($presence_sheet, $students[$i]->getEmail(), htmlspecialchars($_POST['presence' . $i]), NULL);
+				$this->insert_presence($presence_sheet->id_sheet, $students[$i]->getEmail(), htmlspecialchars($_POST['presence' . $i]), NULL);
 			}
 		}
 

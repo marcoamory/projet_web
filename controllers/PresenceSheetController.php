@@ -27,6 +27,24 @@ class PresenceSheetController{
 			$sessions = $this->select_session_serie($bloc, $serie, $current_quadri);
 			
 		}
+
+		if(isset($_POST['session'])){
+			$session = htmlspecialchars($_POST['session']);
+			$week = $this->select_week_quadri($current_quadri);
+			$sheet = array();
+			foreach($week as $element){
+				$sheet[] = $this->select_presence_sheet_week_sesssion($session, $element->week_number);
+
+			}
+			$presence_array = array();
+			for($i=0; $i<count($sheet); $i++){
+				if($sheet[$i]){
+					$presence_array[$i] = $this->select_presence_presence_sheet($sheet[$i]->id_sheet);
+					var_dump($presence_array[$i]);
+					echo count($presence_array[$i]); 
+				}
+			}	
+		}
 	
 	require_once(PATH_VIEW . 'presenceSheet.php');
 
@@ -46,7 +64,19 @@ class PresenceSheetController{
 		return $this->_db->select_current_week();
 		
 	}
+
+	private function select_week_quadri($quadri){
+		return $this->_db->select_week_quadri($quadri);
+	}
 	private function select_session_serie($bloc, $serie, $quadri){
 		return $this->_db->select_session_serie($bloc, $serie, $quadri);
+	}
+
+	private function select_presence_sheet_week_sesssion($id_session, $week_number){
+		return $this->_db->select_presence_sheet_session_week($id_session, $week_number);
+	}
+
+	private function select_presence_presence_sheet($id_sheet){
+		return $this->_db->select_presence($id_sheet);
 	}
 }
