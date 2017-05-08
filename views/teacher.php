@@ -29,17 +29,10 @@
 	<div class="panel panel-primary">
 	  <div class="panel-body">
 	    	<form method="post" action="index.php?action=teacher">
-	    		<div class="col-md-3 col-md-offset-2">
+	    		<div class="col-md-6 col-md-offset-2">
 	    			<select name="serie" class="form-control">
 	    			<?php foreach ($series as $element){ ?>
 	    				<option value="<?php echo $element; ?>" <?php if(isset($serie) AND $serie == $element) echo 'selected'; ?>>Serie <?php echo $element; ?></option>
-	    			<?php } ?>
-	    			</select>
-	    		</div>
-	    		<div class="col-md-3">
-	    			<select name="lesson" class="form-control">
-	    				<?php foreach ($lessons as $element){ ?>
-	    				<option value="<?php echo $element; ?>" <?php if(isset($lesson) AND $lesson == $element) echo 'selected'; ?>><?php echo $element; ?></option>
 	    			<?php } ?>
 	    			</select>
 	    		</div>
@@ -51,22 +44,31 @@
 	  </div>
 	</div>
 </div>
-<?php if(isset($serie) AND !empty($serie) AND isset($lesson) AND !empty($lesson)){ ?>
+<?php if(isset($serie) AND !empty($serie)){ ?>
 <div class="row">
 	<div class="panel panel-primary">
 		<div class="panel-body">
 			<form method="post" action="index.php?action=teacher">
-				<div class="col-md-6 col-md-offset-2">
-					<select class="form-control">
+			<div class="col-md-1 col-md-offset-1 text-right">
+				<label for="week_select"><?php echo strtoupper($current_quadri); ?>:</label>
+			</div>
+				<div class="col-md-3">
+					<select id="week_select" class="form-control">
 						<?php for($i=1; $i < $current_week_number; $i++){ ?>
 							<option value="<?php echo $i; ?>">Semaine <?php echo $i; ?></option>
 						<?php } ?>
 							<option value="<?php echo $current_week_number; ?>" selected>Semaine courante</option>
 					</select>
 				</div>
+				<div class="col-md-3">
+	    			<select name="session" class="form-control">
+	    				<?php foreach ($sessions as $element){ ?>
+	    				<option value="<?php echo $element->name; ?>" <?php if(isset($session) AND $session == $element->name) echo 'selected'; ?>><?php echo $element->name . " " . $element->time_slot; ?></option>
+	    			<?php } ?>
+	    			</select>
+	    		</div>
 				<div class="col-md-1">
 					<input type="hidden" name="bloc" value="<?php echo $bloc; ?>"/>
-					<input type="hidden" name="lesson" value="<?php echo $lesson ?>"/>
 					<input type="hidden" name="serie" value="<?php echo $serie; ?>"/>
 					<input type="submit" value="Rechercher" class="btn btn-success"/>
 				</div>

@@ -1,3 +1,9 @@
+section
+{
+	width: 70%;
+	margin:auto;
+}
+
 /*NAVBAR*/
 
 nav #logout_button
@@ -26,12 +32,6 @@ nav #logout_button
 
 /*ADMIN PAGE*/
 
-#adminManagement
-{
-	width: 70%;
-	margin:auto;
-}
-
 #upload_teacher, #upload_agenda
 {
 	margin-bottom: 10px;
@@ -50,26 +50,17 @@ nav #logout_button
 
 /*BLOCS PAGE*/
 
-#blocs_manager
-{
-	width: 70%;
-}
 
 /*BLOC PAGE*/
 
-#bloc_manager
-{
-	width: 70%;
-}
 
 /*BLOCS PAGE*/
 
 
 /*TEACHER PAGE*/
-#teacher_view
-{
-	width: 70%;
-}
+
+
+
 
 
 

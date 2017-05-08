@@ -30,6 +30,7 @@
 	        	?>
 	        	<ul class="nav navbar-nav">
 		            <li><a href="index.php?action=teacher">Prise des présences</a></li>
+		            <li><a href="index.php?action=presenceSheet">Feuilles de présences</a></li>
 		            <li><a href="index.php?action=adminManagement">Gestion Admin</a></li>
 	          </ul>
 	          <?php
@@ -38,6 +39,7 @@
 	        	?>
 				<ul class="nav navbar-nav">
 		            <li><a href="index.php?action=teacher">Prise des présences</a></li>
+		            <li><a href="index.php?action=presenceSheet">Feuilles de présences</a></li>
 		            <li><a href="index.php?action=blocsManager">Gestion Blocs</a></li>
 	         	</ul>
 	        	<?php
@@ -46,6 +48,7 @@
 	        	?>
 	        	<ul class="nav navbar-nav">
 		            <li><a href="index.php?action=teacher">Prise des présences</a></li>
+		            <li><a href="index.php?action=presenceSheet">Feuilles de présences</a></li>
 		            <li><a href="index.php?action=blocManager">Gestion <?php echo $_SESSION['responsibility'] ?></a></li>
 	         	</ul>
 	         	<?php

@@ -1,6 +1,6 @@
 ﻿<section id='adminManagement' class="container-fluid">
 	<div class="row">
-		<div class="col-md-6">
+		<div class="col-md-4">
 			<div class="panel panel-primary">
 		  		<div class="panel-heading">
 		   			 <h3 class="panel-title text-center">Agenda de l'année</h3>
@@ -16,7 +16,7 @@
 				</form>
 			</div>
 		</div>
-		<div class="col-md-6">
+		<div class="col-md-4">
 			<div class="panel panel-primary">
 		  			<div class="panel-heading">
 		   				 <h3 class="panel-title text-center">Professeurs</h3>
@@ -32,10 +32,7 @@
 		  			</form>
 			</div>
 		</div>
-	</div>
-	
-	<div class="row">
-		<div class="col-md-6">
+		<div class="col-md-4">
 			<div class="panel panel-primary">
 				<div class="panel-heading">
 					<h3 class="panel-title text-center">Nettoyer les données annuelles</h3>
