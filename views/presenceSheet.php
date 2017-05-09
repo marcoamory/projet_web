@@ -1,4 +1,5 @@
 <section id="presence_sheet" class="container-fluit">
+<span id=top2></span>
 	<div class="row">
 		<div class="panel panel-primary">
 			<div class="panel-heading">
@@ -92,6 +93,9 @@
 		</tr>
 		<?php } ?>
 	</table>
+	<div class="col-md-2 col-md-offset-10 text-right">
+		<a class="btn btn-primary" href="#top2">Remonter <i class="fa fa-arrow-up" aria-hidden="true"></i> </a>
+	</div>
 </div>
 <?php } ?> <!--Close third condition -->
 <?php } ?> <!--Close second condition -->
