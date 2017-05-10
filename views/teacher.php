@@ -4,7 +4,7 @@
 	<div class="panel panel-primary">
 		<div class="panel-heading">
 			<div class="panel-title text-center">
-				<h4>Présences au cours <?php if(isset($lesson) AND !empty($lesson)) echo '"' . $lesson .'"';?> du <?php echo date("d/m/Y"); ?> <?php if(isset($current_week_name) AND !empty($current_week_name)) echo "[" . $current_week_name . "]"; ?></h4>
+				<h4>Présences au cours <?php if(isset($lesson) AND !empty($lesson)) echo '"' . $lesson .'"';?> du <?php echo date("d/m/Y"); ?> <?php if(isset($week_name) AND !empty($week_name)) echo "[" . $week_name . "]"; ?></h4>
 			</div>
 		</div>
 	 	<div class="panel-body">
@@ -55,9 +55,9 @@
 				<div class="col-md-3">
 					<select id="week_select" class="form-control" name='week'>
 						<?php for($i=1; $i < $current_week_number; $i++){ ?>
-							<option value="<?php echo $i; ?>" <?php if(isset($week_number) AND $week_number = $i) echo 'selected';?>>Semaine <?php echo $i; ?></option>
+							<option value="<?php echo $i; ?>" <?php if(isset($week_number) AND $week_number == $i) echo 'selected';?>>Semaine <?php echo $i; ?></option>
 						<?php } ?>
-							<option value="<?php echo $current_week_number; ?>"<?php if(!isset($week_number) OR (isset($week_number) AND $week_number = $current_week_number)) echo 'selected'; ?>>Semaine courante</option>
+							<option value="<?php echo $current_week_number; ?>"<?php if(!isset($week_number) OR (isset($week_number) AND $week_number == $current_week_number)) echo 'selected'; ?>>Semaine courante</option>
 					</select>
 				</div>
 				<div class="col-md-3">
