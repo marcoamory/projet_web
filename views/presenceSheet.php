@@ -1,5 +1,5 @@
 <section id="presence_sheet" class="container-fluit">
-<span id=top2></span>
+<span id=top></span>
 	<div class="row">
 		<div class="panel panel-primary">
 			<div class="panel-heading">
@@ -85,8 +85,37 @@
 						<td><span class="label label-success">Présent(e)</span></td>
 					<?php } elseif ($presence_array[$i][$j]->state == 'passive') { ?>
 						<td><span class="label label-warning">Passif</span></td>
+					<?php } elseif ($presence_array[$i][$j]->state == 'justify') { ?>
+						<td><span class="label label-info">Justifié(e)</span></td>
 					<?php } else{ ?>
-						<td><span class="label label-danger">Absent(e)</span></td>
+						<td><span class="label label-danger">Absent(e)</span> <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#myModal<?php echo $j?>">
+						Justifier <i class="fa fa-paperclip" aria-hidden="true"></i>
+						</button>
+
+						<!-- Modal -->
+						<div class="modal fade" id="myModal<?php echo $j; ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+						  <div class="modal-dialog" role="document">
+						    <div class="modal-content">
+						      <div class="modal-header">
+						        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						        <h4 class="modal-title" id="myModalLabel">Joindre une justification d'absence</h4>
+						      </div>
+						      <div class="modal-body">
+						        Voulez-vous joindre une justification d'absence pour <?php echo $presence_array[0][$j]->last_name . " " .$presence_array[0][$j]->first_name; ?> pour son absence en Semaine <?php echo $week[$i]->week_number; ?>? 
+						      </div>
+						      <div class="modal-footer">
+						      <form method="post" action="index.php?action=presenceSheet">
+						      	<input type="hidden" name="justify" value="<?php echo $presence_array[0][$j]->email_student . "+" . $sheet[$i]->id_sheet; ?>">
+						      	<input type="hidden" name="bloc" value= "<?php echo $bloc;?>"/>
+	    						<input type="hidden" name="serie" value="<?php echo $serie; ?>">
+	    						<input type="hidden" name="session" value="<?php echo $session; ?>">
+						        <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+						        <input type="submit" class="btn btn-info" value="Justifier" />
+						       </form>
+						      </div>
+						    </div>
+						  </div>
+						</div></td>
 					 
 			
 			<?php } } } ?>

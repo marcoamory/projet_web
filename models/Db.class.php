@@ -126,6 +126,12 @@ class Db{
 							'email_student' => $email_student));
 	}
 
+	public function update_presence($id_sheet, $email_student){
+		$req = $this->_db->prepare('UPDATE presences SET state="justify" WHERE id_sheet = :id_sheet AND email_student = :email_student');
+		$req->execute(array("id_sheet" => $id_sheet,
+							"email_student" => $email_student));
+	}
+
 	public function insert_presence_sheet($email_teacher, $id_session, $week_number){
 		$req = $this->_db->prepare("INSERT INTO presence_sheets (email_teacher, id_session, week_number) VALUES (:email_teacher, :id_session, :week_number)");
 		$req->execute(array("email_teacher" => $email_teacher,
@@ -383,7 +389,7 @@ class Db{
 	}
 
 	public function select_presence($id_sheet){
-		$req = $this->_db->prepare("SELECT s.last_name last_name, s.first_name first_name, p.state state, p.grade grade
+		$req = $this->_db->prepare("SELECT s.last_name last_name, s.first_name first_name, p.email_student email_student, p.state state, p.grade grade
 									FROM presences p, students s
 									WHERE p.email_student = s.email_student
 									AND id_sheet = :id_sheet ORDER BY last_name");

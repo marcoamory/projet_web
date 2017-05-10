@@ -28,6 +28,13 @@ class PresenceSheetController{
 			
 		}
 
+		if(isset($_POST['justify'])){
+			$justify = htmlspecialchars($_POST['justify']);
+			$justify_explode = explode("+", $justify);
+			$this->update_presence($justify_explode[1], $justify_explode[0]);
+
+		}
+
 		if(isset($_POST['session'])){
 			$session = htmlspecialchars($_POST['session']);
 			$week = $this->select_week_quadri($current_quadri);
@@ -59,8 +66,7 @@ class PresenceSheetController{
 	}
 
 	private function select_current_week(){
-		return $this->_db->select_current_week();
-		
+		return $this->_db->select_current_week();	
 	}
 
 	private function select_week_quadri($quadri){
@@ -76,5 +82,9 @@ class PresenceSheetController{
 
 	private function select_presence_presence_sheet($id_sheet){
 		return $this->_db->select_presence($id_sheet);
+	}
+
+	private function update_presence($id_sheet, $email_student){
+		return $this->_db->update_presence($id_sheet, $email_student);
 	}
 }
