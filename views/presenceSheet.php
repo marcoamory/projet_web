@@ -88,12 +88,12 @@
 					<?php } elseif ($presence_array[$i][$j]->state == 'justify') { ?>
 						<td><span class="label label-info">Justifié(e)</span></td>
 					<?php } else{ ?>
-						<td><span class="label label-danger">Absent(e)</span> <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#myModal<?php echo $j?>">
+						<td><span class="label label-danger">Absent(e)</span> <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#myModal<?php echo $i . $j?>">
 						Justifier <i class="fa fa-paperclip" aria-hidden="true"></i>
 						</button>
 
 						<!-- Modal -->
-						<div class="modal fade" id="myModal<?php echo $j; ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+						<div class="modal fade" id="myModal<?php echo $i . $j; ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 						  <div class="modal-dialog" role="document">
 						    <div class="modal-content">
 						      <div class="modal-header">
@@ -123,7 +123,7 @@
 		<?php } ?>
 	</table>
 	<div class="col-md-2 col-md-offset-10 text-right">
-		<a class="btn btn-primary" href="#top2">Remonter <i class="fa fa-arrow-up" aria-hidden="true"></i> </a>
+		<a class="btn btn-primary" href="#top">Remonter <i class="fa fa-arrow-up" aria-hidden="true"></i> </a>
 	</div>
 </div>
 <?php } ?> <!--Close third condition -->
