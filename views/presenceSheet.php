@@ -24,7 +24,7 @@
 	  			</div>
 		</div>
 	</div>
-<?php if((isset($series) AND !empty($series)) OR (isset($serie))){ ?> <!-- First condition -->
+<?php if((isset($series) AND !empty($series)) OR (isset($serie))){ //First condition ?>
 <div class="row">
 	<div class="panel panel-primary">
 	  <div class="panel-body">
@@ -44,7 +44,7 @@
 	  </div>
 	</div>
 </div>
-<?php if(isset($serie) AND !empty($serie)) { ?> <!-- Second condition -->
+<?php if(isset($serie) AND !empty($serie)) { //Second condition ?>
 <div class="row">
 <div class="panel panel-primary">
 	  <div class="panel-body">
@@ -65,7 +65,7 @@
 	  </div>
 	</div>
 </div>
-<?php if(isset($session) AND !empty($session)) { ?> <!-- Third condition -->
+<?php if(isset($session) AND !empty($session)) { //Third condition ?>
 <div class="row">
 	<table class="table table-striped table-hover">
 		<tr>
@@ -93,12 +93,12 @@
 						</button>
 
 						<!-- Modal -->
-						<div class="modal fade" id="myModal<?php echo $i . $j; ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+						<div class="modal fade" id="myModal<?php echo $i . $j; ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel<?php echo $i . $j;?>">
 						  <div class="modal-dialog" role="document">
 						    <div class="modal-content">
 						      <div class="modal-header">
 						        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-						        <h4 class="modal-title" id="myModalLabel">Joindre une justification d'absence</h4>
+						        <h4 class="modal-title" id="myModalLabel<?php echo $i . $j;?>">Joindre une justification d'absence</h4>
 						      </div>
 						      <div class="modal-body">
 						        Voulez-vous joindre une justification d'absence pour <?php echo $presence_array[0][$j]->last_name . " " .$presence_array[0][$j]->first_name; ?> pour son absence en Semaine <?php echo $week[$i]->week_number; ?>? 
@@ -126,7 +126,7 @@
 		<a class="btn btn-primary" href="#top">Remonter <i class="fa fa-arrow-up" aria-hidden="true"></i> </a>
 	</div>
 </div>
-<?php } ?> <!--Close third condition -->
-<?php } ?> <!--Close second condition -->
-<?php } ?> <!--Close first condition -->
+<?php } //Close third condition ?>
+<?php } //Close second condition?>
+<?php } //Close first condition?>
 </section>
