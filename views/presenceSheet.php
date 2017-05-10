@@ -70,17 +70,19 @@
 	<table class="table table-striped table-hover">
 		<tr>
 			<th>NOM Prénom</th>
-			<?php for($i=0; $i<count($week);$i++){ 
+			<?php for($i=0; $i<count($week);$i++){ //A loop on each current's quadri weeks until the current week 
 				if($week[$i]->week_number < $current_week_number || $week[$i]->week_number == $current_week_number){ ?>
 			<th><?php echo "Semaine" . $week[$i]->week_number; ?></th>
 
 			<?php } } ?>
 		</tr>
-		<?php for($j=0; $j<count($presence_array[0]); $j++) { ?>
+		<?php if(isset($sheet) AND !empty($sheet[0])) { //If there aren't any presence sheets for this session, a warning message appears
+		 	for($j=0; $j<count($presence_array[0]); $j++) { ?>
 		<tr>
 			<td><?php echo $presence_array[0][$j]->last_name . " " . $presence_array[0][$j]->first_name; ?>
 			<?php for($i=0; $i<count($sheet); $i++) {
-				if($sheet[$i]){ 
+				if($sheet[$i]){
+				if(!empty($presence_array[$i][$j])){ //If the present sheet exist but there are no presence value for some students, a message appears
 					if($presence_array[$i][$j]->state == 'active'){ ?>
 						<td><span class="label label-success">Présent(e)</span></td>
 					<?php } elseif ($presence_array[$i][$j]->state == 'passive') { ?>
@@ -118,8 +120,18 @@
 						</div></td>
 					 
 			
-			<?php } } } ?>
+			<?php } }
+			else{ //If there is a present sheet but no presence value in it?>
+				<td><span class="label label-default">Présence à prendre</span></td>
+			<?php	} } } } ?>
+			
 		</tr>
+		<?php } 
+		else{ //If there isn't a present sheet?>
+			<div class="alert alert-warning alert-dismissible" role="alert">
+		  		<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		   			<p><i class="fa fa-exclamation-triangle fa-2x" aria-hidden="true"></i> Il n'y a pas de feuilles de présences pour ce cours actuellement ! </p>
+    		</div>
 		<?php } ?>
 	</table>
 	<div class="col-md-2 col-md-offset-10 text-right">

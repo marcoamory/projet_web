@@ -7,7 +7,7 @@
 		  		</div>
 		  		<form action="index.php?action=blocManager" method="post">
 			  		<div class="panel-body">
-							<input type="number" name="nb_series" size="30" placeholder="nombre de séries voulues" class="form-control" />
+							<input type="number" name="nb_series" size="30" placeholder="Nombre de séries voulues" class="form-control" />
 					</div>
 					<div class="panel-footer">
 						<button type="submit" class="btn btn-success btn-block">Créer <i class="fa fa-plus" aria-hidden="true"></i></button>
