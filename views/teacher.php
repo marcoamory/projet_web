@@ -63,7 +63,7 @@
 				<div class="col-md-3">
 	    			<select name="session" class="form-control">
 	    				<?php foreach ($sessions as $element){ ?>
-	    				<option value="<?php echo $element->id_session; ?>" <?php if(isset($session) AND $session == $element->id_session) echo 'selected'; ?>><?php echo $element->name . " " . $element->time_slot; ?></option>
+	    				<option value="<?php echo $element->id_session; ?>" <?php if(isset($session) AND $session == $element->id_session) echo 'selected'; ?>><?php echo $element->name; ?></option>
 	    			<?php } ?>
 	    			</select>
 	    		</div>
