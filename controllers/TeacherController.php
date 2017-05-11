@@ -17,8 +17,6 @@ class TeacherController{
 		$current_week_number = $current_week->week_number;
 		$current_quadri = $current_week->quadri;
 		$series = $this->select_serie_for_bloc($bloc);
-
-		
 	}
 
 	if(isset($_POST['serie'])){

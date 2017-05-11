@@ -39,6 +39,8 @@ class BlocsManagerController{
 	 */
 	private function wipe_data(){
 		$this->_db->drop_all_data();
+		header("Location: index.php?action=login&message=logout");
+		die();
 	}
 	/*
 	 * $tmp_name is a string containing the absolute path of the temporary location it's being uploaded to on the server

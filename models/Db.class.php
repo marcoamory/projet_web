@@ -12,7 +12,7 @@ class Db{
 	
 	private function __construct() {
 		try{
-			$this->_db=new PDO('mysql:host=localhost:8889;dbname=ipl_agenda;charset=utf8','root','root');
+			$this->_db=new PDO('mysql:host=localhost;dbname=ipl_agenda;charset=utf8','root','');
 			$this->_db->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
 			$this->_db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE,PDO::FETCH_OBJ);
 		}
@@ -28,12 +28,12 @@ class Db{
 	 */
 	public function drop_all_data()
 	{
-		$req = $this->_db->prepare('DELETE FROM presence_sheets;
-									DELETE FROM presences;
+		$req = $this->_db->prepare('DELETE FROM presences;
+									DELETE FROM presence_sheets;
 									DELETE FROM sessions_series;
 									DELETE FROM sessions;
-									DELETE FROM series;
 									DELETE FROM students;
+									DELETE FROM series;
 									DELETE FROM teachers WHERE responsibility != "true";
 									DELETE FROM weeks;
 									DELETE FROM lessons;');
