@@ -14,6 +14,7 @@ class BlocManagerController{
 	 * This function decides which function is gonna be called depending on $_POST parameters sent from the view
 	 */
 	public function run(){
+		var_dump($_POST);
 		$serie_array=$this->_db->select_serie_star_bloc($_SESSION['responsibility']);
 		$lesson_array=$this->_db->select_lesson_name_and_lesson_code("I".substr($_SESSION['responsibility'],4,5));
 		if(isset($_SESSION['notification_error']))
@@ -58,8 +59,8 @@ class BlocManagerController{
 				$this->process_file('lessons_csv');
 			require_once(PATH_VIEW.'blocManager.php');
 		}
-		elseif(isset($_POST['name'])&&isset($_POST['lesson_fk'])&&isset($_POST['serie_fk'])){
-			if(empty($_POST['lesson_fk'])||empty($_POST['serie_fk']))
+		elseif(isset($_POST['lesson_fk'])&&isset($_POST['series_chosen'])){
+			if(empty($_POST['series_chosen']))
 				$_SESSION['notification_error']="Entrez une UE/AA et la série pour laquelle vous voulez créer la séance type";
 			else
 				$this->create_session();
@@ -117,17 +118,15 @@ class BlocManagerController{
 	}
 	
 	private function create_session(){
-		if(!$this->_db->select_serie_pk($_POST['serie_fk'],$_SESSION['responsibility']))
-			$_SESSION['notification_error']="Cette série n'existe pas.";
-		elseif(!$this->_db->select_lesson_pk($_POST['lesson_fk']))
-			$_SESSION['notification_error']="Cette UE/AA n'existe pas";
-		elseif(!preg_match("/^I1.*/", $_POST['lesson_fk']))
-			$_SESSION['notification_error']="Cette UE n'est pas de votre bloc";
-		else{
-			$this->_db->insert_session(htmlspecialchars($_POST['name']),$_POST['lesson_fk']);
-			$this->_db->insert_session_serie($this->_db->select_session_pk()->id_session,$_POST['serie_fk'],$_SESSION['responsibility']);
+		echo"here";
+		if(isset($_POST['series_chosen'])){
+			$this->_db->insert_session(htmlspecialchars($_POST['name']),$_POST['lesson_fk'],$_POST['presence_type']);
+			for($i=0;$i<count($_POST['series_chosen']);$i++){
+				$this->_db->insert_session_serie($this->_db->select_session_pk()->id_session,$_POST['series_chosen'][$i],$_SESSION['responsibility']);
+			}
 			$_SESSION['notification_success']="Votre séance type a bien été créée";
 		}
+		
 	}
 	/*
 	 * $tmp_name is a string containing the absolute path of the temporary location it's being uploaded to on the server

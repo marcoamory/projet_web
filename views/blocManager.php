@@ -58,10 +58,13 @@
 				  					<option value="<?php echo $lesson_array[$i]->lesson_code?>"><?php echo $lesson_array[$i]->name?></option>
 				  				<?php }?>
 			  				</select>
-							<select name='serie_fk' class="form-control">
-				  				<?php for($i = 0; $i < count($serie_array) ; $i++){?>
-				  					<option value="<?php echo $serie_array[$i]->get_number()?>"><?php echo "Série".$serie_array[$i]->get_number()?></option>
-				  				<?php }?>
+			  				<?php for($i = 0; $i < count($serie_array) ; $i++){?>
+			  					<input type="checkbox" name="series_chosen[]" value="<?php echo $serie_array[$i]->get_number()?>"/><?php echo "Série".$serie_array[$i]->get_number()?></br>
+			  				<?php }?>
+			  				<select name='presence_type' class="form-control">
+				  				<option value="X">X</option>
+				  				<option value="XO">XO</option>
+				  				<option value="grade">Cote</option>
 			  				</select>
 					</div>
 					<div class="panel-footer">

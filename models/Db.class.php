@@ -216,10 +216,11 @@ class Db{
 		return $lesson_array;
 	}
 	
-	public function insert_session($name,$lesson_code){
-		$req = $this->_db->prepare('INSERT INTO sessions (name, lesson_code) VALUES (:name, :lesson_code)');
+	public function insert_session($name,$lesson_code,$presence_type){
+		$req = $this->_db->prepare('INSERT INTO sessions (name, lesson_code, presence_type) VALUES (:name, :lesson_code, :presence_type)');
 		$req->execute(array('name' => $name,
-							'lesson_code' => $lesson_code));
+							'lesson_code' => $lesson_code,
+							'presence_type' => $presence_type));
 	}
 	
 	
