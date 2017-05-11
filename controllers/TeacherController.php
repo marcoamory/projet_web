@@ -30,7 +30,22 @@ class TeacherController{
 
 	if(isset($_POST['session'])){
 		$session = htmlspecialchars($_POST['session']);
+		$presence_type_default;
+		foreach ($sessions as $element) {
+			if($element->id_session == $session){
+				$presence_type_default = $element->presence_type;
+				break;
+			}
+		}
+		if(isset($_POST['presence_type'])){
+			$presence_type = htmlspecialchars($_POST['presence_type']);
+		}
+		else{
+			$presence_type = $presence_type_default;
+		}
 	}
+
+
 
 	if(isset($_POST['week']) AND !empty($_POST['week'])){
 		$week = htmlspecialchars($_POST['week']);
@@ -43,12 +58,12 @@ class TeacherController{
 	if(isset($_POST['presence_send'])){
 		$presence_sheet = $this->select_presence_sheet($_SESSION['email'], $session, $week_number);
 		if(empty($presence_sheet)){
-			$this->create_presence_sheet($_SESSION['email'], $session, $week_number);
+			$this->create_presence_sheet($_SESSION['email'], $session, $week_number, $presence_type);
 			$presence_sheet = $this->select_presence_sheet($_SESSION['email'], $session, $week_number);
 		}
 		for($i = 0; $i < count($students); $i++){
 			if(isset($_POST['note' . $i])){
-				$this->insert_presence($presence_sheet->id_sheet, $students[$i]->getEmail(), htmlspecialchars($_POST['presence' . $i]), htmlspecialchars($_POST['note' . $i]));
+				$this->insert_presence($presence_sheet->id_sheet, $students[$i]->getEmail(), "present", htmlspecialchars($_POST['note' . $i]));
 			}
 			else{
 				$this->insert_presence($presence_sheet->id_sheet, $students[$i]->getEmail(), htmlspecialchars($_POST['presence' . $i]), NULL);
@@ -84,8 +99,8 @@ class TeacherController{
 		return $this->_db->select_session_serie($bloc, $serie, $quadri);
 	}
 
-	private function create_presence_sheet($email_theacher, $id_session, $week_number){
-		$this->_db->insert_presence_sheet($email_theacher, $id_session, $week_number);
+	private function create_presence_sheet($email_theacher, $id_session, $week_number, $presence_type){
+		$this->_db->insert_presence_sheet($email_theacher, $id_session, $week_number, $presence_type);
 	}
 
 	private function select_presence_sheet($email_theacher, $id_session, $week_number){

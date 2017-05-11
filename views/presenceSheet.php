@@ -39,6 +39,7 @@
 	    			<?php	} ?>
 	    			</select>
 	    		</div>
+	    		<?php if(isset($serie) AND !empty($serie)) { ?>
 	    		<div class="col-md-3">
 	    			<select name="session" class="form-control">
 	    				<?php if(!empty($sessions)) {
@@ -49,6 +50,7 @@
 	    				<?php } ?>
 	    			</select>
 	    		</div>
+	    		<?php } ?>
 	    		<div class="col-md-1">
 	    			<input type="hidden" name="bloc" value= "<?php echo $bloc;?>"/>
 	    			<input type=submit class="btn btn-success" value="Rechercher"/>
@@ -74,12 +76,17 @@
 				<td><?php echo $students[$i]->getLastName() . " " . $students[$i]->getFirstName(); ?></td>
 				<?php for($j=0; $j<count($students_array[0]); $j++){
 					if(!empty($students_array[$i][$j])){ //If the present sheet exist but there are no presence value for some students, a message appears
-					if($students_array[$i][$j]->state == 'active'){ ?>
-						<td><span class="label label-success">Présent(e)</span></td>
-					<?php } elseif ($students_array[$i][$j]->state == 'passive') { ?>
+					if($students_array[$i][$j]->state == 'present'){ 
+						if(!empty($students_array[$i][$j]->grade)) { ?>
+							<td><span class="label label-success">Présent(e)</span> <span class="label label-primary"><?php echo $students_array[$i][$j]->grade; ?></span></td>
+						<?php } else { ?> 
+							<td><span class="label label-success">Présent(e)</span></td>
+					<?php } } elseif ($students_array[$i][$j]->state == 'passive') { ?>
 						<td><span class="label label-warning">Passif</span></td>
 					<?php } elseif ($students_array[$i][$j]->state == 'justify') { ?>
 						<td><span class="label label-info">Justifié(e)</span></td>
+					<?php } elseif ($students_array[$i][$j]->state == 'active') { ?>
+						<td><span class="label label-success">Actif</span></td> 
 					<?php } else{ ?>
 						<td><span class="label label-danger">Absent(e)</span> <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#myModal<?php echo $i . $j?>">
 						Justifier <i class="fa fa-paperclip" aria-hidden="true"></i>

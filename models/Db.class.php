@@ -132,11 +132,12 @@ class Db{
 							"email_student" => $email_student));
 	}
 
-	public function insert_presence_sheet($email_teacher, $id_session, $week_number){
-		$req = $this->_db->prepare("INSERT INTO presence_sheets (email_teacher, id_session, week_number) VALUES (:email_teacher, :id_session, :week_number)");
+	public function insert_presence_sheet($email_teacher, $id_session, $week_number, $presence_type){
+		$req = $this->_db->prepare("INSERT INTO presence_sheets (email_teacher, id_session, week_number, presence_type) VALUES (:email_teacher, :id_session, :week_number, :presence_type)");
 		$req->execute(array("email_teacher" => $email_teacher,
 							"id_session" => $id_session,
-							"week_number" => $week_number));
+							"week_number" => $week_number,
+							"presence_type" => $presence_type));
 	}
 	
 	/*
@@ -383,7 +384,7 @@ class Db{
 	}
 
 	public function select_session_serie($bloc, $serie, $quadri){
-		$req = $this->_db->prepare("SELECT s.name name, s.id_session id_session
+		$req = $this->_db->prepare("SELECT s.name name, s.id_session id_session, s.presence_type presence_type
 									FROM sessions s, sessions_series ss, lessons l
 									WHERE s.id_session = ss.id_session AND l.lesson_code = s.lesson_code
 									AND (l.quadri = :quadri OR l.quadri = 'Q12') AND ss.number = :serie AND ss.bloc = :bloc");
