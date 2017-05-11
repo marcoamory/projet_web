@@ -236,7 +236,6 @@ class Db{
 		$req->execute(array());
 		$result = $req->fetch();
 		$req->closeCursor();
-		var_dump($result);
 		return $result;
 	}
 	

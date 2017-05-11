@@ -14,7 +14,6 @@ class BlocManagerController{
 	 * This function decides which function is gonna be called depending on $_POST parameters sent from the view
 	 */
 	public function run(){
-		var_dump($_POST);
 		$serie_array=$this->_db->select_serie_star_bloc($_SESSION['responsibility']);
 		$lesson_array=$this->_db->select_lesson_name_and_lesson_code("I".substr($_SESSION['responsibility'],4,5));
 		if(isset($_SESSION['notification_error']))
@@ -118,9 +117,11 @@ class BlocManagerController{
 	}
 	
 	private function create_session(){
-		echo"here";
 		if(isset($_POST['series_chosen'])){
-			$this->_db->insert_session(htmlspecialchars($_POST['name']),$_POST['lesson_fk'],$_POST['presence_type']);
+			if(empty($_POST['name']))
+				$this->_db->insert_session(htmlspecialchars($this->_db->select_lesson_pk($_POST['lesson_fk'])->name),$_POST['lesson_fk'],$_POST['presence_type']);
+			else 
+				$this->_db->insert_session(htmlspecialchars($_POST['name']),$_POST['lesson_fk'],$_POST['presence_type']);
 			for($i=0;$i<count($_POST['series_chosen']);$i++){
 				$this->_db->insert_session_serie($this->_db->select_session_pk()->id_session,$_POST['series_chosen'][$i],$_SESSION['responsibility']);
 			}

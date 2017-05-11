@@ -25,7 +25,11 @@
 								<td> <?php echo $students_array[$i]->getSerie()?></th>
 								<td> <?php echo $students_array[$i]->getBloc()?></th>
 								<td> 
-									<input type="number" name="new_serie[]" size="15" placeholder="Nouvelle série" class="form-control" />
+									<select name='new_serie[]' class="form-control">
+						  				<?php for($j = 0; $j < count($serie_array) ; $j++){?>
+						  					<option value="<?php echo $serie_array[$j]->get_number()?>"><?php echo "Série".$serie_array[$j]->get_number()?></option>
+						  				<?php }?>
+						  			</select>
 									<input type="hidden" name="students_modified[]" value="<?php echo $students_array[$i]->getEmail()?>"/>
 								</td>
 							</tr>
