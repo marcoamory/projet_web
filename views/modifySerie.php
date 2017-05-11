@@ -25,14 +25,16 @@
 								<td> <?php echo $students_array[$i]->getSerie()?></th>
 								<td> <?php echo $students_array[$i]->getBloc()?></th>
 								<td> 
-									<input type="text" name="new_serie[]" size="15" placeholder="nouvelle série"/>
+									<input type="number" name="new_serie[]" size="15" placeholder="Nouvelle série" class="form-control" />
 									<input type="hidden" name="students_modified[]" value="<?php echo $students_array[$i]->getEmail()?>"/>
 								</td>
 							</tr>
 						<?php } ?>
 						</tbody>
 					</table>
-					<input type="submit" name="update_students" value="modifier" />
+					<div class="text-right">
+						<button type="submit" name="update_students"  class="btn btn-warning">Modifier <i class="fa fa-refresh" aria-hidden="true"></i></button>
+					</div>
 				</form>
 			</div>
 		</div>

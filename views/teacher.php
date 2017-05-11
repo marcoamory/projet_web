@@ -24,7 +24,7 @@
 	  </div>
 	</div>
 </div>
-<?php if((isset($series) AND !empty($series)) OR (isset($serie))){ ?>
+<?php if((isset($series) AND !empty($series)) OR (isset($serie))){ //First condition ?>
 <div class="row">
 	<div class="panel panel-primary">
 	  <div class="panel-body">
@@ -44,7 +44,7 @@
 	  </div>
 	</div>
 </div>
-<?php if(isset($serie) AND !empty($serie)){ ?>
+<?php if(isset($serie) AND !empty($serie)){ //Second condition ?>
 <div class="row">
 	<div class="panel panel-primary">
 		<div class="panel-body">
@@ -57,7 +57,7 @@
 						<?php for($i=1; $i < $current_week_number; $i++){ ?>
 							<option value="<?php echo $i; ?>" <?php if(isset($week_number) AND $week_number == $i) echo 'selected';?>>Semaine <?php echo $i; ?></option>
 						<?php } ?>
-							<option value="<?php echo $current_week_number; ?>"<?php if(!isset($week_number) OR (isset($week_number) AND $week_number == $current_week_number)) echo 'selected'; ?>>Semaine courante</option>
+							<option value="<?php echo $current_week_number; ?>" <?php if(!isset($week_number) OR (isset($week_number) AND $week_number == $current_week_number)) echo 'selected'; ?>>Semaine courante</option>
 					</select>
 				</div>
 				<div class="col-md-3">
@@ -76,7 +76,7 @@
 		</div>
 	</div>
 </div>
-<?php if(isset($session) AND !empty($session)){ ?>
+<?php if(isset($session) AND !empty($session)){ //Third condition ?>
 <div class="row">
 	<form action="index.php?action=teacher" method="post">
 		<table class="table table-striped table-hover">
@@ -145,8 +145,8 @@
 		</div>
 	</form>
 </div>
-<?php } ?> <!--Close third condition -->
-<?php } ?> <!--Close second condition -->
-<?php } ?> <!--Close first condition-->
+<?php } //Close third condition ?>
+<?php } //Close second condition?>
+<?php } //Close first condition?>
 </section>
 
