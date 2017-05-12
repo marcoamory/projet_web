@@ -1,5 +1,17 @@
 <section id="presence_sheet" class="container-fluit">
 <span id=top></span>
+<?php if(isset($message) AND !empty($message)){ ?>
+	<div class="alert alert-success alert-dismissible" role="alert">
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	  	 <p><i class="fa fa-check fa-2x" aria-hidden="true"></i> <?php echo $message?> ! </p>
+	</div>
+<?php } 
+ 	if(isset($message_warning) AND !empty($message_warning)){ ?>
+	<div class="alert alert-warning alert-dismissible" role="alert">
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	  	 <p><i class="fa fa-exclamation-triangle fa-2x" aria-hidden="true"></i> <?php echo $message_warning?> ! </p>
+	</div>
+<?php } ?>
 	<div class="row">
 		<div class="panel panel-primary">
 			<div class="panel-heading">
@@ -29,7 +41,7 @@
 	<div class="panel panel-primary">
 	  <div class="panel-body">
 	    	<form method="post" action="index.php?action=presenceSheet">
-	    		<div class="col-md-3 col-md-offset-2">
+	    		<div class="col-md-6 col-md-offset-2">
 	    			<select name="serie" class="form-control">
 	    			<?php if(!empty($series)){
 	    				foreach ($series as $element){ ?>
@@ -39,8 +51,20 @@
 	    			<?php	} ?>
 	    			</select>
 	    		</div>
-	    		<?php if(isset($serie) AND !empty($serie)) { ?>
-	    		<div class="col-md-3">
+	    		<div class="col-md-1">
+	    			<input type="hidden" name="bloc" value= "<?php echo $bloc;?>"/>
+	    			<input type=submit class="btn btn-success" value="Rechercher"/>
+	    		</div>
+	    	</form>
+	  </div>
+	</div>
+</div>
+<?php if(isset($serie) AND !empty($serie)) { //Second condition  ?>
+<div class="row">
+	<div class="panel panel-primary">
+	  <div class="panel-body">
+	    	<form method="post" action="index.php?action=presenceSheet">
+	    		<div class="col-md-6 col-md-offset-2">
 	    			<select name="session" class="form-control">
 	    				<?php if(!empty($sessions)) {
 	    				 	foreach ($sessions as $element){ ?>
@@ -50,16 +74,16 @@
 	    				<?php } ?>
 	    			</select>
 	    		</div>
-	    		<?php } ?>
 	    		<div class="col-md-1">
 	    			<input type="hidden" name="bloc" value= "<?php echo $bloc;?>"/>
+	    			<input type='hidden' name="serie" value="<?php echo $serie;?>">
 	    			<input type=submit class="btn btn-success" value="Rechercher"/>
 	    		</div>
 	    	</form>
 	  </div>
 	</div>
 </div>
-<?php if(isset($session) AND !empty($session)) { //Second condition ?>
+<?php if(isset($session) AND !empty($session)) { //Third condition ?>
 <div class="row">
 	<table class="table table-striped table-hover">
 		<tr>
@@ -130,6 +154,7 @@
 		<a class="btn btn-primary" href="#top">Remonter <i class="fa fa-arrow-up" aria-hidden="true"></i> </a>
 	</div>
 </div>
-<?php } //Close second condition?>
-<?php } //Close first condition?>
+<?php } //Close third condition ?>
+<?php } //Close second condition ?>
+<?php } //Close first condition ?>
 </section>

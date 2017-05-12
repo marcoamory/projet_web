@@ -11,14 +11,24 @@ class TeacherController{
 	function run(){
 
 	if(isset($message)) unset($message);
+	if(isset($message_warning)) unset($message_warning);
 
 	if(isset($_POST['bloc'])){
 		$bloc = htmlspecialchars($_POST['bloc']);
 		$current_week = $this->select_current_week();
-		$current_week_name = $current_week->name;
-		$current_week_number = $current_week->week_number;
-		$current_quadri = $current_week->quadri;
-		$series = $this->select_serie_for_bloc($bloc);
+		if(!empty($current_week)){
+			$current_week_name = $current_week->name;
+			$current_week_number = $current_week->week_number;
+			$current_quadri = $current_week->quadri;
+		}
+		
+		if(!empty($this->select_student_bloc($bloc))){
+			$series = $this->select_serie_for_bloc($bloc);
+		}
+		else{
+			$message_warning = "Il n'y a aucun étudiant présent dans ce bloc !";
+		}
+		
 	}
 
 	if(isset($_POST['serie'])){
@@ -73,7 +83,7 @@ class TeacherController{
 			if(isset($_POST['note' . $i])){
 				$this->insert_presence($presence_sheet->id_sheet, $students[$i]->getEmail(), "present", htmlspecialchars($_POST['note' . $i]));
 			}
-			else{
+			elseif(isset($_POST['presence' . $i])){
 				$this->insert_presence($presence_sheet->id_sheet, $students[$i]->getEmail(), htmlspecialchars($_POST['presence' . $i]), NULL);
 			}
 		}
@@ -87,7 +97,7 @@ class TeacherController{
 			if(isset($_POST['note' . $i])){
 				$this->update_presence($presence_sheet->id_sheet, $students[$i]->getEmail(), "present", htmlspecialchars($_POST['note' . $i]));
 			}
-			else{
+			elseif(isset($_POST['presence' . $i])){
 				$this->update_presence($presence_sheet->id_sheet, $students[$i]->getEmail(), htmlspecialchars($_POST['presence' . $i]), NULL);
 			}
 		}
@@ -135,6 +145,10 @@ class TeacherController{
 
 	private function update_presence($id_sheet, $email_student, $state, $grade){
 		$this->_db->update_presence($id_sheet, $email_student, $state, $grade);
+	}
+
+	private function select_student_bloc($bloc){
+		return $this->_db->select_student_bloc($bloc);
 	}
 
 

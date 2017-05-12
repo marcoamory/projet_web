@@ -11,13 +11,24 @@ class PresenceSheetController{
 
 	function run(){
 
+		if(isset($message)) unset($message);
+		if(isset($message_warning)) unset($message_warning);
+
 		if(isset($_POST['bloc'])){
 		$bloc = htmlspecialchars($_POST['bloc']);
 		$current_week = $this->select_current_week();
-		$current_week_name = $current_week->name;
-		$current_week_number = $current_week->week_number;
-		$current_quadri = $current_week->quadri;
-		$series = $this->select_serie_for_bloc($bloc);
+		if(!empty($current_week)){
+			$current_week_name = $current_week->name;
+			$current_week_number = $current_week->week_number;
+			$current_quadri = $current_week->quadri;
+		}
+		
+		if(!empty($this->select_student_bloc($bloc))){
+			$series = $this->select_serie_for_bloc($bloc);
+		}
+		else{
+			$message_warning = "Il n'y a aucun étudiant présent dans ce bloc !";
+		}
 		
 		}
 
@@ -37,10 +48,15 @@ class PresenceSheetController{
 
 		if(isset($_POST['session'])){
 			$session = htmlspecialchars($_POST['session']);
+			foreach($sessions as $element){
+				if($element->id_session == $session){
+					$session_name = $element->name;
+				}
+			}
 			$week = $this->select_week_quadri($current_quadri);
 			$students_array = array();
 			foreach($students as $element){
-				$students_array[] = $this->select_presence_student($element->getEmail(), $session);
+				$students_array[] = $this->select_presence_student($element->getEmail(), $session_name);
 			}	
 		}
 	require_once(PATH_VIEW . 'presenceSheet.php');
@@ -74,5 +90,9 @@ class PresenceSheetController{
 
 	private function select_presence_student($email_student, $id_session){
 		return $this->_db->select_presence_student($email_student, $id_session);
+	}
+
+	private function select_student_bloc($bloc){
+		return $this->_db->select_student_bloc($bloc);
 	}
 }

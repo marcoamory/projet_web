@@ -1,5 +1,17 @@
 <section id='teacher_view' class="container-fluid">
 <span id=#top></span>
+<?php if(isset($message) AND !empty($message)){ ?>
+	<div class="alert alert-success alert-dismissible" role="alert">
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	  	 <p><i class="fa fa-check fa-2x" aria-hidden="true"></i> <?php echo $message?> ! </p>
+	</div>
+<?php } 
+ 	if(isset($message_warning) AND !empty($message_warning)){ ?>
+	<div class="alert alert-warning alert-dismissible" role="alert">
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	  	 <p><i class="fa fa-exclamation-triangle fa-2x" aria-hidden="true"></i> <?php echo $message_warning?> ! </p>
+	</div>
+<?php } ?>
 <div class="row">
 	<div class="panel panel-primary">
 		<div class="panel-heading">
@@ -71,8 +83,8 @@
 				</div>
 				<div class="col-md-3">
 	    			<select name="presence_type" class="form-control">
-	    				<option value="x" <?php if($presence_type == "x") echo "selected" ?>>X</option>
-	    				<option value="xo" <?php if($presence_type == "xo") echo "selected" ?>>XO</option>
+	    				<option value="X" <?php if($presence_type == "X") echo "selected" ?>>X</option>
+	    				<option value="XO" <?php if($presence_type == "XO") echo "selected" ?>>XO</option>
 	    				<option value="cote" <?php if($presence_type == "cote") echo "selected" ?>>Cote</option>
 	    			</select>
 	    		</div>
@@ -105,7 +117,7 @@
 	  			<td><?php echo $students[$i]->getFirstName(); ?> </td>
 	  			<td><?php echo $students[$i]->getBloc(); ?> </td>
 	  			<td><?php echo $students[$i]->getSerie(); ?> </td>
-	  			<?php if($presence_type == "x") { ?>
+	  			<?php if($presence_type == "X") { ?>
 	  			<td><div class="btn-group" data-toggle="buttons">
 						<label class="btn btn-default btn-sm">
 							<input type="radio" name="presence<?php echo $i;?>" value="present">Present(e)
@@ -115,7 +127,7 @@
 						</label>
 				</div>
 				</td>
-				<?php } elseif($presence_type == "xo") { ?>
+				<?php } elseif($presence_type == "XO") { ?>
 				<td>
 					<div class="btn-group" data-toggle="buttons">
 						<label class="btn btn-default btn-sm">

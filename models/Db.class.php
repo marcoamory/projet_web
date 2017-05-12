@@ -12,7 +12,7 @@ class Db{
 	
 	private function __construct() {
 		try{
-			$this->_db=new PDO('mysql:host=localhost;dbname=ipl_agenda;charset=utf8','root','');
+			$this->_db=new PDO('mysql:host=localhost:8889;dbname=ipl_agenda;charset=utf8','root','root');
 			$this->_db->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
 			$this->_db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE,PDO::FETCH_OBJ);
 		}
@@ -126,8 +126,8 @@ class Db{
 							'email_student' => $email_student));
 	}
 
-	public function update_presenc($id_sheet, $email_student, $state, $grade){
-		$req = $this->_db->prepare('UPDATE presences SET (state=:state, grade=:grade) WHERE id_sheet = :id_sheet AND email_student = :email_student');
+	public function update_presence($id_sheet, $email_student, $state, $grade){
+		$req = $this->_db->prepare('UPDATE presences SET state=:state, grade=:grade WHERE id_sheet = :id_sheet AND email_student = :email_student');
 		$req->execute(array("state" => $state,
 							"grade" => $grade,
 							"id_sheet" => $id_sheet,
@@ -419,17 +419,17 @@ class Db{
 		return $result;
 	}
 
-	public function select_presence_student($email_student, $id_session){
+	public function select_presence_student($email_student, $session_name){
 		$req = $this->_db->prepare('SELECT s.last_name last_name, s.first_name first_name, p.state state, p.grade grade, ps.week_number week, ses.name name, p.id_sheet id_sheet
 							FROM presences p, presence_sheets ps, students s, weeks w, sessions ses
 							WHERE p.id_sheet = ps.id_sheet
 							AND ses.id_session = ps.id_session
 							AND s.email_student = p.email_student
 							AND w.week_number = ps.week_number
-							AND ses.id_session = :id_session
+							AND ses.name = :session_name
 							AND p.email_student = :email_student
 							AND w.quadri = "q2"');
-		$req->execute(array("id_session" => $id_session,
+		$req->execute(array("session_name" => $session_name,
 							 "email_student" => $email_student));
 		$presences_array = array();
 		while($row = $req->fetch()){
