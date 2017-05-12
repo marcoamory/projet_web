@@ -31,26 +31,18 @@ class PresenceSheetController{
 		if(isset($_POST['justify'])){
 			$justify = htmlspecialchars($_POST['justify']);
 			$justify_explode = explode("+", $justify);
-			$this->update_presence($justify_explode[1], $justify_explode[0]);
+			$this->update_presence_to_justify($justify_explode[1], $justify_explode[0]);
 
 		}
 
 		if(isset($_POST['session'])){
 			$session = htmlspecialchars($_POST['session']);
 			$week = $this->select_week_quadri($current_quadri);
-			$sheet = array();
-			foreach($week as $element){
-				$sheet[] = $this->select_presence_sheet_week_sesssion($session, $element->week_number);
-
-			}
-			$presence_array = array();
-			foreach($sheet as $element){
-				if($element){
-					$presence_array[] = $this->select_presence_presence_sheet($element->id_sheet);
-				}
+			$students_array = array();
+			foreach($students as $element){
+				$students_array[] = $this->select_presence_student($element->getEmail(), $session);
 			}	
 		}
-	
 	require_once(PATH_VIEW . 'presenceSheet.php');
 
 	}
@@ -76,15 +68,11 @@ class PresenceSheetController{
 		return $this->_db->select_session_serie($bloc, $serie, $quadri);
 	}
 
-	private function select_presence_sheet_week_sesssion($id_session, $week_number){
-		return $this->_db->select_presence_sheet_session_week($id_session, $week_number);
+	private function update_presence_to_justify($id_sheet, $email_student){
+		return $this->_db->update_presence_to_justify($id_sheet, $email_student);
 	}
 
-	private function select_presence_presence_sheet($id_sheet){
-		return $this->_db->select_presence($id_sheet);
-	}
-
-	private function update_presence($id_sheet, $email_student){
-		return $this->_db->update_presence($id_sheet, $email_student);
+	private function select_presence_student($email_student, $id_session){
+		return $this->_db->select_presence_student($email_student, $id_session);
 	}
 }

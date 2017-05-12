@@ -126,17 +126,18 @@ class Db{
 							'email_student' => $email_student));
 	}
 
-	public function update_presence($id_sheet, $email_student){
+	public function update_presence_to_justify($id_sheet, $email_student){
 		$req = $this->_db->prepare('UPDATE presences SET state="justify" WHERE id_sheet = :id_sheet AND email_student = :email_student');
 		$req->execute(array("id_sheet" => $id_sheet,
 							"email_student" => $email_student));
 	}
 
-	public function insert_presence_sheet($email_teacher, $id_session, $week_number){
-		$req = $this->_db->prepare("INSERT INTO presence_sheets (email_teacher, id_session, week_number) VALUES (:email_teacher, :id_session, :week_number)");
+	public function insert_presence_sheet($email_teacher, $id_session, $week_number, $presence_type){
+		$req = $this->_db->prepare("INSERT INTO presence_sheets (email_teacher, id_session, week_number, presence_type) VALUES (:email_teacher, :id_session, :week_number, :presence_type)");
 		$req->execute(array("email_teacher" => $email_teacher,
 							"id_session" => $id_session,
-							"week_number" => $week_number));
+							"week_number" => $week_number,
+							"presence_type" => $presence_type));
 	}
 	
 	/*
@@ -383,7 +384,7 @@ class Db{
 	}
 
 	public function select_session_serie($bloc, $serie, $quadri){
-		$req = $this->_db->prepare("SELECT s.name name, s.id_session id_session
+		$req = $this->_db->prepare("SELECT s.name name, s.id_session id_session, s.presence_type presence_type
 									FROM sessions s, sessions_series ss, lessons l
 									WHERE s.id_session = ss.id_session AND l.lesson_code = s.lesson_code
 									AND (l.quadri = :quadri OR l.quadri = 'Q12') AND ss.number = :serie AND ss.bloc = :bloc");
@@ -409,26 +410,24 @@ class Db{
 		return $result;
 	}
 
-	public function select_presence_sheet_session_week($id_session, $week_number){
-		$req = $this->_db->prepare("SELECT * FROM presence_sheets WHERE id_session = :id_session AND week_number = :week_number");
+	public function select_presence_student($email_student, $id_session){
+		$req = $this->_db->prepare('SELECT s.last_name last_name, s.first_name first_name, p.state state, p.grade grade, ps.week_number week, ses.name name, p.id_sheet id_sheet
+							FROM presences p, presence_sheets ps, students s, weeks w, sessions ses
+							WHERE p.id_sheet = ps.id_sheet
+							AND ses.id_session = ps.id_session
+							AND s.email_student = p.email_student
+							AND w.week_number = ps.week_number
+							AND ses.id_session = :id_session
+							AND p.email_student = :email_student
+							AND w.quadri = "q2"');
 		$req->execute(array("id_session" => $id_session,
-							"week_number" => $week_number));
-		$result = $req->fetch();
-		$req->closeCursor();
-		return $result;
-	}
-
-	public function select_presence($id_sheet){
-		$req = $this->_db->prepare("SELECT s.last_name last_name, s.first_name first_name, p.email_student email_student, p.state state, p.grade grade
-									FROM presences p, students s
-									WHERE p.email_student = s.email_student
-									AND id_sheet = :id_sheet ORDER BY last_name");
-		$req->execute(array("id_sheet" => $id_sheet));
+							 "email_student" => $email_student));
 		$presences_array = array();
 		while($row = $req->fetch()){
 			$presences_array[] = $row;
 		}
 		return $presences_array;
+
 	}
 
 }
