@@ -36,6 +36,7 @@
 	    			<?php } ?>
 	    			</select>
 	    		</div>
+	    		<?php if(isset($serie) AND !empty($serie)) { ?>
 	    		<div class="col-md-3">
 	    			<select name="session" class="form-control">
 	    				<?php foreach ($sessions as $element){ ?>
@@ -43,6 +44,7 @@
 	    			<?php } ?>
 	    			</select>
 	    		</div>
+	    		<?php } ?>
 	    		<div class="col-md-1">
 	    			<input type="hidden" name="bloc" value= "<?php echo $bloc;?>"/>
 	    			<input type=submit class="btn btn-success" value="Rechercher"/>
@@ -165,11 +167,16 @@
 		<div class="col-md-1">
 			<input type="hidden" name="bloc" value="<?php echo $bloc; ?>"/>
 			<input type="hidden" name="serie" value="<?php echo $serie; ?>"/>
-			<input type='hidden' name='presence_send' value="presence_send"/>
 			<input type="hidden" name='week' value="<?php if(isset($week_number)) echo $week_number; else echo $current_week_number; ?>">
 			<input type="hidden" name="session" value="<?php echo $session; ?>"/>
 			<input type="hidden" name="presence_type" value="<?php echo $presence_type; ?>">
-			<button type="submit" class="btn btn-success">Enregistrer <i class='fa fa-floppy-o' aria-hidden='true'></i></button> 
+			<?php if($modify_presence_sheet){ ?>
+				<input type="hidden" name="modify_presence" value="modify_presence"/>
+				<button type="submit" class="btn btn-warning">Modifier <i class="fa fa-refresh" aria-hidden='true'></i></button>
+			<?php } else { ?>
+				<input type='hidden' name='presence_send' value="presence_send"/>
+				<button type="submit" class="btn btn-success">Enregistrer <i class='fa fa-floppy-o' aria-hidden='true'></i></button>
+			<?php } ?> 
 		</div>
 	</form>
 </div>

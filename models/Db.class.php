@@ -126,6 +126,15 @@ class Db{
 							'email_student' => $email_student));
 	}
 
+	public function update_presenc($id_sheet, $email_student, $state, $grade){
+		$req = $this->_db->prepare('UPDATE presences SET (state=:state, grade=:grade) WHERE id_sheet = :id_sheet AND email_student = :email_student');
+		$req->execute(array("state" => $state,
+							"grade" => $grade,
+							"id_sheet" => $id_sheet,
+							"email_student" => $email_student));
+		 
+	}
+
 	public function update_presence_to_justify($id_sheet, $email_student){
 		$req = $this->_db->prepare('UPDATE presences SET state="justify" WHERE id_sheet = :id_sheet AND email_student = :email_student');
 		$req->execute(array("id_sheet" => $id_sheet,

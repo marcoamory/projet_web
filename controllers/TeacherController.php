@@ -10,6 +10,8 @@ class TeacherController{
 
 	function run(){
 
+	if(isset($message)) unset($message);
+
 	if(isset($_POST['bloc'])){
 		$bloc = htmlspecialchars($_POST['bloc']);
 		$current_week = $this->select_current_week();
@@ -41,20 +43,28 @@ class TeacherController{
 		else{
 			$presence_type = $presence_type_default;
 		}
-	}
+
+		if(isset($_POST['week']) AND !empty($_POST['week'])){
+			$week = htmlspecialchars($_POST['week']);
+			$week = $this->select_week_pk($week);
+			$week_name = $week->name;
+			$week_number = $week->week_number;
+			$quadri = $week->quadri;
+			$presence_sheet = $this->select_presence_sheet($_SESSION['email'], $session, $week_number);
+		}
+		else{
+			$presence_sheet = $this->select_presence_sheet($_SESSION['email'], $session, $current_week_number);
+		}
+		
+		$modify_presence_sheet = false;
+		if(!empty($presence_sheet)){
+			$modify_presence_sheet = true;
+		}
 
 
-
-	if(isset($_POST['week']) AND !empty($_POST['week'])){
-		$week = htmlspecialchars($_POST['week']);
-		$week = $this->select_week_pk($week);
-		$week_name = $week->name;
-		$week_number = $week->week_number;
-		$quadri = $week->quadri;
 	}
 	
 	if(isset($_POST['presence_send'])){
-		$presence_sheet = $this->select_presence_sheet($_SESSION['email'], $session, $week_number);
 		if(empty($presence_sheet)){
 			$this->create_presence_sheet($_SESSION['email'], $session, $week_number, $presence_type);
 			$presence_sheet = $this->select_presence_sheet($_SESSION['email'], $session, $week_number);
@@ -68,6 +78,20 @@ class TeacherController{
 			}
 		}
 
+		$message = "Les présences ont correctement été insérées";
+
+	}
+
+	if(isset($_POST['modify_presence'])){
+		for($i = 0; $i < count($students); $i++){
+			if(isset($_POST['note' . $i])){
+				$this->update_presence($presence_sheet->id_sheet, $students[$i]->getEmail(), "present", htmlspecialchars($_POST['note' . $i]));
+			}
+			else{
+				$this->update_presence($presence_sheet->id_sheet, $students[$i]->getEmail(), htmlspecialchars($_POST['presence' . $i]), NULL);
+			}
+		}
+		$message = "Les présences ont correctement été modifiées";
 	}
 	
 	require_once(PATH_VIEW . 'teacher.php');
@@ -107,6 +131,10 @@ class TeacherController{
 
 	private function insert_presence($id_sheet, $email_student, $state, $grade){
 		$this->_db->insert_presence($id_sheet, $email_student, $state, $grade);
+	}
+
+	private function update_presence($id_sheet, $email_student, $state, $grade){
+		$this->_db->update_presence($id_sheet, $email_student, $state, $grade);
 	}
 
 
