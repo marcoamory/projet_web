@@ -3,13 +3,13 @@
 <?php if(isset($message) AND !empty($message)){ ?>
 	<div class="alert alert-success alert-dismissible" role="alert">
 		<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-	  	 <p><i class="fa fa-check fa-2x" aria-hidden="true"></i> <?php echo $message?> ! </p>
+	  	 <p><i class="fa fa-check fa-2x" aria-hidden="true"></i> <?php echo $message; ?> ! </p>
 	</div>
 <?php } 
  	if(isset($message_warning) AND !empty($message_warning)){ ?>
 	<div class="alert alert-warning alert-dismissible" role="alert">
 		<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-	  	 <p><i class="fa fa-exclamation-triangle fa-2x" aria-hidden="true"></i> <?php echo $message_warning?> ! </p>
+	  	 <p><i class="fa fa-exclamation-triangle fa-2x" aria-hidden="true"></i> <?php echo $message_warning; ?> ! </p>
 	</div>
 <?php } ?>
 	<div class="row">
@@ -88,20 +88,18 @@
 	<table class="table table-striped table-hover">
 		<tr>
 			<th>NOM Prénom</th>
-			<?php for($i=0; $i<count($week);$i++){ //A loop on each current's quadri weeks until the current week 
-				if($week[$i]->week_number <= $current_week_number){ ?>
-			<th><?php echo "Semaine" . $week[$i]->week_number; ?></th>
-
-			<?php } } ?>
+				<?php for($i=0; $i<count($week);$i++){ //A loop on each current's quadri weeks until the current week ?>	
+					<th><?php echo "Semaine" . $week[$i]->week_number; ?></th>
+				<?php } ?>
 		</tr>
 		<?php for($i=0; $i<count($students); $i++) { ?>
 		<tr>
 			
 				<td><?php echo $students[$i]->getLastName() . " " . $students[$i]->getFirstName(); ?></td>
-				<?php for($j=0; $j<count($students_array[0]); $j++){
+				<?php for($j=1; $j<=count($week); $j++){
 					if(!empty($students_array[$i][$j])){ //If the present sheet exist but there are no presence value for some students, a message appears
 					if($students_array[$i][$j]->state == 'present'){ 
-						if(!empty($students_array[$i][$j]->grade)) { ?>
+						if(!empty($students_array[$i][$j]->grade) OR $students_array[$i][$j]->grade == 0 ) { ?>
 							<td><span class="label label-success">Présent(e)</span> <span class="label label-primary"><?php echo $students_array[$i][$j]->grade; ?></span></td>
 						<?php } else { ?> 
 							<td><span class="label label-success">Présent(e)</span></td>
@@ -144,7 +142,7 @@
 			
 			<?php } }
 			else{ //If there is a present sheet but no presence value in it?>
-				<td><span class="label label-default">Présence à prendre</span></td>
+				<td></td>
 			<?php	} }  ?>
 			
 		</tr>

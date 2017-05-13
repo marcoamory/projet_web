@@ -39,7 +39,7 @@ class BlocsManagerController{
 	 */
 	private function wipe_data(){
 		$this->_db->drop_all_data();
-		header("Location: index.php?action=login&message=logout");
+		header("Location: index.php?action=logout");
 		die();
 	}
 	/*

@@ -6,7 +6,7 @@
 	define("PATH_CSS", PATH_VIEW . "css/");
 	define("PATH_IMAGE", PATH_VIEW . "images/");
 	define("PATH_JS", PATH_VIEW . "js/");
-	define("PATH_CONF", "conf/");
+	define("PATH_CONF", PATH_MODEL . "conf/");
 	//Automatisation de l'inclusion des classes de la couche modèle
 	function loadClass($class) {
 		require_once(PATH_MODEL . $class . '.class.php');

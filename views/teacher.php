@@ -3,13 +3,13 @@
 <?php if(isset($message) AND !empty($message)){ ?>
 	<div class="alert alert-success alert-dismissible" role="alert">
 		<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-	  	 <p><i class="fa fa-check fa-2x" aria-hidden="true"></i> <?php echo $message?> ! </p>
+	  	 <p><i class="fa fa-check fa-2x" aria-hidden="true"></i> <?php echo $message; ?> ! </p>
 	</div>
 <?php } 
  	if(isset($message_warning) AND !empty($message_warning)){ ?>
 	<div class="alert alert-warning alert-dismissible" role="alert">
 		<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-	  	 <p><i class="fa fa-exclamation-triangle fa-2x" aria-hidden="true"></i> <?php echo $message_warning?> ! </p>
+	  	 <p><i class="fa fa-exclamation-triangle fa-2x" aria-hidden="true"></i> <?php echo $message_warning; ?> ! </p>
 	</div>
 <?php } ?>
 <div class="row">
@@ -41,22 +41,13 @@
 	<div class="panel panel-primary">
 	  <div class="panel-body">
 	    	<form method="post" action="index.php?action=teacher">
-	    		<div class="col-md-3 col-md-offset-2">
+	    		<div class="col-md-6 col-md-offset-2">
 	    			<select name="serie" class="form-control">
 	    			<?php foreach ($series as $element){ ?>
 	    				<option value="<?php echo $element; ?>" <?php if(isset($serie) AND $serie == $element) echo 'selected'; ?>>Serie <?php echo $element; ?></option>
 	    			<?php } ?>
 	    			</select>
 	    		</div>
-	    		<?php if(isset($serie) AND !empty($serie)) { ?>
-	    		<div class="col-md-3">
-	    			<select name="session" class="form-control">
-	    				<?php foreach ($sessions as $element){ ?>
-	    				<option value="<?php echo $element->id_session; ?>" <?php if(isset($session) AND $session == $element->id_session) echo 'selected'; ?>><?php echo $element->name; ?></option>
-	    			<?php } ?>
-	    			</select>
-	    		</div>
-	    		<?php } ?>
 	    		<div class="col-md-1">
 	    			<input type="hidden" name="bloc" value= "<?php echo $bloc;?>"/>
 	    			<input type=submit class="btn btn-success" value="Rechercher"/>
@@ -65,7 +56,28 @@
 	  </div>
 	</div>
 </div>
-<?php if(isset($serie) AND !empty($serie) AND isset($session) AND !empty($session)){ //Second condition ?>
+<?php if(isset($serie) AND !empty($serie)) { //Second condition ?>
+<div class="row">
+	<div class="panel panel-primary">
+	  <div class="panel-body">
+	    	<form method="post" action="index.php?action=teacher">
+	    		<div class="col-md-6 col-md-offset-2">
+	    		<select name="session" class="form-control">
+	    				<?php foreach ($sessions as $element){ ?>
+	    				<option value="<?php echo $element->id_session; ?>" <?php if(isset($session) AND $session == $element->id_session) echo 'selected'; ?>><?php echo $element->name; ?></option>
+	    			<?php } ?>
+	    			</select>
+	    		</div>
+	    		<div class="col-md-1">
+	    			<input type="hidden" name="bloc" value= "<?php echo $bloc;?>"/>
+	    			<input type="hidden" name="serie" value="<?php echo $serie; ?>"/>
+	    			<input type=submit class="btn btn-success" value="Rechercher"/>
+	    		</div>
+	    	</form>
+	  </div>
+	</div>
+</div>
+<?php if(isset($session) AND !empty($session)){ //Third condition ?>
 <div class="row">
 	<div class="panel panel-primary">
 		<div class="panel-body">
@@ -85,7 +97,7 @@
 	    			<select name="presence_type" class="form-control">
 	    				<option value="X" <?php if($presence_type == "X") echo "selected" ?>>X</option>
 	    				<option value="XO" <?php if($presence_type == "XO") echo "selected" ?>>XO</option>
-	    				<option value="cote" <?php if($presence_type == "cote") echo "selected" ?>>Cote</option>
+	    				<option value="grade" <?php if($presence_type == "grade") echo "selected" ?>>Cote</option>
 	    			</select>
 	    		</div>
 				<div class="col-md-1">
@@ -98,7 +110,7 @@
 		</div>
 	</div>
 </div>
-<?php if(isset($session) AND !empty($session)){ //Third condition ?>
+<?php if(isset($session) AND !empty($session)){ //Fourth condition ?>
 <div class="row">
 	<form action="index.php?action=teacher" method="post">
 		<table class="table table-striped table-hover">
@@ -173,7 +185,12 @@
 	  		</tr>
 	  		<?php } ?>
 		</table>
-		<div class="col-md-2 col-md-offset-7 text-right">
+		<div class="col-md-3">
+			<a class="btn btn-primary" href="index.php?action=teacher&message=add_student"/>
+ 			 	Ajouter un étudiant <i class="fa fa-plus" aria-hidden="true"></i>
+			</a>
+		</div>
+		<div class="col-md-2 col-md-offset-5 text-right">
 			<a class="btn btn-primary" href="#top">Remonter <i class="fa fa-arrow-up" aria-hidden="true"></i> </a>
 		</div>
 		<div class="col-md-1">
@@ -192,6 +209,7 @@
 		</div>
 	</form>
 </div>
+<?php } //Close fourth condition ?>
 <?php } //Close third condition ?>
 <?php } //Close second condition?>
 <?php } //Close first condition?>

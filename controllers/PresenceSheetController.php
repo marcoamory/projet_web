@@ -25,6 +25,9 @@ class PresenceSheetController{
 		
 		if(!empty($this->select_student_bloc($bloc))){
 			$series = $this->select_serie_for_bloc($bloc);
+			if(empty($series)){
+				$message_warning = "Il n'y a aucune série pour ce bloc";
+			}
 		}
 		else{
 			$message_warning = "Il n'y a aucun étudiant présent dans ce bloc !";
@@ -57,7 +60,7 @@ class PresenceSheetController{
 			$students_array = array();
 			foreach($students as $element){
 				$students_array[] = $this->select_presence_student($element->getEmail(), $session_name);
-			}	
+			}
 		}
 	require_once(PATH_VIEW . 'presenceSheet.php');
 

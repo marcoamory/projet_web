@@ -196,6 +196,17 @@ class Db{
 		return $students_array;
 	}
 
+	public function select_student_like_last_name($last_name){
+		$req = $this->_db->prepare("SELECT * FROM students WHERE last_name LIKE :last_name ORDER BY last_name");
+		$req->execute(array("last_name" => "%". $last_name . "%"));
+		$students_array = array();
+		while($row = $req->fetch()){
+			$students_array[] = new Student($row->email_student, $row->first_name, $row->last_name, $row->bloc, $row->serie_number);
+		}
+		$req->closeCursor();
+		return $students_array;
+	}
+
 	public function select_serie_bloc($bloc)
 	{
 		$req = $this->_db->prepare("SELECT serie_number FROM series WHERE serie_bloc = :serie_bloc");
@@ -367,10 +378,10 @@ class Db{
 		return $result;
 	}
 
-	public function select_week_pk($week_number)
+	public function select_week_pk($week_number, $quadri)
 	{
-		$req = $this->_db->prepare("SELECT * FROM weeks WHERE week_number = :week_number");
-		$req->execute(array("week_number" => $week_number));
+		$req = $this->_db->prepare("SELECT * FROM weeks WHERE week_number = :week_number AND quadri = :quadri");
+		$req->execute(array("week_number" => $week_number, "quadri" => $quadri));
 		$result = $req->fetch();
 		$req->closeCursor();
 		return $result;
@@ -433,7 +444,7 @@ class Db{
 							 "email_student" => $email_student));
 		$presences_array = array();
 		while($row = $req->fetch()){
-			$presences_array[] = $row;
+			$presences_array[$row->week] = $row;
 		}
 		return $presences_array;
 

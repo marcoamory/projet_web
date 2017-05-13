@@ -88,16 +88,17 @@ class AdminManagementController{
 	 * $keyValue is a string that contains the value of the pk we are looking for
 	 * this function return true if the data is being duplicated and false if it's not
 	 */
-	private function is_being_duplicated($primaryKey, $keyValue){
-		if($primaryKey=='email_teacher'){
-			if(!$this->_db->select_teacher_pk($keyValue)){
-				return false;
-			}
+	private function teacher_being_duplicated($keyValue){
+		if(!$this->_db->select_teacher_pk($keyValue)){
+			return false;
 		}
-		elseif($primaryKey=='week_number'){
-			if(!$this->_db->select_week_pk($keyValue)){
-				return false;
-			}
+		
+		return true;
+	}
+
+	private function week_being_duplicated($keyValue1, $keyValue2){
+		if(!$this->_db->select_week_pk($keyValue1, $keyValue2)){
+			return false;
 		}
 		return true;
 	}
@@ -121,7 +122,7 @@ class AdminManagementController{
 			{
 				if($uploadName=='professor_csv'){
 					if(preg_match("/".$pattern."/", $line, $groups))
-						if(!$this->is_being_duplicated('email_teacher',$groups[1])){
+						if(!$this->teacher_being_duplicated($groups[1])){
 							$this->_db->insert_teacher($groups[1], $groups[3], $groups[2], trim($groups[4]));
 							$arrayData['insert']++;
 
@@ -133,7 +134,7 @@ class AdminManagementController{
 				if ($uploadName=='agenda_properties'){
 					if(preg_match("/".$pattern."/", $line, $groups))
 						
-						if(!$this->is_being_duplicated('week_number',intval(substr($groups[2], 7)))){
+						if(!$this->week_being_duplicated(intval(substr($groups[2], 7)),$groups[1])){
 							$date_explode = explode('/', trim($groups[3]));
 							$date_obj = date_create(substr($date_explode[2], 0,4) . "-" . $date_explode[1] . "-" . $date_explode[0]);
 							$this->_db->insert_week(intval(substr($groups[2], 7)), $groups[2], $date_obj->format('Y-m-d'), $groups[1]);
