@@ -1,4 +1,11 @@
 ﻿<section id="bloc_manager" class="container-fluid">
+<?php
+ 	if(isset($message_warning) AND !empty($message_warning)){ ?>
+	<div class="alert alert-warning alert-dismissible" role="alert">
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	  	 <p><i class="fa fa-exclamation-triangle fa-2x" aria-hidden="true"></i> <?php echo $message_warning; ?> ! </p>
+	</div>
+<?php } ?>
 	<div class="panel panel-primary">
 		<div class="panel-heading">
 			<div class="panel-title text-center">

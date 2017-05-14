@@ -9,8 +9,14 @@ class StudentController{
 	}
 
 	function run(){
+		if(isset($message_warning)) unset($message_warning);
 		$lesson_array=$this->_db->select_lesson_name_and_lesson_code("I".substr($_SESSION['bloc'],4,5));
 		$current_week = $this->_db->select_current_week();
+		if(empty($current_week)){
+			$message_warning = "La semaine actuelle est introuvable, mettez à jour l'agenda pour continuer!";
+			require_once(PATH_VIEW.'student.php');
+			die();
+		}
 		$week_array=$this->_db->select_week_quadri($current_week->quadri);
 		if(isset($_POST['lesson_fk'])){
 			$session_array=$this->_db->select_star_session_lesson($_POST['lesson_fk']);
