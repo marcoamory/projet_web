@@ -186,9 +186,7 @@
 	  		<?php } ?>
 		</table>
 		<div class="col-md-3">
-			<a class="btn btn-primary" href="index.php?action=teacher&message=add_student"/>
- 			 	Ajouter un étudiant <i class="fa fa-plus" aria-hidden="true"></i>
-			</a>
+			
 		</div>
 		<div class="col-md-2 col-md-offset-5 text-right">
 			<a class="btn btn-primary" href="#top">Remonter <i class="fa fa-arrow-up" aria-hidden="true"></i> </a>
@@ -199,6 +197,7 @@
 			<input type="hidden" name='week' value="<?php if(isset($week_number)) echo $week_number; else echo $current_week_number; ?>">
 			<input type="hidden" name="session" value="<?php echo $session; ?>"/>
 			<input type="hidden" name="presence_type" value="<?php echo $presence_type; ?>">
+			<?php if(isset($add_student_email)) { ?><input type="hidden" name="add_student_email" value="<?php echo $add_student_email; ?>"/><?php } ?>
 			<?php if($modify_presence_sheet){ ?>
 				<input type="hidden" name="modify_presence" value="modify_presence"/>
 				<button type="submit" class="btn btn-warning">Modifier <i class="fa fa-refresh" aria-hidden='true'></i></button>
@@ -208,6 +207,36 @@
 			<?php } ?> 
 		</div>
 	</form>
+	<!-- Button trigger modal -->
+			<button type="button" class="btn btn-primary btn" data-toggle="modal" data-target="#myModal">
+			  Ajouter un étudiant <i class="fa fa-plus" aria-hidden="true"></i>
+			</button>
+
+			<!-- Modal -->
+			<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+			  <div class="modal-dialog" role="document">
+			    <div class="modal-content">
+			      <div class="modal-header">
+			        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			        <h4 class="modal-title" id="myModalLabel">Ajouter un étudiant</h4>
+			      </div>
+			      <form method="post" action="index.php?action=teacher&message=add_student">
+			      	<div class="modal-body">
+						<input type="text" class="form-control" placeholder="Nom de l'étudiant" required name="add_student_name"/>
+						<input type="hidden" name="bloc" value="<?php echo $bloc; ?>"/>
+						<input type="hidden" name="serie" value="<?php echo $serie; ?>"/>
+						<input type="hidden" name='week' value="<?php if(isset($week_number)) echo $week_number; else echo $current_week_number; ?>">
+						<input type="hidden" name="session" value="<?php echo $session; ?>"/>
+						<input type="hidden" name="presence_type" value="<?php echo $presence_type; ?>">
+			      	</div>
+			      	<div class="modal-footer">
+			        	<button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+			        	<button type="submit" class="btn btn-success">Rechercher</button>
+			      	</div>
+			      </form>
+			    </div>
+			  </div>
+			</div>
 </div>
 <?php } //Close fourth condition ?>
 <?php } //Close third condition ?>

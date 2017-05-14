@@ -322,17 +322,15 @@ class Db{
 	}
 	
 	public function select_presences_student_session($email_student,$id_session){
-		$req = $this->_db->prepare("SELECT * FROM presences p, presence_sheets ps
+		$req = $this->_db->prepare("SELECT p.* FROM presences p, presence_sheets ps
 									WHERE p.id_sheet=ps.id_sheet
 									AND id_session=:id_session
 									AND email_student=:email_student");
 		$req->execute(array("email_student" => $email_student,
 							"id_session" => $id_session));
 		$result = array();
-		if ($req->rowcount()!=0) {
-			while ($row = $req->fetch()) {
-				$result[] = $row;
-			}
+		while ($row = $req->fetch()) {
+			$result[] = $row;
 		}
 		$req->closeCursor();
 		return $result;
