@@ -22,6 +22,11 @@ class PresenceSheetController{
 			$current_week_number = $current_week->week_number;
 			$current_quadri = $current_week->quadri;
 		}
+		else{
+			$message_warning = "La semaine actuelle n'est pas retrouvée dans l'agenda! Mettez le à jour pour continuer";
+			require_once(PATH_VIEW . "presenceSheet.php");
+			die();
+		}
 		
 		if(!empty($this->select_student_bloc($bloc))){
 			$series = $this->select_serie_for_bloc($bloc);
@@ -63,7 +68,6 @@ class PresenceSheetController{
 				if(!empty($stud)){
 					$students_array[] = $stud;
 				}
-				
 			}
 		}
 	require_once(PATH_VIEW . 'presenceSheet.php');

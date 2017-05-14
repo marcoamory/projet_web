@@ -21,6 +21,11 @@ class TeacherController{
 			$current_week_number = $current_week->week_number;
 			$current_quadri = $current_week->quadri;
 		}
+		else{
+			$message_warning = "La semaine actuelle n'est pas retrouvée dans l'agenda! Mettez le à jour pour continuer";
+			require_once(PATH_VIEW . "teacher.php");
+			die();
+		}
 		
 		if(!empty($this->select_student_bloc($bloc))){
 			$series = $this->select_serie_for_bloc($bloc);
@@ -41,12 +46,10 @@ class TeacherController{
 			$message_warning = "Il n'y a aucun étudiant dans cette série !";
 		}
 		if(isset($_POST['add_student_email'])){
-			echo "add";
 			$add_student_email = htmlspecialchars($_POST['add_student_email']);
 			$add_student = $this->select_student_pk($add_student_email);
 			$add_student_obj = new Student($add_student->email_student, $add_student->first_name, $add_student->last_name, $add_student->bloc, $add_student->serie_number);
 			$students[] = $add_student_obj;
-			var_dump($students);
 		}
 		$sessions = $this->select_session_serie($bloc, $serie, $current_quadri);
 		if(empty($sessions)){
@@ -92,9 +95,7 @@ class TeacherController{
 
 	if(isset($_POST['modify_presence'])){
 		for($i = 0; $i < count($students); $i++){
-			var_dump($students);
 			$presence_session = $this->select_presences_student_session($students[$i]->getEmail(), $session);
-			var_dump($presence_session);
 			if(!empty($presence_session)){
 				if(isset($_POST['note' . $i])){
 					$this->update_presence($presence_sheet->id_sheet, $students[$i]->getEmail(), "present", htmlspecialchars($_POST['note' . $i]));
@@ -125,7 +126,6 @@ class TeacherController{
 			$presence_sheet = $this->select_presence_sheet($_SESSION['email'], $session, $week_number);
 		}
 		for($i = 0; $i < count($students); $i++){
-			var_dump($students);
 			if(isset($_POST['note' . $i])){
 				$this->insert_presence($presence_sheet->id_sheet, $students[$i]->getEmail(), "present", htmlspecialchars($_POST['note' . $i]));
 			}

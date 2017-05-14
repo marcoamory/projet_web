@@ -92,7 +92,7 @@
 					<th><?php echo "Semaine" . $week[$i]->week_number; ?></th>
 				<?php } ?>
 		</tr>
-		<?php for($i=0; $i<count($students); $i++) { ?>
+		<?php for($i=0; $i<count($students_array); $i++) { ?>
 		<tr>
 			
 				<td><?php echo $students[$i]->getLastName() . " " . $students[$i]->getFirstName(); ?></td>

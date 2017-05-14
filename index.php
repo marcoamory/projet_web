@@ -30,7 +30,7 @@
 			$_SESSION['type'] = $_COOKIE['type'];
 			$_SESSION['authentifie'] = true;
 
-			if(isset($_COOKIE['responsibility'])){
+			if(isset($_COOKIE['responsibility'])){ 
 				$_SESSION['responsibility'] = $_COOKIE['responsibility'];
 				header("Location:index.php?action=teacher");
 				die();
