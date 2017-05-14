@@ -3,22 +3,38 @@
 		<div class="col-md-4">
 			<div class="panel panel-primary">
 		  		<div class="panel-heading">
-		   			 <h3 class="panel-title text-center">Créer Série</h3>
+		   			 <h3 class="panel-title text-center">Créer Série (manuel)</h3>
 		  		</div>
 		  		<form action="index.php?action=blocManager" method="post">
 			  		<div class="panel-body">
-							<input type="number" name="nb_series" size="30" placeholder="Nombre de séries voulues" class="form-control" />
+						<input type="number" name="nb_series_manual" size="30" placeholder="Nombre de séries voulues" class="form-control" />
 					</div>
 					<div class="panel-footer">
 						<button type="submit" class="btn btn-success btn-block">Créer <i class="fa fa-plus" aria-hidden="true"></i></button>
 			  		</div>
 		  		</form>
 		  		<div class="panel-heading">
+		   			 <h3 class="panel-title text-center">Créer Série (automatique)</h3>
+		  		</div>
+		  		<form action="index.php?action=blocManager" method="post">
+			  		<div class="panel-body">
+						<input type="number" name="nb_series" size="30" placeholder="Nombre de séries voulues" class="form-control" />
+					</div>
+					<div class="panel-footer">
+						<button type="submit" class="btn btn-success btn-block">Créer <i class="fa fa-plus" aria-hidden="true"></i></button>
+			  		</div>
+		  		</form>
+		  	</div>
+		</div>
+		<div class="col-md-4">
+			<div class="panel panel-primary">
+		  		<div class="panel-heading">
 		   			 <h3 class="panel-title text-center">Modifier Série</h3>
 		  		</div>
 		  		<form action="index.php?action=blocManager" method="post">
 			  		<div class="panel-body"> 
 			  			<select name='modify_serie' class="form-control">
+			  				<option value="null">Sans séries</option>
 			  				<?php for($i = 0; $i < count($serie_array) ; $i++){?>
 			  					<option value="<?php echo $serie_array[$i]->get_number()?>"><?php echo "Série".$serie_array[$i]->get_number()?></option>
 			  				<?php }?>

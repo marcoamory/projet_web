@@ -2,7 +2,11 @@
 	<div class="col-md-12">
 		<div class="panel panel-primary">
 			<div class="panel-heading">
-				<h3 class="panel-title text-center">Série <?php echo $serie->get_number()?></h3>
+				<?php if(isset($serie)){?>
+					<h3 class="panel-title text-center">Série <?php echo $serie->get_number()?></h3>
+				<?php } else {?>
+					<h3 class="panel-title text-center">Placement des étudiants sans Série</h3>
+				<?php }?>
 			</div>
 			<div class="panel-body">
 				<form action="index.php?action=blocManager" method="post">
@@ -26,8 +30,17 @@
 								<td> <?php echo $students_array[$i]->getBloc()?></th>
 								<td> 
 									<select name='new_serie[]' class="form-control">
-						  				<?php for($j = 0; $j < count($serie_array) ; $j++){?>
-						  					<option value="<?php echo $serie_array[$j]->get_number()?>"><?php echo "Série".$serie_array[$j]->get_number()?></option>
+										<?php if(!isset($serie)){?>
+											<option value="null">Sans série</option>
+						  				<?php }for($j = 0; $j < count($serie_array) ; $j++){?>
+						  					<option value="<?php echo $serie_array[$j]->get_number()?>" 
+						  									<?php if(isset($serie)){ 
+						  											if($serie->get_number()==$serie_array[$j]->get_number()){
+						  												echo " selected ";
+						  											}
+						  										  }?>>
+						  									<?php echo "Série".$serie_array[$j]->get_number()?>
+						  					</option>
 						  				<?php }?>
 						  			</select>
 									<input type="hidden" name="students_modified[]" value="<?php echo $students_array[$i]->getEmail()?>"/>

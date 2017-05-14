@@ -1,5 +1,8 @@
 ﻿<?php
 class Db{
+	/*
+	 * it would have been better to return an array of objects rather than raw database data
+	 */
 	private $_db;
 	private static $instance = null;
 	
@@ -42,10 +45,12 @@ class Db{
 	
 	public function drop_serie_pk($serie_number,$serie_bloc)
 	{
-		$req = $this->_db->prepare('DELETE FROM series where serie_number=:serie_number and lower(serie_bloc)=:serie_bloc');
+		$req = $this->_db->prepare('DELETE FROM sessions_series where number=:serie_number;
+									DELETE FROM series where serie_number=:serie_number and lower(serie_bloc)=:serie_bloc;');
 		$req->execute(array('serie_bloc' => $serie_bloc,
 							'serie_number' => $serie_number));
 	}
+	
 	public function insert_week($week_number, $name, $monday_date, $quadri)
 	{
 		$req = $this->_db->prepare('INSERT INTO weeks (week_number, name, monday_date, quadri) VALUES (:week_number, :name, :monday_date, :quadri)');
@@ -122,17 +127,23 @@ class Db{
 	
 	public function update_serie_student($serie_number,$email_student){
 		$req = $this->_db->prepare("UPDATE students SET serie_number=:serie_number WHERE email_student=:email_student");
-		$req->execute(array('serie_number' => $serie_number,
-							'email_student' => $email_student));
+		if($serie_number!="null"){
+			$req = $this->_db->prepare("UPDATE students SET serie_number=:serie_number WHERE email_student=:email_student");
+			$req->execute(array('serie_number' => $serie_number,
+								'email_student' => $email_student));
+		}
+		else {
+			return;
+		}
 	}
 
 	public function update_presence($id_sheet, $email_student, $state, $grade){
 		$req = $this->_db->prepare('UPDATE presences SET state=:state, grade=:grade WHERE id_sheet = :id_sheet AND email_student = :email_student');
 		$req->execute(array("state" => $state,
-							"grade" => $grade,
-							"id_sheet" => $id_sheet,
-							"email_student" => $email_student));
-		 
+				"grade" => $grade,
+				"id_sheet" => $id_sheet,
+				"email_student" => $email_student));
+			
 	}
 
 	public function update_presence_to_justify($id_sheet, $email_student){
@@ -182,7 +193,18 @@ class Db{
 		$req->closeCursor();
 		return $students_array;
 	}
-	
+	public function select_student_serienull($bloc){
+			$req = $this->_db->prepare("SELECT * FROM students WHERE serie_number is null AND bloc = :bloc ORDER BY last_name");
+			$req->execute(array("bloc" => $bloc));
+			$students_array = array();
+			if ($req->rowcount()!=0) {
+				while ($row = $req->fetch()) {
+					$students_array[] = new Student($row->email_student, $row->first_name, $row->last_name, $row->bloc, $row->serie_number);
+				}
+			}
+			$req->closeCursor();
+			return $students_array;
+	}
 	public function select_student_star(){
 		$req = $this->_db->prepare("SELECT * FROM students");
 		$req->execute();
@@ -327,7 +349,7 @@ class Db{
 									AND id_session=:id_session
 									AND email_student=:email_student");
 		$req->execute(array("email_student" => $email_student,
-							"id_session" => $id_session));
+				"id_session" => $id_session));
 		$result = array();
 		while ($row = $req->fetch()) {
 			$result[] = $row;
@@ -362,7 +384,6 @@ class Db{
 		$req->closeCursor();
 		return $students_array;
 	}
-	
 
 	public function select_teacher_pk($email)
 	{
@@ -439,13 +460,13 @@ class Db{
 							AND p.email_student = :email_student
 							AND w.quadri = "q2"');
 		$req->execute(array("session_name" => $session_name,
-							 "email_student" => $email_student));
+				"email_student" => $email_student));
 		$presences_array = array();
 		while($row = $req->fetch()){
 			$presences_array[$row->week] = $row;
 		}
 		return $presences_array;
-
+	
 	}
 
 }

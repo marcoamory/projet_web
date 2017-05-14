@@ -35,7 +35,8 @@
 					<tr>
 						<td><?php echo $session_array[$i]->name?></td>
 						<?php for($j = 0; $j < count($presence_array[$i]) ; $j++){?>
-							<td><?php echo $presence_array[$i][$j]->state?></td>
+							<td><?php if(isset($presence_array[$i][$j]->grade)) echo $presence_array[$i][$j]->grade;
+									  else echo $presence_array[$i][$j]->state;?></td>
 						<?php }?>
 					</tr>
 					<?php }?>
