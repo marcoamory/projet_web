@@ -37,7 +37,7 @@ class PresenceSheetController{
 
 		if(isset($_POST['serie'])){
 			$serie = htmlspecialchars($_POST['serie']);
-			$students = $this->select_student_serie($serie, $bloc);
+			$students = $this->select_student_star();
 			$sessions = $this->select_session_serie($bloc, $serie, $current_quadri);
 			
 		}
@@ -59,7 +59,11 @@ class PresenceSheetController{
 			$week = $this->select_week_quadri($current_quadri);
 			$students_array = array();
 			foreach($students as $element){
-				$students_array[] = $this->select_presence_student($element->getEmail(), $session_name);
+				$stud = $this->select_presence_student($element->getEmail(), $session_name);
+				if(!empty($stud)){
+					$students_array[] = $stud;
+				}
+				
 			}
 		}
 	require_once(PATH_VIEW . 'presenceSheet.php');
@@ -72,8 +76,8 @@ class PresenceSheetController{
 	}
 	
 	//Select all students present in this $serie and $bloc
-	private function select_student_serie($serie, $bloc){
-		return $this->_db->select_student_serie($serie, $bloc);
+	private function select_student_star(){
+		return $this->_db->select_student_star();
 	}
 
 	private function select_current_week(){
