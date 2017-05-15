@@ -56,7 +56,7 @@
 	  </div>
 	</div>
 </div>
-<?php if(isset($serie) AND !empty($serie)) { //Second condition ?>
+<?php if(isset($serie) AND !empty($serie) AND !empty($sessions)) { //Second condition ?>
 <div class="row">
 	<div class="panel panel-primary">
 	  <div class="panel-body">

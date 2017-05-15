@@ -9,7 +9,7 @@ class AdminManagementController{
 		$this->_db = $db;
 	}
 	function run(){
-
+		//Check all notification's variables, unset them
 		if(isset($_SESSION['notification_error']))
 			unset($_SESSION['notification_error']);
 		if(isset($_SESSION['notification_success']))
@@ -17,7 +17,8 @@ class AdminManagementController{
 		if(isset($_SESSION['notification_warning'])){
 			unset($_SESSION['notification_warning']);
 		}
-
+		
+		//Drop all data from the data base if the button wipe_data has been clicked
 		if(isset($_POST["wipe_data"])){
 			$this->wipe_data();
 			$_SESSION['notification_success'] = "Toutes les données ont été réinitialisées";
@@ -63,7 +64,7 @@ class AdminManagementController{
 	 * $name is a string containing the name of the file the user uploaded
 	 * $uploadName is a string telling the function wether we are uploading a file of student or a file of lessons
 	 * $pattern is a string containing the pattern necessary to the preg_match function depending on $uploadName
-	 * this function checks if the file is a .csv, compatible with our database and our constraints
+	 * this function checks if the file is a .csv or .properties, compatible with our database and our constraints
 	 */
 	private function is_compatible_file($tmp_name,$name ,$uploadName,$pattern){
 		if(!preg_match("/^professeurs\.csv$/",$name)&&!preg_match("/^agenda\.properties$/",$name)){
@@ -84,7 +85,6 @@ class AdminManagementController{
 	}
 
 	/*
-	 * $primaryKey is a string that indicates which pk of which table we are talking about
 	 * $keyValue is a string that contains the value of the pk we are looking for
 	 * this function return true if the data is being duplicated and false if it's not
 	 */
@@ -95,7 +95,10 @@ class AdminManagementController{
 		
 		return true;
 	}
-
+	/*
+	 * $keyValue1 and $keyValue2 are strings that contain the values of the two pk we are looking for
+	 * this function return true if the data is being duplicated and false if it's not
+	 */
 	private function week_being_duplicated($keyValue1, $keyValue2){
 		if(!$this->_db->select_week_pk($keyValue1, $keyValue2)){
 			return false;
@@ -109,7 +112,8 @@ class AdminManagementController{
 	 * $pattern is a string containing the pattern necessary to the preg_match function depending on $uploadName
 	 * this function creates an array with all the lines in the file, checks one line by one line if it matches our pattern and if the data
 	 * is not going to be duplicated on the database.
-	 * insert the data right into the database if it's not being duplicated xor in an array containing all data  the user tries to duplicate
+	 * insert the data right into the database if it's not being duplicated
+	 * $arrayData contains the amount of data being inserted and the amout of data being duplicated
 	 */
 
 		private function file_to_DB($uploadName,$name,$pattern){

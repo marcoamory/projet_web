@@ -32,21 +32,22 @@
 
 			if(isset($_COOKIE['responsibility'])){ 
 				$_SESSION['responsibility'] = $_COOKIE['responsibility'];
-				header("Location:index.php?action=teacher");
+				header("Location:index.php?action=teacher"); //Redirection for teachers' users
 				die();
 			}
 			else{
-				header("Location:index.php?action=student");
+				header("Location:index.php?action=student"); // Redirection for students'users
 				die();
 			}
 		}
 		else{
-			header("Location: index.php?action=login");
+			header("Location: index.php?action=login"); // If there aren't any cookie, redirection to login's page
 			die();
 		}
 	}
 	else
 	{
+		//Check if there is a get's parameter. If there isn't, $action value is set at defaults
 		$action = (isset($_GET['action'])) ? htmlentities($_GET['action']) : 'default';
 
 		switch($action) {
@@ -60,6 +61,7 @@
 			
 			break;
 		case 'blocManager':
+		//Check if the teacher has the right responsibility
 		if($_SESSION['responsibility'] != "bloc1" && $_SESSION['responsibility'] != "bloc2" && $_SESSION['responsibility'] != "bloc3"){
 				header('Location:index.php?action=teacher');
 				die();
@@ -71,6 +73,7 @@
 		}
 			break;
 		case 'blocsManager':
+		//Check if the teacher has the right responsibility
 		if($_SESSION['responsibility'] != "blocs"){
 				header('Location:index.php?action=teacher');
 				die();
@@ -83,6 +86,7 @@
 			
 			break;
 		case 'adminManagement' :
+		//Check if the teacher has the right responsibility
 			if($_SESSION['responsibility'] != "true"){
 				header('Location:index.php?action=teacher');
 				die();

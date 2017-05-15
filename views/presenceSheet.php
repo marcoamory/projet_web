@@ -59,18 +59,15 @@
 	  </div>
 	</div>
 </div>
-<?php if(isset($serie) AND !empty($serie)) { //Second condition  ?>
+<?php if(isset($serie) AND !empty($serie) AND !empty($sessions)) { //Second condition  ?>
 <div class="row">
 	<div class="panel panel-primary">
 	  <div class="panel-body">
 	    	<form method="post" action="index.php?action=presenceSheet">
 	    		<div class="col-md-6 col-md-offset-2">
 	    			<select name="session" class="form-control">
-	    				<?php if(!empty($sessions)) {
-	    				 	foreach ($sessions as $element){ ?>
+	    				 <?php  foreach ($sessions as $element){ ?>
 	    						<option value="<?php echo $element->id_session; ?>" <?php if(isset($session) AND $session == $element->id_session) echo 'selected'; ?>><?php echo $element->name; ?></option>
-	    				<?php } } else{ ?>
-	    						<option value=null>Aucune scéance type pour cette série</option>
 	    				<?php } ?>
 	    			</select>
 	    		</div>

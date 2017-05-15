@@ -9,11 +9,12 @@ class TeacherController{
 	}
 
 	function run(){
-
+	//Unset notification's messages
 	if(isset($message)) unset($message);
 	if(isset($message_warning)) unset($message_warning);
 
-
+	//If a bloc has been selected, we select the current week of the year. If it can find the current week, there is a warning message and the code dies.
+	//Then we look into the data base if there are any students in the selected bloc. If there aren't, there is a warning message. Else, we search the series present in this bloc. If there aren't any, there is a warning message.
 	if(isset($_POST['bloc'])){
 		$bloc = htmlspecialchars($_POST['bloc']);
 		$current_week = $this->select_current_week();
@@ -38,8 +39,12 @@ class TeacherController{
 		}
 		
 	}
-
-	if(isset($_POST['serie'])){
+	/*If a serie has been selected, we select the sessions existing for this bloc, serie and current quadri and all students for this $serie and $bloc
+	 *If there aren't any students, there is a warning message
+	 *If a student has been added, we add him in the students[]
+	 *If there aren't any sessions for the selected serie, there is a warning message
+	*/
+	 if(isset($_POST['serie'])){
 		$serie = htmlspecialchars($_POST['serie']);
 		$students = $this->select_student_serie($serie, $bloc);
 		if(empty($students)){
@@ -57,6 +62,13 @@ class TeacherController{
 		}
 	}
 
+	/*If a session has been selected, we first look into the data base which presence_type_default is used for this session.
+	**If an other presence_type has been selected, we use the new one.
+	**If an other week has been selected, we search in the data base for a presence sheet belonging to the teacher which is using the application, the session selected and the week selected.
+	**Else we search the present sheet belonging to the current week
+	**If there no presence sheet has been found, modify_presence_sheet is set to false : There still are no presence for this session and week
+	**Else, modify_presence_sheet is set to true : Tere already are presence, and further presences will modify the old one.
+	*/
 	if(isset($_POST['session'])){
 		$session = htmlspecialchars($_POST['session']);
 		$presence_type_default = 'X';
@@ -93,6 +105,9 @@ class TeacherController{
 
 	}
 
+	//If the user wants to modify presences, we first look for each students if a presence has already been taken.
+	//If there already are presence's informations, we update the data base with the new inputs
+	//Else we simply insert the new inputs
 	if(isset($_POST['modify_presence'])){
 		for($i = 0; $i < count($students); $i++){
 			$presence_session = $this->select_presences_student_session($students[$i]->getEmail(), $session);
@@ -138,7 +153,9 @@ class TeacherController{
 		$modify_presence_sheet = true;
 
 	}
-
+	//If the user wants to add a student he is redirected to addStudent's page.
+	//If he has chosen a student, and there is no such student in the data base, there is a warning message
+	//The student to add is saved in $students_prospect variable
 	if(isset($_GET['message']) AND $_GET['message'] == 'add_student'){
 		if(isset($_POST['add_student_name'])){
 			$add_student_name = htmlspecialchars($_POST["add_student_name"]);
@@ -202,7 +219,7 @@ class TeacherController{
 	private function select_presences_student_session($email_student, $id_session){
 		return $this->_db->select_presences_student_session($email_student, $id_session);
 	}
-
+	//Select the students with a similar $last_name
 	private function select_student_like_last_name($last_name){
 		return $this->_db->select_student_like_last_name($last_name);
 	}
